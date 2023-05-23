@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\0. FrameWork\FrameWork\FrameWork.csproj" />
+    <ProjectReference Include="..\Stall-Shop.Management\SM. Infrastructure\SM. Infrastructure.Configuration\SM. Infrastructure.Configuration.csproj" />
   </ItemGroup>
 
 </Project>

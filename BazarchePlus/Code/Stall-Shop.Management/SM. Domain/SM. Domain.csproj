@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="ProductPictureAgg\" />
     <Folder Include="ProductAgg\" />
     <Folder Include="ProductCategoryAgg\" />
   </ItemGroup>

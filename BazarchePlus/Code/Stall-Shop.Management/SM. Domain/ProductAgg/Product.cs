@@ -1,5 +1,6 @@
 ﻿using FrameWork.Domain;
 using SM._Domain.ProductCategoryAgg;
+using SM._Domain.ProductPictureAgg;
 
 namespace SM._Domain.ProductAgg;
 
@@ -18,7 +19,7 @@ public class Product:BaseClass<long>
     public string MetaDescription { get; private set; }
 
     public ProductCategory Category { get; private set; }
-    //public List<ProductPicture> ProductPictures { get; private set; }
+    public List<ProductPicture> ProductPictures { get; private set; }
 
     public Product(string name, string code, string shortDescription, string description,
         string picture, string pictureAlt, string pictureTitle, long categoryId, string slug,

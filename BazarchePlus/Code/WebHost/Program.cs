@@ -1,3 +1,6 @@
+using FrameWork.Application;
+using SM._Infrastructure.Configuration;
+
 namespace WebHost
 {
     public class Program
@@ -6,8 +9,14 @@ namespace WebHost
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddRazorPages();
+            var connectionString = builder.Configuration.GetConnectionString("BazarchePlusDb");
+            ShopManagementBootstrapper.Configure(builder.Services,connectionString);
+
+
+            builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+            builder.Services.AddScoped<IFileUploader, FileUploader>();
+            builder.Services.AddScoped<IAuthHelper, AuthHelper>();
 
             var app = builder.Build();
 
@@ -15,7 +24,6 @@ namespace WebHost
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

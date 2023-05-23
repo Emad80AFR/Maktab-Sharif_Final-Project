@@ -25,6 +25,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SM. Infrastructure.Configur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebHost", "Code\WebHost\WebHost.csproj", "{75DEFB4C-1CCF-4BA6-9166-0D7A7114F85B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory.Management", "Inventory.Management", "{1C6020EB-1E91-4CDA-A7A8-CB3B1C1F93B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IM. Domain", "Code\Inventory.Managemnt\IM. Domain\IM. Domain.csproj", "{52113BC3-8E5C-46EB-B08D-418758CF71B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +63,10 @@ Global
 		{75DEFB4C-1CCF-4BA6-9166-0D7A7114F85B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75DEFB4C-1CCF-4BA6-9166-0D7A7114F85B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75DEFB4C-1CCF-4BA6-9166-0D7A7114F85B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52113BC3-8E5C-46EB-B08D-418758CF71B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52113BC3-8E5C-46EB-B08D-418758CF71B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52113BC3-8E5C-46EB-B08D-418758CF71B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52113BC3-8E5C-46EB-B08D-418758CF71B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +80,7 @@ Global
 		{8977F059-B301-46A0-B4C7-D1A36A3A1E6F} = {2161DCDE-AF47-4A69-9731-D3F686B315DC}
 		{2C8116E8-4B5E-4634-9DC1-F23E68DE35D7} = {8977F059-B301-46A0-B4C7-D1A36A3A1E6F}
 		{6741D926-6F88-4395-A1F0-8B2F0CB885C2} = {8977F059-B301-46A0-B4C7-D1A36A3A1E6F}
+		{52113BC3-8E5C-46EB-B08D-418758CF71B3} = {1C6020EB-1E91-4CDA-A7A8-CB3B1C1F93B2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {465E86F6-2484-4274-BABD-77A5043D0816}
