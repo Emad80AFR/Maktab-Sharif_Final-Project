@@ -12,6 +12,10 @@ public class ProductPicture:BaseClass<long>
     public bool IsRemoved { get; private set; }
     public Product Product { get; private set; }
 
+    internal ProductPicture()
+    {
+        
+    }
     public ProductPicture(long productId, string picture, string pictureAlt, string pictureTitle)
     {
         ProductId = productId;

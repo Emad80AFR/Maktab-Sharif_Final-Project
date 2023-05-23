@@ -21,5 +21,32 @@ public class RoleMapping:IEntityTypeConfiguration<Role>
             navigationBuilder.WithOwner(x => x.Role);
         });
 
+        #region SeedData
+
+        //builder.HasData(
+        //    new Role
+        //    {
+        //        Id = 1,
+        //        Name = "Admin",
+        //        Permissions = new List<Permission>
+        //        {
+        //            new Permission { Id = 1, Name = "Permission 1" },
+        //            new Permission { Id = 2, Name = "Permission 2" }
+        //        }
+        //    },
+        //    new Role
+        //    {
+        //        Id = 2,
+        //        Name = "User",
+        //        Permissions = new List<Permission>
+        //        {
+        //            new Permission { Id = 3, Name = "Permission 3" }
+        //        }
+        //    }
+        //);
+        #endregion
     }
+
+
+
 }

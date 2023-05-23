@@ -21,6 +21,10 @@ public class Product:BaseClass<long>
     public ProductCategory Category { get; private set; }
     public List<ProductPicture> ProductPictures { get; private set; }
 
+    internal Product()
+    {
+        
+    }
     public Product(string name, string code, string shortDescription, string description,
         string picture, string pictureAlt, string pictureTitle, long categoryId, string slug,
         string keywords, string metaDescription)

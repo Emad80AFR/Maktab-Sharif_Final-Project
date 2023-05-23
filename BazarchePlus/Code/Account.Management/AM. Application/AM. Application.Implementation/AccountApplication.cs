@@ -1,54 +1,248 @@
 ﻿using AM._Application.Contracts.Account;
 using AM._Application.Contracts.Account.DTO_s;
+using AM._Domain.AccountAgg;
+using AM._Domain.RollAgg;
 using FrameWork.Application;
+using Microsoft.Extensions.Logging;
 
 namespace AM._Application.Implementation
 {
     public class AccountApplication:IAccountApplication
     {
-        public Task<AccountViewModel> GetAccountBy(long id)
+        private readonly ILogger<AccountApplication> _logger;
+        private readonly IFileUploader _fileUploader;
+        private readonly IPasswordHasher _passwordHasher;
+        private readonly IAccountRepository _accountRepository;
+        private readonly IAuthHelper _authHelper;
+        private readonly IRoleRepository _roleRepository;
+
+        public AccountApplication(ILogger<AccountApplication> logger, IFileUploader fileUploader, IPasswordHasher passwordHasher, IAccountRepository accountRepository, IAuthHelper authHelper, IRoleRepository roleRepository)
         {
-            throw new NotImplementedException();
+            _logger = logger;
+            _fileUploader = fileUploader;
+            _passwordHasher = passwordHasher;
+            _accountRepository = accountRepository;
+            _authHelper = authHelper;
+            _roleRepository = roleRepository;
         }
 
-        public Task<OperationResult> Register(RegisterAccount command)
+        public async Task<AccountViewModel> GetAccountBy(long id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var account = await _accountRepository.Get(id);
+                if (account == null)
+                {
+                    _logger.LogWarning("Account not found for ID: {AccountId}", id);
+                    return null!; 
+                }
+
+                _logger.LogInformation("Account details retrieved successfully for ID: {AccountId}", id);
+                return new AccountViewModel()
+                {
+                    Fullname = account.Fullname,
+                    Mobile = account.Mobile
+                };
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving account details for ID: {AccountId}", id);
+                return null!; 
+            }
         }
 
-        public Task<OperationResult> Edit(EditAccount command)
+        public async Task<OperationResult> Register(RegisterAccount command)
         {
-            throw new NotImplementedException();
+            var operation = new OperationResult();
+            try
+            {
+                if (await _accountRepository.Exist(x => x.Username == command.Username || x.Mobile == command.Mobile))
+                {
+                    _logger.LogWarning(ApplicationMessages.DuplicatedRecord);
+                    return operation.Failed(ApplicationMessages.DuplicatedRecord);
+                }
+
+                var password = _passwordHasher.Hash(command.Password);
+                const string path = "profilePhotos";
+                var picturePath = await _fileUploader.Upload(command.ProfilePhoto, path);
+                var account = new Account(command.Fullname, command.Username, password, command.Mobile, command.RoleId, picturePath);
+                await _accountRepository.Create(account);
+                await _accountRepository.SaveChanges();
+
+                _logger.LogInformation("Account created successfully.");
+                return operation.Succeeded();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while creating the account.");
+                return operation.Failed("An error occurred while creating the account.");
+            }
         }
 
-        public Task<OperationResult> ChangePassword(ChangePassword command)
+        public async Task<OperationResult> Edit(EditAccount command)
         {
-            throw new NotImplementedException();
+            var operation = new OperationResult();
+            try
+            {
+                var account = await _accountRepository.Get(command.Id);
+                if (account == null)
+                {
+                    _logger.LogWarning(ApplicationMessages.RecordNotFound);
+                    return operation.Failed(ApplicationMessages.RecordNotFound);
+                }
+
+                if (await _accountRepository.Exist(x =>
+                        (x.Username == command.Username || x.Mobile == command.Mobile) && x.Id != command.Id))
+                {
+                    _logger.LogWarning(ApplicationMessages.DuplicatedRecord);
+                    return operation.Failed(ApplicationMessages.DuplicatedRecord);
+                }
+
+                var path = $"profilePhotos";
+                var picturePath = await _fileUploader.Upload(command.ProfilePhoto, path);
+                account.Edit(command.Fullname, command.Username, command.Mobile, command.RoleId, picturePath);
+                await _accountRepository.SaveChanges();
+
+                _logger.LogInformation("Account edited successfully.");
+                return operation.Succeeded();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while editing the account.");
+                return operation.Failed("An error occurred while editing the account.");
+            }
         }
 
-        public Task<OperationResult> Login(Login command)
+        public async Task<OperationResult> ChangePassword(ChangePassword command)
         {
-            throw new NotImplementedException();
+            var operation = new OperationResult();
+            try
+            {
+                var account = await _accountRepository.Get(command.Id);
+                if (account == null)
+                {
+                    _logger.LogWarning(ApplicationMessages.RecordNotFound);
+                    return operation.Failed(ApplicationMessages.RecordNotFound);
+                }
+
+                if (command.Password != command.RePassword)
+                {
+                    _logger.LogWarning(ApplicationMessages.PasswordsNotMatch);
+                    return operation.Failed(ApplicationMessages.PasswordsNotMatch);
+                }
+
+                var password = _passwordHasher.Hash(command.Password);
+                account.ChangePassword(password);
+                await _accountRepository.SaveChanges();
+
+                _logger.LogInformation("Account password changed successfully.");
+                return operation.Succeeded();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while changing the account password.");
+                return operation.Failed("An error occurred while changing the account password.");
+            }
         }
 
-        public Task<EditAccount> GetDetails(long id)
+        public async Task<OperationResult> Login(Login command)
         {
-            throw new NotImplementedException();
+            var operation = new OperationResult();
+            try
+            {
+                var account = await _accountRepository.GetBy(command.Username);
+                if (account == null)
+                {
+                    _logger.LogWarning(ApplicationMessages.WrongUserPass);
+                    return operation.Failed(ApplicationMessages.WrongUserPass);
+                }
+
+                var result = _passwordHasher.Check(account.Password, command.Password);
+                if (!result.Verified)
+                {
+                    _logger.LogWarning(ApplicationMessages.WrongUserPass);
+                    return operation.Failed(ApplicationMessages.WrongUserPass);
+                }
+
+                var permissions = await _roleRepository.Get(account.RoleId);
+                   var access= permissions!.Permissions
+                        .Select(x => x.Code)
+                        .ToList();
+
+                var authViewModel = new AuthViewModel(account.Id, account.RoleId, account.Fullname
+                    , account.Username, account.Mobile, access);
+
+                _authHelper.Signin(authViewModel);
+
+                _logger.LogInformation("User signed in successfully.");
+                return operation.Succeeded();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while signing in.");
+                return operation.Failed("An error occurred while signing in.");
+            }
         }
 
-        public Task<List<AccountViewModel>> Search(AccountSearchModel searchModel)
+        public async Task<EditAccount> GetDetails(long id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var accountDetails = await _accountRepository.GetDetails(id);
+                _logger.LogInformation("Account details retrieved successfully.");
+                return accountDetails;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving account details.");
+                throw; 
+            }
+        }
+
+        public async Task<List<AccountViewModel>> Search(AccountSearchModel searchModel)
+        {
+            try
+            {
+                var searchResults = await _accountRepository.Search(searchModel);
+                _logger.LogInformation("Account search completed successfully.");
+                return searchResults;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while searching for accounts.");
+                throw; // or handle the error appropriately
+            }
         }
 
         public Task Logout()
         {
-            throw new NotImplementedException();
+            try
+            {
+                 _authHelper.SignOut();
+                _logger.LogInformation("User signed out successfully.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while signing out.");
+                throw; // or handle the error appropriately
+            }
+
+            return Task.CompletedTask;
         }
 
-        public Task<List<AccountViewModel>> GetAccounts()
+        public async Task<List<AccountViewModel>> GetAccounts()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var accounts = await _accountRepository.GetAccounts();
+                _logger.LogInformation("Accounts retrieved successfully.");
+                return accounts;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while retrieving accounts.");
+                throw; // or handle the error appropriately
+            }
         }
     }
 }

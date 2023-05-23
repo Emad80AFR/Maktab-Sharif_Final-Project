@@ -7,7 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\0. FrameWork\FrameWork\FrameWork.csproj" />
+    <ProjectReference Include="..\Account.Management\AM. Infrastructure\AM. Infrastructure.Configuration\AM. Infrastructure.Configuration.csproj" />
+    <ProjectReference Include="..\Inventory.Managemnt\IM. Infrastructure\IM. Infrastructure.Configuration\IM. Infrastructure.Configuration.csproj" />
     <ProjectReference Include="..\Stall-Shop.Management\SM. Infrastructure\SM. Infrastructure.Configuration\SM. Infrastructure.Configuration.csproj" />
   </ItemGroup>
 

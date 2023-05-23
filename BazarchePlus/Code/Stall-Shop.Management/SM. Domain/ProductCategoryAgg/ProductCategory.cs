@@ -15,7 +15,7 @@ public class ProductCategory:BaseClass<long>
     public string Slug { get; private set; }
     public List<Product> Products { get; private set; }
 
-    public ProductCategory()
+    internal ProductCategory()
     {
         Products = new List<Product>();
     }

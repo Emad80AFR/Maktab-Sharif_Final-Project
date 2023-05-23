@@ -18,5 +18,26 @@ public class InventoryMapping:IEntityTypeConfiguration<Inventory>
             modelBuilder.Property(x => x.Description).HasMaxLength(1000);
             modelBuilder.WithOwner(x => x.Inventory).HasForeignKey(x => x.InventoryId);
         });
+
+        #region SeedData
+
+        //builder.HasData(
+        //    new Inventory
+        //    {
+        //        Id = 1,
+        //        ProductId = 1,
+        //        UnitPrice = 10.99,
+        //        InStock = true
+        //    },
+        //    new Inventory
+        //    {
+        //        Id = 2,
+        //        ProductId = 2,
+        //        UnitPrice = 15.99,
+        //        InStock = true
+        //    }
+        //);
+
+        #endregion
     }
 }

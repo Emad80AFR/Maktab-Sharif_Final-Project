@@ -8,9 +8,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace IM._Infrastructure.Configuration
 {
-    public class InventoryBootstrapper
+    public class InventoryManagementBootstrapper
     {
-        public static void Configure(IServiceCollection services, string connectionString)
+        public static void Configure(IServiceCollection services, string? connectionString)
         {
             services.AddDbContext<InventoryContext>(x => x.UseSqlServer(connectionString));
 

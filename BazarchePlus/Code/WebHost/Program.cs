@@ -1,4 +1,6 @@
+using AM._Infrastructure.Configuration;
 using FrameWork.Application;
+using IM._Infrastructure.Configuration;
 using SM._Infrastructure.Configuration;
 
 namespace WebHost
@@ -12,6 +14,8 @@ namespace WebHost
             builder.Services.AddRazorPages();
             var connectionString = builder.Configuration.GetConnectionString("BazarchePlusDb");
             ShopManagementBootstrapper.Configure(builder.Services,connectionString);
+            InventoryManagementBootstrapper.Configure(builder.Services, connectionString);
+            AccountManagementBootstrapper.Configure(builder.Services,connectionString);
 
 
             builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
