@@ -6,14 +6,12 @@ using Microsoft.Extensions.Logging;
 namespace FrameWork.Infrastructure
 {
     public class BaseRepository<TKey, T> :IBaseRepository<TKey ,T> where T:BaseClass<TKey>
-    {
-        private readonly DbContext _context;
+    { 
         private readonly ILogger<BaseRepository<TKey,T>> _logger;
         private readonly DbSet<T> _dbSet;
 
         public BaseRepository(DbContext context, ILogger<BaseRepository<TKey, T>> logger)
         {
-            _context = context;
             _logger = logger;
             _dbSet = context.Set<T>();
         }
@@ -84,7 +82,7 @@ namespace FrameWork.Infrastructure
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Saving data into database");
+                _logger.LogError(ex, "Error while Saving data into database");
                 throw;
             }
         }

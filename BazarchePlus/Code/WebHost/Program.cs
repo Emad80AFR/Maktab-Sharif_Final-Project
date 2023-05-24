@@ -11,6 +11,7 @@ namespace WebHost
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddRazorPages();
             var connectionString = builder.Configuration.GetConnectionString("BazarchePlusDb");
             ShopManagementBootstrapper.Configure(builder.Services,connectionString);

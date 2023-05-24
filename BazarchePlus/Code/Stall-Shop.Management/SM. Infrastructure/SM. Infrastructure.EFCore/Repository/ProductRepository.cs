@@ -40,12 +40,12 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
 
         if (product == null)
         {
-            // Log warning if needed
+            // Log warning 
             _logger.LogWarning("No product found with ID: {Id}",id);
             return null!;
         }
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Retrieved product with ID: {Id} successfully.",id);
 
         return product;
@@ -59,12 +59,12 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
 
         if (product == null)
         {
-            // Log warning if needed
+            // Log warning 
             _logger.LogWarning("No product found with ID: {Id}", id);
             return null;
         }
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Retrieved product with ID: {Id} successfully.", id);
 
         return product;
@@ -80,7 +80,7 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
             })
             .ToListAsync();
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Retrieved product list successfully.");
 
         return products;
@@ -114,7 +114,7 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
             .OrderByDescending(x => x.Id)
             .ToListAsync();
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Retrieved product list successfully.");
 
         return productList;

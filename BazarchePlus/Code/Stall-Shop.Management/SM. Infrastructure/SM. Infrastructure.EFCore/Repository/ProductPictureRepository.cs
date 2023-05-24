@@ -82,7 +82,7 @@ public class ProductPictureRepository:BaseRepository<long,ProductPicture>,IProdu
 
         var productPictures = await query.OrderByDescending(x => x.Id).ToListAsync();
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Retrieved product pictures successfully.");
 
         return productPictures;

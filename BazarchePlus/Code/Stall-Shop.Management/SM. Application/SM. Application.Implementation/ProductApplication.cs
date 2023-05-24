@@ -27,7 +27,7 @@ public class ProductApplication:IProductApplication
 
         if (await _productRepository.Exist(x => x.Name == command.Name))
         {
-            // Log error if needed
+            // Log error 
             _logger.LogError("Product creation failed due to duplicated record: {ProductName}", command.Name);
             return operation.Failed(ApplicationMessages.DuplicatedRecord);
         }
@@ -47,14 +47,14 @@ public class ProductApplication:IProductApplication
             await _productRepository.Create(product);
             await _productRepository.SaveChanges();
 
-            // Log information if needed
+            // Log information 
             _logger.LogInformation("Product created successfully: {ProductName}", command.Name);
 
             return operation.Succeeded();
         }
         catch (Exception ex)
         {
-            // Log error if needed
+            // Log error 
             _logger.LogError(ex, "An error occurred during product creation: {ErrorMessage}", ex.Message);
             return operation.Failed(ApplicationMessages.ErrorOccurred);
         }
@@ -67,14 +67,14 @@ public class ProductApplication:IProductApplication
 
         if (product == null)
         {
-            // Log warning if needed
+            // Log warning 
             _logger.LogWarning("No product found with ID: {ProductId}", command.Id);
             return operation.Failed(ApplicationMessages.RecordNotFound);
         }
 
         if (await _productRepository.Exist(x => x.Name == command.Name && x.Id != command.Id))
         {
-            // Log warning if needed
+            // Log warning 
             _logger.LogWarning("Product creation failed due to duplicated record: {ProductName}", command.Name);
             return operation.Failed(ApplicationMessages.DuplicatedRecord);
         }
@@ -92,14 +92,14 @@ public class ProductApplication:IProductApplication
 
             await _productRepository.SaveChanges();
 
-            // Log information if needed
+            // Log information 
             _logger.LogInformation("Product updated successfully: {ProductName}", command.Name);
 
             return operation.Succeeded();
         }
         catch (Exception ex)
         {
-            // Log error if needed
+            // Log error 
             _logger.LogError(ex, "An error occurred during product update: {ErrorMessage}", ex.Message);
             return operation.Failed(ApplicationMessages.ErrorOccurred);
         }
@@ -111,12 +111,12 @@ public class ProductApplication:IProductApplication
 
         if (productDetails == null)
         {
-            // Log warning if needed
+            // Log warning 
             _logger.LogWarning("No product details found with ID: {ProductId}", id);
             return null!; // or handle the case of not finding the product details as per your application's logic
         }
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Retrieved product details successfully for ID: {ProductId}", id);
 
         return productDetails;
@@ -126,7 +126,7 @@ public class ProductApplication:IProductApplication
     {
         var products = await _productRepository.GetProducts();
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Retrieved product list successfully.");
 
         return products;
@@ -136,7 +136,7 @@ public class ProductApplication:IProductApplication
     {
         var products = await _productRepository.Search(searchModel);
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Product search completed successfully.");
 
         return products;

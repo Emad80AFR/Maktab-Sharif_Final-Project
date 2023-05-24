@@ -55,7 +55,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AM. Infrastructure.EFCore", "Code\Account.Management\AM. Infrastructure\AM. Infrastructure.EFCore\AM. Infrastructure.EFCore.csproj", "{FA224AC2-1DE2-41A3-92F3-BBE1B6419245}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AM. Infrastructure.Configuration", "Code\Account.Management\AM. Infrastructure\AM. Infrastructure.Configuration\AM. Infrastructure.Configuration.csproj", "{976D80A3-F4C3-480B-AED1-35777050C13D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AM. Infrastructure.Configuration", "Code\Account.Management\AM. Infrastructure\AM. Infrastructure.Configuration\AM. Infrastructure.Configuration.csproj", "{976D80A3-F4C3-480B-AED1-35777050C13D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

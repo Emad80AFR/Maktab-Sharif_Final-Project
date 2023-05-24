@@ -99,13 +99,13 @@ public class ProductCategoryRepository:BaseRepository<long,ProductCategory>,IPro
 
             if (productCategorySlug != null)
             {
-                // Log information if needed
+                // Log information 
                 _logger.LogInformation("Retrieved slug for product category with {ID}: ", id);
                 return productCategorySlug.Slug;
             }
             else
             {
-                // Log warning if needed
+                // Log warning 
                 _logger.LogWarning("No product category found with {ID}:", id);
                 return null!;
             }
@@ -136,14 +136,14 @@ public class ProductCategoryRepository:BaseRepository<long,ProductCategory>,IPro
                 query = query.Where(x => x.Name.Contains(searchModel.Name));
             }
 
-            var filteredProductCategories = await query
+            var filteredProductCategories =await  query
                 .OrderByDescending(x => x.Id)
                 .ToListAsync();
 
             // Log information
             _logger.LogInformation("Retrieved filtered product categories successfully.");
 
-            return filteredProductCategories;
+            return  filteredProductCategories;
         }
         catch (Exception ex)
         {

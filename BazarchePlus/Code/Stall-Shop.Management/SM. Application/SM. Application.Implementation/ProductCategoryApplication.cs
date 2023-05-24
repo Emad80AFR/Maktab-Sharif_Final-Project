@@ -24,7 +24,7 @@ public class ProductCategoryApplication:IProductCategoryApplication
         var operation = new OperationResult();
         if (await _productCategoryRepository.Exist(x => x.Name == command.Name))
         {
-            // Log warning if needed
+            // Log warning 
             _logger.LogWarning("Duplicated record detected.");
             return operation.Failed(ApplicationMessages.DuplicatedRecord);
         }
@@ -41,7 +41,7 @@ public class ProductCategoryApplication:IProductCategoryApplication
         await _productCategoryRepository.Create(productCategory);
         await _productCategoryRepository.SaveChanges();
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Product category creation completed successfully.");
 
         return operation.Succeeded();
@@ -54,14 +54,14 @@ public class ProductCategoryApplication:IProductCategoryApplication
 
         if (productCategory == null)
         {
-            // Log warning if needed
+            // Log warning 
             _logger.LogWarning("Record not found.");
             return operation.Failed(ApplicationMessages.RecordNotFound);
         }
 
         if (await _productCategoryRepository.Exist(x => x.Name == command.Name && x.Id != command.Id))
         {
-            // Log warning if needed
+            // Log warning 
             _logger.LogWarning("Duplicated record detected.");
             return operation.Failed(ApplicationMessages.DuplicatedRecord);
         }
@@ -77,7 +77,7 @@ public class ProductCategoryApplication:IProductCategoryApplication
 
         await _productCategoryRepository.SaveChanges();
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Product category update completed successfully.");
 
         return operation.Succeeded();
@@ -89,22 +89,22 @@ public class ProductCategoryApplication:IProductCategoryApplication
 
         if (productCategoryDetails == null)
         {
-            // Log warning if needed
+            // Log warning 
             _logger.LogWarning("Product category details not found.");
             return null!;
         }
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Retrieved product category details successfully.");
 
         return productCategoryDetails;
     }
 
-    public async Task<List<ProductCategoryViewModel>> GetProductCategories()
+    public  Task<List<ProductCategoryViewModel>> GetProductCategories()
     {
-        var productCategories = await _productCategoryRepository.GetProductCategories();
+        var productCategories =  _productCategoryRepository.GetProductCategories();
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Retrieved product categories successfully.");
 
         return productCategories; ;
@@ -114,7 +114,7 @@ public class ProductCategoryApplication:IProductCategoryApplication
     {
         var productCategories = await _productCategoryRepository.Search(searchModel);
 
-        // Log information if needed
+        // Log information 
         _logger.LogInformation("Product category search completed successfully.");
 
         return productCategories;

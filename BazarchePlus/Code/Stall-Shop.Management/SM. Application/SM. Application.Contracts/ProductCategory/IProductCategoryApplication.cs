@@ -9,6 +9,6 @@ public interface IProductCategoryApplication
     Task<OperationResult> Edit(EditProductCategory command);
     Task<EditProductCategory>GetDetails(long id);
     Task<List<ProductCategoryViewModel>> GetProductCategories();
-    Task<List<ProductCategoryViewModel>> Search(ProductCategorySearchModel searchModel);
+    Task<List<ProductCategoryViewModel>>  Search(ProductCategorySearchModel searchModel);
 
 }
