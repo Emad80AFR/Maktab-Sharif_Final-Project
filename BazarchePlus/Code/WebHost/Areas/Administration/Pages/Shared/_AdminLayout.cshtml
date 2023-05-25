@@ -30,13 +30,12 @@
 
 </head>
 <body class="active-ripple theme-blue fix-header sidebar-extra">
-<!-- BEGIN LOEADING -->
+    <!-- BEGIN LOEADING -->
 
     <div id="loader">
         <div class="spinner"></div>
     </div><!-- /loader -->
-<!-- END LOEADING -->
-
+    <!-- END LOEADING -->
     <!-- BEGIN HEADER -->
     <div class="navbar navbar-fixed-top" id="main-navbar">
         <div class="header-right">
@@ -295,8 +294,7 @@
             </div><!-- /.top-bar -->
         </div><!-- /.header-left -->
     </div><!-- /.navbar -->
-<!-- END HEADER -->
-
+    <!-- END HEADER -->
     <!-- BEGIN WRAPPER -->
     <div id="wrapper">
 
@@ -736,8 +734,7 @@
                 </ul><!-- /#side-menu -->
             </div><!-- /.side-menu-container -->
         </div><!-- /#sidebar -->
-    <!-- END SIDEBAR -->
-
+        <!-- END SIDEBAR -->
         <!-- BEGIN PAGE CONTENT -->
         <div id="page-content">
             <div class="row">
@@ -803,7 +800,6 @@
             </div><!-- /.copyright -->
         </div><!-- /.col-md-12 -->
     </div><!-- /.row -->
-
     <!-- BEGIN CODE MODAL -->
     <div class="modal fade" id="code-modal" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-lg">
@@ -817,32 +813,31 @@
             </div> <!-- /.modal-content -->
         </div> <!-- /.modal-dialog -->
     </div> <!-- /.modal -->
-<!-- END CODE MODAL -->
+    <!-- END CODE MODAL -->
+    <!-- BEGIN JS -->
+    <script src="~/Admin-Theme/assets/plugins/jquery/dist/jquery-3.6.1.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/bootstrap/bootstrap5/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/paper-ripple/dist/PaperRipple.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/sweetalert2/dist/sweetalert2.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/screenfull/dist/screenfull.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/iCheck/icheck.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/switchery/dist/switchery.js"></script>
+    <script src="~/Admin-Theme/assets/js/core.js"></script>
 
-<!-- BEGIN JS -->
-<script src="~/Admin-Theme/assets/plugins/jquery/dist/jquery-3.6.1.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/bootstrap/bootstrap5/js/bootstrap.bundle.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/metisMenu/dist/metisMenu.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/paper-ripple/dist/PaperRipple.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/sweetalert2/dist/sweetalert2.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/screenfull/dist/screenfull.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/iCheck/icheck.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/switchery/dist/switchery.js"></script>
-<script src="~/Admin-Theme/assets/js/core.js"></script>
-        
-<!-- BEGIN PAGE JAVASCRIPT -->
-<script src="~/Admin-Theme/assets/plugins/raphael/raphael.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/morris.js/morris.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/jquery-incremental-counter/jquery.incremental-counter.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/ammap3/ammap/ammap.js"></script>
-<script src="~/Admin-Theme/assets/plugins/ammap3/ammap/maps/js/iranHighFa.js"></script>
-<script src="~/Admin-Theme/assets/plugins/kamadatepicker/kamadatepicker.min.js"></script>
-<script src="~/Admin-Theme/assets/plugins/jquery-knob/dist/jquery.knob.min.js"></script>
-<script src="~/Admin-Theme/assets/js/pages/dashboard1.js"></script>
-<!-- END PAGE JAVASCRIPT -->   
 
-@await RenderSectionAsync("Scripts",false)
+    <!-- BEGIN PAGE JAVASCRIPT -->
+    <script src="~/Admin-Theme/assets/plugins/raphael/raphael.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/morris.js/morris.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/jquery-incremental-counter/jquery.incremental-counter.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/ammap3/ammap/ammap.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/ammap3/ammap/maps/js/iranHighFa.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/kamadatepicker/kamadatepicker.min.js"></script>
+    <script src="~/Admin-Theme/assets/plugins/jquery-knob/dist/jquery.knob.min.js"></script>
+    <script src="~/Admin-Theme/assets/js/pages/dashboard1.js"></script>
+    <!-- END PAGE JAVASCRIPT -->
+    @await RenderSectionAsync("Scripts",false)
 
 </body>
 </html>
