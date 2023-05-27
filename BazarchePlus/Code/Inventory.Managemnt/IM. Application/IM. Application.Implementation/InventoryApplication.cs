@@ -19,20 +19,20 @@ namespace IM._Application.Implementation
             _logger = logger;
         }
 
-        public async Task<OperationResult> Create(CreateInventory command)
+        public async Task<OperationResult> Create(CreateInventory command,CancellationToken cancellationToken)
         {
             var operation = new OperationResult();
-            if (await _inventoryRepository.Exist(x => x.ProductId == command.ProductId))
+            if (await _inventoryRepository.Exist(x => x.ProductId == command.ProductId, cancellationToken))
             {
                 _logger.LogWarning("Duplicated record found when creating inventory for ProductId: {ProductId}", command.ProductId);
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
             }
 
             var inventory = new Inventory(command.ProductId, command.UnitPrice);
-            _inventoryRepository.Create(inventory);
+            await _inventoryRepository.Create(inventory, cancellationToken);
             try
             {
-                await _inventoryRepository.SaveChanges();
+                await _inventoryRepository.SaveChanges(cancellationToken);
                 _logger.LogInformation("Inventory created successfully for ProductId: {ProductId}", command.ProductId);
                 return operation.Succeeded();
             }
@@ -43,17 +43,17 @@ namespace IM._Application.Implementation
             }
         }
 
-        public async Task<OperationResult> Edit(EditInventory command)
+        public async Task<OperationResult> Edit(EditInventory command,CancellationToken cancellationToken)
         {
             var operation = new OperationResult();
-            var inventory = await _inventoryRepository.Get(command.Id);
+            var inventory = await _inventoryRepository.Get(command.Id, cancellationToken);
             if (inventory == null)
             {
                 _logger.LogWarning("Inventory record not found for Id: {InventoryId}", command.Id);
                 return operation.Failed(ApplicationMessages.RecordNotFound);
             }
 
-            if (await _inventoryRepository.Exist(x => x.ProductId == command.ProductId && x.Id != command.Id))
+            if (await _inventoryRepository.Exist(x => x.ProductId == command.ProductId && x.Id != command.Id, cancellationToken))
             {
                 _logger.LogWarning("Duplicated record found when updating inventory for ProductId: {ProductId}", command.ProductId);
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
@@ -62,7 +62,7 @@ namespace IM._Application.Implementation
             inventory.Edit(command.ProductId, command.UnitPrice);
             try
             {
-                await _inventoryRepository.SaveChanges();
+                await _inventoryRepository.SaveChanges(cancellationToken);
                 _logger.LogInformation("Inventory updated successfully for Id: {InventoryId}", command.Id);
                 return operation.Succeeded();
             }
@@ -73,10 +73,10 @@ namespace IM._Application.Implementation
             }
         }
 
-        public async Task<OperationResult> Increase(IncreaseInventory command)
+        public async Task<OperationResult> Increase(IncreaseInventory command,CancellationToken cancellationToken)
         {
             var operation = new OperationResult();
-            var inventory = await _inventoryRepository.Get(command.InventoryId);
+            var inventory = await _inventoryRepository.Get(command.InventoryId, cancellationToken);
             if (inventory == null)
             {
                 _logger.LogWarning("Inventory not found for InventoryId: {InventoryId}", command.InventoryId);
@@ -85,16 +85,16 @@ namespace IM._Application.Implementation
 
             const long operatorId = 1;
             inventory.Increase(command.Count, operatorId, command.Description);
-            await _inventoryRepository.SaveChanges();
+            await _inventoryRepository.SaveChanges(cancellationToken);
 
             _logger.LogInformation("Inventory count increased successfully for InventoryId: {InventoryId}", command.InventoryId);
             return operation.Succeeded();
         }
 
-        public async Task<OperationResult> Reduce(ReduceInventory command)
+        public async Task<OperationResult> Reduce(ReduceInventory command, CancellationToken cancellationToken)
         {
             var operation = new OperationResult();
-            var inventory = await _inventoryRepository.Get(command.InventoryId);
+            var inventory = await _inventoryRepository.Get(command.InventoryId, cancellationToken);
             if (inventory == null)
             {
                 _logger.LogWarning("Inventory not found for InventoryId: {InventoryId}", command.InventoryId);
@@ -103,19 +103,19 @@ namespace IM._Application.Implementation
 
             var operatorId = _authHelper.CurrentAccountId();
             inventory.Reduce(command.Count, operatorId, command.Description, 0);
-            await _inventoryRepository.SaveChanges();
+            await _inventoryRepository.SaveChanges(cancellationToken);
 
             _logger.LogInformation("Inventory count reduced successfully for InventoryId: {InventoryId}", command.InventoryId);
             return operation.Succeeded();
         }
 
-        public async Task<OperationResult> Reduce(List<ReduceInventory> command)
+        public async Task<OperationResult> Reduce(List<ReduceInventory> command,CancellationToken cancellationToken)
         {
             var operation = new OperationResult();
             var operatorId = _authHelper.CurrentAccountId();
             foreach (var item in command)
             {
-                var inventory = await _inventoryRepository.GetBy(item.ProductId);
+                var inventory = await _inventoryRepository.GetBy(item.ProductId, cancellationToken);
                 if (inventory == null)
                 {
                     _logger.LogWarning("Inventory not found for ProductId: {ProductId}", item.ProductId);
@@ -125,15 +125,15 @@ namespace IM._Application.Implementation
                 inventory.Reduce(item.Count, operatorId, item.Description, item.OrderId);
             }
 
-            await _inventoryRepository.SaveChanges();
+            await _inventoryRepository.SaveChanges(cancellationToken);
 
             _logger.LogInformation("Inventory count reduced successfully for multiple products");
             return operation.Succeeded();
         }
 
-        public async Task<EditInventory> GetDetails(long id)
+        public async Task<EditInventory> GetDetails(long id,CancellationToken cancellationToken)
         {
-            var inventoryDetails = await _inventoryRepository.GetDetails(id);
+            var inventoryDetails = await _inventoryRepository.GetDetails(id, cancellationToken);
             if (inventoryDetails == null)
             {
                 _logger.LogWarning("Inventory details not found for Id: {InventoryId}", id);
@@ -143,18 +143,18 @@ namespace IM._Application.Implementation
             return inventoryDetails;
         }
 
-        public async Task<List<InventoryViewModel>> Search(InventorySearchModel searchModel)
+        public async Task<List<InventoryViewModel>> Search(InventorySearchModel searchModel, CancellationToken cancellationToken)
         {
-            var searchResult=await _inventoryRepository.Search(searchModel);
+            var searchResult=await _inventoryRepository.Search(searchModel, cancellationToken);
 
             _logger.LogInformation("Inventory search completed successfully");
 
             return searchResult;
         }
 
-        public async Task<List<InventoryOperationViewModel>> GetOperationLog(long inventoryId)
+        public async Task<List<InventoryOperationViewModel>> GetOperationLog(long inventoryId, CancellationToken cancellationToken)
         {
-            var operationLog = await _inventoryRepository.GetOperationLog(inventoryId);
+            var operationLog = await _inventoryRepository.GetOperationLog(inventoryId, cancellationToken);
             if (operationLog == null)
             {
                 _logger.LogWarning("Operation log not found for InventoryId: {InventoryId}", inventoryId);

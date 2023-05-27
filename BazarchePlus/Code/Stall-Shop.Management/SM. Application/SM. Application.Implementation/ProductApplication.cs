@@ -21,11 +21,11 @@ public class ProductApplication:IProductApplication
         _productCategoryRepository = productCategoryRepository;
     }
 
-    public async Task<OperationResult> Create(CreateProduct command)
+    public async Task<OperationResult> Create(CreateProduct command, CancellationToken cancellationToken)
     {
         var operation = new OperationResult();
 
-        if (await _productRepository.Exist(x => x.Name == command.Name))
+        if (await _productRepository.Exist(x => x.Name == command.Name, cancellationToken))
         {
             // Log error 
             _logger.LogError("Product creation failed due to duplicated record: {ProductName}", command.Name);
@@ -33,19 +33,19 @@ public class ProductApplication:IProductApplication
         }
 
         var slug = command.Slug.Slugify();
-        var categorySlug = await _productCategoryRepository.GetSlugById(command.CategoryId);
+        var categorySlug = await _productCategoryRepository.GetSlugById(command.CategoryId, cancellationToken);
         var path = $"{categorySlug}//{slug}";
 
         try
         {
-            var picturePath = await _fileUploader.Upload(command.Picture, path);
+            var picturePath = await _fileUploader.Upload(command.Picture, path,  cancellationToken);
             var product = new Product(command.Name, command.Code,
                 command.ShortDescription, command.Description, picturePath,
                 command.PictureAlt, command.PictureTitle, command.CategoryId, slug,
                 command.Keywords, command.MetaDescription);
 
-            await _productRepository.Create(product);
-            await _productRepository.SaveChanges();
+            await _productRepository.Create(product, cancellationToken);
+            await _productRepository.SaveChanges(cancellationToken);
 
             // Log information 
             _logger.LogInformation("Product created successfully: {ProductName}", command.Name);
@@ -60,10 +60,10 @@ public class ProductApplication:IProductApplication
         }
     }
 
-    public async Task<OperationResult> Edit(EditProduct command)
+    public async Task<OperationResult> Edit(EditProduct command,CancellationToken cancellationToken)
     {
         var operation = new OperationResult();
-        var product = await _productRepository.GetProductWithCategory(command.Id);
+        var product = await _productRepository.GetProductWithCategory(command.Id, cancellationToken);
 
         if (product == null)
         {
@@ -72,7 +72,7 @@ public class ProductApplication:IProductApplication
             return operation.Failed(ApplicationMessages.RecordNotFound);
         }
 
-        if (await _productRepository.Exist(x => x.Name == command.Name && x.Id != command.Id))
+        if (await _productRepository.Exist(x => x.Name == command.Name && x.Id != command.Id, cancellationToken))
         {
             // Log warning 
             _logger.LogWarning("Product creation failed due to duplicated record: {ProductName}", command.Name);
@@ -84,13 +84,13 @@ public class ProductApplication:IProductApplication
 
         try
         {
-            var picturePath = await _fileUploader.Upload(command.Picture, path);
+            var picturePath = await _fileUploader.Upload(command.Picture, path, cancellationToken);
             product.Edit(command.Name, command.Code,
                 command.ShortDescription, command.Description, picturePath,
                 command.PictureAlt, command.PictureTitle, command.CategoryId, slug,
                 command.Keywords, command.MetaDescription);
 
-            await _productRepository.SaveChanges();
+            await _productRepository.SaveChanges(cancellationToken);
 
             // Log information 
             _logger.LogInformation("Product updated successfully: {ProductName}", command.Name);
@@ -105,9 +105,9 @@ public class ProductApplication:IProductApplication
         }
     }
 
-    public async Task<EditProduct> GetDetails(long id)
+    public async Task<EditProduct> GetDetails(long id,CancellationToken cancellationToken)
     {
-        var productDetails = await _productRepository.GetDetails(id);
+        var productDetails = await _productRepository.GetDetails(id, cancellationToken);
 
         if (productDetails == null)
         {
@@ -122,9 +122,9 @@ public class ProductApplication:IProductApplication
         return productDetails;
     }
 
-    public async Task<List<ProductViewModel>> GetProducts()
+    public async Task<List<ProductViewModel>> GetProducts(CancellationToken cancellationToken)
     {
-        var products = await _productRepository.GetProducts();
+        var products = await _productRepository.GetProducts( cancellationToken);
 
         // Log information 
         _logger.LogInformation("Retrieved product list successfully.");
@@ -132,9 +132,9 @@ public class ProductApplication:IProductApplication
         return products;
     }
 
-    public async Task<List<ProductViewModel>> Search(ProductSearchModel searchModel)
+    public async Task<List<ProductViewModel>> Search(ProductSearchModel searchModel,CancellationToken cancellationToken)
     {
-        var products = await _productRepository.Search(searchModel);
+        var products = await _productRepository.Search(searchModel, cancellationToken);
 
         // Log information 
         _logger.LogInformation("Product search completed successfully.");

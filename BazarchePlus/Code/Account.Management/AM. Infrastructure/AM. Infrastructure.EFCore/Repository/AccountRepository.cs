@@ -17,9 +17,9 @@ public class AccountRepository:BaseRepository<long,Account>, IAccountRepository
         _logger=logger;
     }
 
-    public async Task<Account> GetBy(string username)
+    public async Task<Account> GetBy(string username, CancellationToken cancellationToken)
     {
-        var account = await _context.Accounts.FirstOrDefaultAsync(x => x.Username == username);
+        var account = await _context.Accounts.FirstOrDefaultAsync(x => x.Username == username, cancellationToken: cancellationToken);
 
         if (account != null)
         {
@@ -33,7 +33,7 @@ public class AccountRepository:BaseRepository<long,Account>, IAccountRepository
         return account!;
     }
 
-    public async Task<EditAccount> GetDetails(long id)
+    public async Task<EditAccount> GetDetails(long id, CancellationToken cancellationToken)
     {
         var account = await _context.Accounts
             .Select(x => new EditAccount
@@ -44,7 +44,7 @@ public class AccountRepository:BaseRepository<long,Account>, IAccountRepository
                 RoleId = x.RoleId,
                 Username = x.Username
             })
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
 
         if (account != null)
         {
@@ -58,7 +58,7 @@ public class AccountRepository:BaseRepository<long,Account>, IAccountRepository
         return account!;
     }
 
-    public async Task<List<AccountViewModel>> GetAccounts()
+    public async Task<List<AccountViewModel>> GetAccounts(CancellationToken cancellationToken)
     {
         var accounts = await _context.Accounts
             .Select(x => new AccountViewModel
@@ -66,14 +66,14 @@ public class AccountRepository:BaseRepository<long,Account>, IAccountRepository
                 Id = x.Id,
                 Fullname = x.Fullname
             })
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
 
         _logger.LogInformation("Retrieved account list successfully");
 
         return accounts;
     }
 
-    public async Task<List<AccountViewModel>> Search(AccountSearchModel searchModel)
+    public async Task<List<AccountViewModel>> Search(AccountSearchModel searchModel, CancellationToken cancellationToken)
     {
         var query = _context.Accounts
             .Include(x => x.Role)
@@ -101,7 +101,7 @@ public class AccountRepository:BaseRepository<long,Account>, IAccountRepository
         if (searchModel.RoleId > 0)
             query = query.Where(x => x.RoleId == searchModel.RoleId);
 
-        var accounts = await query.OrderByDescending(x => x.Id).ToListAsync();
+        var accounts = await query.OrderByDescending(x => x.Id).ToListAsync(cancellationToken: cancellationToken);
 
         _logger.LogInformation("Retrieved account list successfully");
 

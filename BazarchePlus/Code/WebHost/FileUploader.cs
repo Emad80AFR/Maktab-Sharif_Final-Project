@@ -11,7 +11,7 @@ namespace WebHost
             _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task<string> Upload(IFormFile? file, string path)
+        public async Task<string> Upload(IFormFile? file, string path, CancellationToken cancellationToken)
         {
             if (file == null) return "";
 
@@ -23,7 +23,7 @@ namespace WebHost
             var fileName = $"{DateTime.Now.ToFileName()}-{file.FileName}";
             var filePath = $"{directoryPath}//{fileName}";
             await using var output = File.Create(filePath);
-            await file.CopyToAsync(output);
+            await file.CopyToAsync(output, cancellationToken);
             return $"{path}/{fileName}";
         }
     }

@@ -1,4 +1,5 @@
-﻿using FrameWork.Application;
+﻿using AM._Infrastructure.EFCore;
+using FrameWork.Application;
 using FrameWork.Infrastructure;
 using IM._Application.Contracts.Inventory.DTO_s;
 using IM._Domain.InventoryAgg;
@@ -13,16 +14,18 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
     private readonly ILogger<InventoryRepository> _logger;
     private readonly InventoryContext _inventoryContext;
     private readonly ShopContext _shopContext;
+    private readonly AccountContext _accountContext; 
 
 
-    public InventoryRepository(ILogger<InventoryRepository> logger, InventoryContext context, ShopContext shopContext):base(context,logger)
+    public InventoryRepository(ILogger<InventoryRepository> logger, InventoryContext context, ShopContext shopContext, AccountContext accountContext):base(context,logger)
     {
         _logger = logger;
         _inventoryContext = context;
         _shopContext = shopContext;
+        _accountContext = accountContext;
     }
 
-    public async Task<EditInventory?> GetDetails(long id)
+    public async Task<EditInventory?> GetDetails(long id,CancellationToken cancellationToken)
     {
         var inventory = await _inventoryContext.Inventory
             .Select(x => new EditInventory
@@ -31,20 +34,20 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
                 ProductId = x.ProductId,
                 UnitPrice = x.UnitPrice
             })
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
 
         if (inventory == null)
         {
             // Log a warning if inventory is not found for the given id
-            _logger.LogWarning($"Inventory not found for id: {id}");
+            _logger.LogWarning("Inventory not found for {Id}:",id);
         }
 
         return inventory;
     }
 
-    public async Task<Inventory?> GetBy(long productId)
+    public async Task<Inventory?> GetBy(long productId, CancellationToken cancellationToken)
     {
-        var inventory = await _inventoryContext.Inventory.FirstOrDefaultAsync(x => x.ProductId == productId);
+        var inventory = await _inventoryContext.Inventory.FirstOrDefaultAsync(x => x.ProductId == productId, cancellationToken: cancellationToken);
 
         if (inventory == null)
         {
@@ -55,9 +58,9 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
         return inventory; ;
     }
 
-    public async Task<List<InventoryViewModel>> Search(InventorySearchModel searchModel)
+    public async Task<List<InventoryViewModel>> Search(InventorySearchModel searchModel, CancellationToken cancellationToken)
     {
-        var products = await _shopContext.Products.Select(x => new { x.Id, x.Name }).ToListAsync();
+        var products = await _shopContext.Products.Select(x => new { x.Id, x.Name }).ToListAsync(cancellationToken: cancellationToken);
 
         var query = _inventoryContext.Inventory.Select(x => new InventoryViewModel
         {
@@ -75,7 +78,7 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
         if (searchModel.InStock)
             query = query.Where(x => !x.InStock);
 
-        var inventory = await query.OrderByDescending(x => x.Id).ToListAsync();
+        var inventory = await query.OrderByDescending(x => x.Id).ToListAsync(cancellationToken: cancellationToken);
 
         inventory.ForEach(item =>
             item.Product = products.FirstOrDefault(x => x.Id == item.ProductId)?.Name!);
@@ -83,8 +86,38 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
         return inventory;
     }
 
-    public Task<List<InventoryOperationViewModel>> GetOperationLog(long inventoryId)
+    public async Task<List<InventoryOperationViewModel>> GetOperationLog(long inventoryId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var accounts = await _accountContext.Accounts.Select(x => new { x.Id, x.Fullname }).ToListAsync(cancellationToken);
+        var inventory = await _inventoryContext.Inventory.FirstOrDefaultAsync(x => x.Id == inventoryId, cancellationToken);
+
+        if (inventory == null)
+        {
+            // Log a message at the warning level
+            _logger.LogWarning("Inventory not found for ID: {InventoryId}", inventoryId);
+            return new List<InventoryOperationViewModel>();
+        }
+
+        var operations = inventory.Operations.Select(x => new InventoryOperationViewModel
+        {
+            Id = x.Id,
+            Count = x.Count,
+            CurrentCount = x.CurrentCount,
+            Description = x.Description,
+            Operation = x.Operation,
+            OperationDate = x.OperationDate.ToFarsi(),
+            OperatorId = x.OperatorId,
+            OrderId = x.OrderId
+        }).OrderByDescending(x => x.Id).ToList();
+
+        foreach (var operation in operations)
+        {
+            operation.Operator = accounts.FirstOrDefault(x => x.Id == operation.OperatorId)?.Fullname!;
+        }
+
+        // Log a message at the information level
+        _logger.LogInformation("Retrieved operation log for inventory ID: {InventoryId}", inventoryId);
+
+        return operations;
     }
 }

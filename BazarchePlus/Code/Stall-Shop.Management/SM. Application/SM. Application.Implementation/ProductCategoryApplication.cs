@@ -19,10 +19,10 @@ public class ProductCategoryApplication:IProductCategoryApplication
         _logger = logger;
     }
 
-    public async Task<OperationResult> Create(CreateProductCategory command)
+    public async Task<OperationResult> Create(CreateProductCategory command, CancellationToken cancellationToken)
     {
         var operation = new OperationResult();
-        if (await _productCategoryRepository.Exist(x => x.Name == command.Name))
+        if (await _productCategoryRepository.Exist(x => x.Name == command.Name, cancellationToken))
         {
             // Log warning 
             _logger.LogWarning("Duplicated record detected.");
@@ -32,14 +32,13 @@ public class ProductCategoryApplication:IProductCategoryApplication
         var slug = command.Slug.Slugify();
 
         var picturePath = $"{command.Slug}";
-        var pictureName = await _fileUploader.Upload(command.Picture, picturePath);
-
+        var pictureName = await _fileUploader.Upload(command.Picture, picturePath, cancellationToken);
         var productCategory = new ProductCategory(command.Name, command.Description,
             pictureName, command.PictureAlt, command.PictureTitle, command.Keywords,
             command.MetaDescription, slug);
 
-        await _productCategoryRepository.Create(productCategory);
-        await _productCategoryRepository.SaveChanges();
+        await _productCategoryRepository.Create(productCategory, cancellationToken);
+        await _productCategoryRepository.SaveChanges(cancellationToken);
 
         // Log information 
         _logger.LogInformation("Product category creation completed successfully.");
@@ -47,10 +46,10 @@ public class ProductCategoryApplication:IProductCategoryApplication
         return operation.Succeeded();
     }
 
-    public async Task<OperationResult> Edit(EditProductCategory command)
+    public async Task<OperationResult> Edit(EditProductCategory command, CancellationToken cancellationToken)
     {
         var operation = new OperationResult();
-        var productCategory = await _productCategoryRepository.Get(command.Id);
+        var productCategory = await _productCategoryRepository.Get(command.Id, cancellationToken);
 
         if (productCategory == null)
         {
@@ -59,7 +58,7 @@ public class ProductCategoryApplication:IProductCategoryApplication
             return operation.Failed(ApplicationMessages.RecordNotFound);
         }
 
-        if (await _productCategoryRepository.Exist(x => x.Name == command.Name && x.Id != command.Id))
+        if (await _productCategoryRepository.Exist(x => x.Name == command.Name && x.Id != command.Id, cancellationToken))
         {
             // Log warning 
             _logger.LogWarning("Duplicated record detected.");
@@ -69,13 +68,13 @@ public class ProductCategoryApplication:IProductCategoryApplication
         var slug = command.Slug.Slugify();
 
         var picturePath = $"{command.Slug}";
-        var fileName = await _fileUploader.Upload(command.Picture, picturePath);
+        var fileName = await _fileUploader.Upload(command.Picture, picturePath, cancellationToken);
 
         productCategory.Edit(command.Name, command.Description, fileName,
             command.PictureAlt, command.PictureTitle, command.Keywords,
             command.MetaDescription, slug);
 
-        await _productCategoryRepository.SaveChanges();
+        await _productCategoryRepository.SaveChanges(cancellationToken);
 
         // Log information 
         _logger.LogInformation("Product category update completed successfully.");
@@ -83,9 +82,9 @@ public class ProductCategoryApplication:IProductCategoryApplication
         return operation.Succeeded();
     }
 
-    public async Task<EditProductCategory> GetDetails(long id)
+    public async Task<EditProductCategory> GetDetails(long id,CancellationToken cancellationToken)
     {
-        var productCategoryDetails = await _productCategoryRepository.GetDetails(id);
+        var productCategoryDetails = await _productCategoryRepository.GetDetails(id, cancellationToken);
 
         if (productCategoryDetails == null)
         {
@@ -100,9 +99,9 @@ public class ProductCategoryApplication:IProductCategoryApplication
         return productCategoryDetails;
     }
 
-    public  Task<List<ProductCategoryViewModel>> GetProductCategories()
+    public  Task<List<ProductCategoryViewModel>> GetProductCategories(CancellationToken cancellationToken)
     {
-        var productCategories =  _productCategoryRepository.GetProductCategories();
+        var productCategories =  _productCategoryRepository.GetProductCategories(cancellationToken);
 
         // Log information 
         _logger.LogInformation("Retrieved product categories successfully.");
@@ -110,9 +109,9 @@ public class ProductCategoryApplication:IProductCategoryApplication
         return productCategories; ;
     }
 
-    public async Task<List<ProductCategoryViewModel>> Search(ProductCategorySearchModel searchModel)
+    public async Task<List<ProductCategoryViewModel>> Search(ProductCategorySearchModel searchModel, CancellationToken cancellationToken)
     {
-        var productCategories = await _productCategoryRepository.Search(searchModel);
+        var productCategories = await _productCategoryRepository.Search(searchModel, cancellationToken);
 
         // Log information 
         _logger.LogInformation("Product category search completed successfully.");

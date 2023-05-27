@@ -18,7 +18,7 @@ public class ProductCategoryRepository:BaseRepository<long,ProductCategory>,IPro
         _logger = logger;
     }
 
-    public async Task<List<ProductCategoryViewModel>> GetProductCategories()
+    public async Task<List<ProductCategoryViewModel>> GetProductCategories(CancellationToken cancellationToken)
     {
 
         try
@@ -29,7 +29,7 @@ public class ProductCategoryRepository:BaseRepository<long,ProductCategory>,IPro
                     Id = x.Id,
                     Name = x.Name
                 })
-                .ToListAsync();
+                .ToListAsync(cancellationToken: cancellationToken);
 
             // Log information
             _logger.LogInformation("Retrieved product categories successfully.");
@@ -48,7 +48,7 @@ public class ProductCategoryRepository:BaseRepository<long,ProductCategory>,IPro
         }
     }
 
-    public async Task<EditProductCategory?> GetDetails(long id)
+    public async Task<EditProductCategory?> GetDetails(long id, CancellationToken cancellationToken)
     {
         
             try
@@ -67,7 +67,7 @@ public class ProductCategoryRepository:BaseRepository<long,ProductCategory>,IPro
                         PictureTitle = x.PictureTitle,
                         Slug = x.Slug
                     })
-                    .FirstOrDefaultAsync();
+                    .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
                 if (productCategory != null)
                 {
@@ -88,14 +88,14 @@ public class ProductCategoryRepository:BaseRepository<long,ProductCategory>,IPro
         
     }
 
-    public async Task<string> GetSlugById(long id)
+    public async Task<string> GetSlugById(long id, CancellationToken cancellationToken)
     {
         try
         {
             var productCategorySlug = await _context.ProductCategories
                 .Where(x => x.Id == id)
                 .Select(x => new { x.Id, x.Slug })
-                .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
             if (productCategorySlug != null)
             {
@@ -118,7 +118,7 @@ public class ProductCategoryRepository:BaseRepository<long,ProductCategory>,IPro
         }
     }
 
-    public async Task<List<ProductCategoryViewModel>> Search(ProductCategorySearchModel searchModel)
+    public async Task<List<ProductCategoryViewModel>> Search(ProductCategorySearchModel searchModel, CancellationToken cancellationToken)
     {
         try
         {
@@ -138,7 +138,7 @@ public class ProductCategoryRepository:BaseRepository<long,ProductCategory>,IPro
 
             var filteredProductCategories =await  query
                 .OrderByDescending(x => x.Id)
-                .ToListAsync();
+                .ToListAsync(cancellationToken: cancellationToken);
 
             // Log information
             _logger.LogInformation("Retrieved filtered product categories successfully.");

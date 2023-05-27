@@ -1,15 +1,14 @@
 ﻿using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
 
 namespace FrameWork.Domain;
 
 public interface IBaseRepository<in TKey,T> where T:BaseClass<TKey>
 {
-    Task<T?> Get(TKey id);
-    Task<List<T>> Get();
-    Task Create(T entity);
-    Task<bool> Exist(Expression<Func<T, bool>> expression);
-    Task SaveChanges();
+    Task<T?> Get(TKey id, CancellationToken cancellationToken);
+    Task<List<T>> Get(CancellationToken cancellationToken);
+    Task Create(T entity, CancellationToken cancellationToken);
+    Task<bool> Exist(Expression<Func<T, bool>> expression, CancellationToken cancellationToken);
+    Task SaveChanges(CancellationToken cancellationToken);
 
 }
 

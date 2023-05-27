@@ -5,9 +5,9 @@ namespace AM._Domain.AccountAgg;
 
 public interface IAccountRepository:IBaseRepository<long,Account>
 {
-    Task<Account> GetBy(string username);
-    Task<EditAccount> GetDetails(long id);
-    Task<List<AccountViewModel>> GetAccounts();
-    Task<List<AccountViewModel>> Search(AccountSearchModel searchModel);
+    Task<Account> GetBy(string username, CancellationToken cancellationToken);
+    Task<EditAccount> GetDetails(long id, CancellationToken cancellationToken);
+    Task<List<AccountViewModel>> GetAccounts(CancellationToken cancellationToken);
+    Task<List<AccountViewModel>> Search(AccountSearchModel searchModel, CancellationToken cancellationToken);
 
 }

@@ -17,20 +17,20 @@ public class RoleApplication:IRoleApplication
         _logger = logger;
     }
 
-    public async Task<OperationResult> Create(CreateRole command)
+    public async Task<OperationResult> Create(CreateRole command, CancellationToken cancellationToken)
     {
         var operation = new OperationResult();
         try
         {
-            if (await _roleRepository.Exist(x => x.Name == command.Name))
+            if (await _roleRepository.Exist(x => x.Name == command.Name, cancellationToken))
             {
                 _logger.LogWarning(ApplicationMessages.DuplicatedRecord);
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
             }
 
             var role = new Role(command.Name, new List<Permission>());
-            await _roleRepository.Create(role);
-            await _roleRepository.SaveChanges();
+            await _roleRepository.Create(role, cancellationToken);
+            await _roleRepository.SaveChanges(cancellationToken);
 
             _logger.LogInformation("Role created successfully.");
             return operation.Succeeded();
@@ -42,19 +42,19 @@ public class RoleApplication:IRoleApplication
         }
     }
 
-    public async Task<OperationResult> Edit(EditRole command)
+    public async Task<OperationResult> Edit(EditRole command,CancellationToken cancellationToken)
     {
         var operation = new OperationResult();
         try
         {
-            var role = await _roleRepository.Get(command.Id);
+            var role = await _roleRepository.Get(command.Id, cancellationToken);
             if (role == null)
             {
                 _logger.LogWarning(ApplicationMessages.RecordNotFound);
                 return operation.Failed(ApplicationMessages.RecordNotFound);
             }
 
-            if (await _roleRepository.Exist(x => x.Name == command.Name && x.Id != command.Id))
+            if (await _roleRepository.Exist(x => x.Name == command.Name && x.Id != command.Id, cancellationToken))
             {
                 _logger.LogWarning(ApplicationMessages.DuplicatedRecord);
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
@@ -64,7 +64,7 @@ public class RoleApplication:IRoleApplication
             command.Permissions.ForEach(code => permissions.Add(new Permission(code)));
 
             role.Edit(command.Name, permissions);
-            await _roleRepository.SaveChanges();
+            await _roleRepository.SaveChanges(cancellationToken);
 
             _logger.LogInformation("Role updated successfully.");
             return operation.Succeeded();
@@ -76,12 +76,12 @@ public class RoleApplication:IRoleApplication
         }
     }
 
-    public async Task<List<RoleViewModel>> List()
+    public async Task<List<RoleViewModel>> List(CancellationToken cancellationToken)
     {
 
         try
         {
-            var roles = await _roleRepository.List();
+            var roles = await _roleRepository.List(cancellationToken);
             _logger.LogInformation("Roles listed successfully.");
             return roles;
         }
@@ -94,11 +94,11 @@ public class RoleApplication:IRoleApplication
 
     }
 
-    public async Task<EditRole> GetDetails(long id)
+    public async Task<EditRole> GetDetails(long id,CancellationToken cancellationToken)
     {
         try
         {
-            var details = await _roleRepository.GetDetails(id);
+            var details = await _roleRepository.GetDetails(id, cancellationToken);
             _logger.LogInformation("Role details retrieved successfully.");
             return details;
         }

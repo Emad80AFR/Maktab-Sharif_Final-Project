@@ -20,6 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\Account.Management\AM. Infrastructure\AM. Infrastructure.EFCore\AM. Infrastructure.EFCore.csproj" />
 	  <ProjectReference Include="..\..\..\Stall-Shop.Management\SM. Infrastructure\SM. Infrastructure.EFCore\SM. Infrastructure.EFCore.csproj" />
 	  <ProjectReference Include="..\..\IM. Domain\IM. Domain.csproj" />
 	</ItemGroup>

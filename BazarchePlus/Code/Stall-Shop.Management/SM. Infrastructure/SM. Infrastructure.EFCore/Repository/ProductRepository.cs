@@ -18,7 +18,7 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
         _context = context;
     }
 
-    public async Task<EditProduct> GetDetails(long id)
+    public async Task<EditProduct> GetDetails(long id, CancellationToken cancellationToken)
     {
         var product = await _context.Products
             .Where(x => x.Id == id)
@@ -36,7 +36,7 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
                 PictureTitle = x.PictureTitle,
                 ShortDescription = x.ShortDescription,
             })
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken);
 
         if (product == null)
         {
@@ -51,11 +51,11 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
         return product;
     }
 
-    public async Task<Product> GetProductWithCategory(long id)
+    public async Task<Product> GetProductWithCategory(long id, CancellationToken cancellationToken)
     {
         var product = await _context.Products
             .Include(x => x.Category)
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
 
         if (product == null)
         {
@@ -70,7 +70,7 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
         return product;
     }
 
-    public async Task<List<ProductViewModel>> GetProducts()
+    public async Task<List<ProductViewModel>> GetProducts(CancellationToken cancellationToken)
     {
         var products = await _context.Products
             .Select(x => new ProductViewModel
@@ -78,7 +78,7 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
                 Id = x.Id,
                 Name = x.Name
             })
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
 
         // Log information 
         _logger.LogInformation("Retrieved product list successfully.");
@@ -86,7 +86,7 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
         return products;
     }
 
-    public async Task<List<ProductViewModel>> Search(ProductSearchModel searchModel)
+    public async Task<List<ProductViewModel>> Search(ProductSearchModel searchModel, CancellationToken cancellationToken)
     {
         var query = _context.Products
             .Include(x => x.Category)
@@ -112,7 +112,7 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
 
         var productList = await query
             .OrderByDescending(x => x.Id)
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
 
         // Log information 
         _logger.LogInformation("Retrieved product list successfully.");

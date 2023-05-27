@@ -23,7 +23,7 @@ public class ProductPictureApplication:IProductPictureApplication
         _productRepository = productRepository;
     }
 
-    public async Task<OperationResult> Create(CreateProductPicture command)
+    public async Task<OperationResult> Create(CreateProductPicture command, CancellationToken cancellationToken)
     {
         var operation = new OperationResult();
 
@@ -34,7 +34,7 @@ public class ProductPictureApplication:IProductPictureApplication
         //    return operation.Failed(ApplicationMessages.DuplicatedRecord);
         //}
 
-        var product = await _productRepository.GetProductWithCategory(command.ProductId);
+        var product = await _productRepository.GetProductWithCategory(command.ProductId, cancellationToken);
 
         if (product == null)
         {
@@ -44,11 +44,11 @@ public class ProductPictureApplication:IProductPictureApplication
         }
 
         var path = $"{product.Category.Slug}//{product.Slug}";
-        var picturePath = await _fileUploader.Upload(command.Picture, path);
+        var picturePath = await _fileUploader.Upload(command.Picture, path, cancellationToken);
 
         var productPicture = new ProductPicture(command.ProductId, picturePath, command.PictureAlt, command.PictureTitle);
-        await _productPictureRepository.Create(productPicture);
-        await _productPictureRepository.SaveChanges();
+        await _productPictureRepository.Create(productPicture, cancellationToken);
+        await _productPictureRepository.SaveChanges(cancellationToken);
 
         // Log information 
         _logger.LogInformation("Product picture created successfully: ProductId={ProductId}, PicturePath={PicturePath}", command.ProductId, picturePath);
@@ -56,10 +56,10 @@ public class ProductPictureApplication:IProductPictureApplication
         return operation.Succeeded();
     }
 
-    public async Task<OperationResult> Edit(EditProductPicture command)
+    public async Task<OperationResult> Edit(EditProductPicture command,CancellationToken cancellationToken)
     {
         var operation = new OperationResult();
-        var productPicture = await _productPictureRepository.GetWithProductAndCategory(command.Id);
+        var productPicture = await _productPictureRepository.GetWithProductAndCategory(command.Id, cancellationToken);
 
         if (productPicture == null)
         {
@@ -69,10 +69,10 @@ public class ProductPictureApplication:IProductPictureApplication
         }
 
         var path = $"{productPicture.Product.Category.Slug}//{productPicture.Product.Slug}";
-        var picturePath = await _fileUploader.Upload(command.Picture, path);
+        var picturePath = await _fileUploader.Upload(command.Picture, path, cancellationToken);
 
         productPicture.Edit(command.ProductId, picturePath, command.PictureAlt, command.PictureTitle);
-        await _productPictureRepository.SaveChanges();
+        await _productPictureRepository.SaveChanges(cancellationToken);
 
         // Log information 
         _logger.LogInformation("Product picture updated successfully: ProductPictureId={ProductPictureId}, PicturePath={PicturePath}", command.Id, picturePath);
@@ -80,10 +80,10 @@ public class ProductPictureApplication:IProductPictureApplication
         return operation.Succeeded();
     }
 
-    public async Task<OperationResult> Remove(long id)
+    public async Task<OperationResult> Remove(long id,CancellationToken cancellationToken)
     {
         var operation = new OperationResult();
-        var productPicture = await _productPictureRepository.Get(id);
+        var productPicture = await _productPictureRepository.Get(id, cancellationToken);
 
         if (productPicture == null)
         {
@@ -93,7 +93,7 @@ public class ProductPictureApplication:IProductPictureApplication
         }
 
         productPicture.Remove();
-        await _productPictureRepository.SaveChanges();
+        await _productPictureRepository.SaveChanges(cancellationToken);
 
         // Log information 
         _logger.LogInformation("Product picture removed successfully: ProductPictureId={ProductPictureId}", id);
@@ -101,10 +101,10 @@ public class ProductPictureApplication:IProductPictureApplication
         return operation.Succeeded();
     }
 
-    public async Task<OperationResult> Restore(long id)
+    public async Task<OperationResult> Restore(long id, CancellationToken cancellationToken)
     {
         var operation = new OperationResult();
-        var productPicture = await _productPictureRepository.Get(id);
+        var productPicture = await _productPictureRepository.Get(id, cancellationToken);
 
         if (productPicture == null)
         {
@@ -114,7 +114,7 @@ public class ProductPictureApplication:IProductPictureApplication
         }
 
         productPicture.Restore();
-        await _productPictureRepository.SaveChanges();
+        await _productPictureRepository.SaveChanges(cancellationToken);
 
         // Log information 
         _logger.LogInformation("Product picture restored successfully: ProductPictureId={ProductPictureId}", id);
@@ -122,13 +122,13 @@ public class ProductPictureApplication:IProductPictureApplication
         return operation.Succeeded();
     }
 
-    public async Task<EditProductPicture> GetDetails(long id)
+    public async Task<EditProductPicture> GetDetails(long id, CancellationToken cancellationToken)
     {
-        return await _productPictureRepository.GetDetails(id);
+        return await _productPictureRepository.GetDetails(id, cancellationToken);
     }
 
-    public async Task<List<ProductPictureViewModel>> Search(ProductPictureSearchModel searchModel)
+    public async Task<List<ProductPictureViewModel>> Search(ProductPictureSearchModel searchModel, CancellationToken cancellationToken)
     {
-        return await _productPictureRepository.Search(searchModel);
+        return await _productPictureRepository.Search(searchModel, cancellationToken);
     }
 }

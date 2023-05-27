@@ -4,6 +4,6 @@ namespace FrameWork.Application
 {
     public interface IFileUploader
     {
-        Task<string> Upload(IFormFile? file, string path);
+        Task<string> Upload(IFormFile? file, string path, CancellationToken cancellationToken);
     }
 }

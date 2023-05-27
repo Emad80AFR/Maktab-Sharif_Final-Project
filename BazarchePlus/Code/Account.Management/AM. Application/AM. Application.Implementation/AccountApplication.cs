@@ -4,6 +4,7 @@ using AM._Domain.AccountAgg;
 using AM._Domain.RollAgg;
 using FrameWork.Application;
 using Microsoft.Extensions.Logging;
+using System.Threading;
 
 namespace AM._Application.Implementation
 {
@@ -26,11 +27,11 @@ namespace AM._Application.Implementation
             _roleRepository = roleRepository;
         }
 
-        public async Task<AccountViewModel> GetAccountBy(long id)
+        public async Task<AccountViewModel> GetAccountBy(long id,CancellationToken cancellationToken)
         {
             try
             {
-                var account = await _accountRepository.Get(id);
+                var account = await _accountRepository.Get(id, cancellationToken);
                 if (account == null)
                 {
                     _logger.LogWarning("Account not found for ID: {AccountId}", id);
@@ -51,12 +52,12 @@ namespace AM._Application.Implementation
             }
         }
 
-        public async Task<OperationResult> Register(RegisterAccount command)
+        public async Task<OperationResult> Register(RegisterAccount command,CancellationToken cancellationToken)
         {
             var operation = new OperationResult();
             try
             {
-                if (await _accountRepository.Exist(x => x.Username == command.Username || x.Mobile == command.Mobile))
+                if (await _accountRepository.Exist(x => x.Username == command.Username || x.Mobile == command.Mobile, cancellationToken))
                 {
                     _logger.LogWarning(ApplicationMessages.DuplicatedRecord);
                     return operation.Failed(ApplicationMessages.DuplicatedRecord);
@@ -64,10 +65,10 @@ namespace AM._Application.Implementation
 
                 var password = _passwordHasher.Hash(command.Password);
                 const string path = "profilePhotos";
-                var picturePath = await _fileUploader.Upload(command.ProfilePhoto, path);
+                var picturePath = await _fileUploader.Upload(command.ProfilePhoto, path, cancellationToken);
                 var account = new Account(command.Fullname, command.Username, password, command.Mobile, command.RoleId, picturePath);
-                await _accountRepository.Create(account);
-                await _accountRepository.SaveChanges();
+                await _accountRepository.Create(account, cancellationToken);
+                await _accountRepository.SaveChanges(cancellationToken);
 
                 _logger.LogInformation("Account created successfully.");
                 return operation.Succeeded();
@@ -79,12 +80,12 @@ namespace AM._Application.Implementation
             }
         }
 
-        public async Task<OperationResult> Edit(EditAccount command)
+        public async Task<OperationResult> Edit(EditAccount command, CancellationToken cancellationToken)
         {
             var operation = new OperationResult();
             try
             {
-                var account = await _accountRepository.Get(command.Id);
+                var account = await _accountRepository.Get(command.Id, cancellationToken);
                 if (account == null)
                 {
                     _logger.LogWarning(ApplicationMessages.RecordNotFound);
@@ -92,16 +93,16 @@ namespace AM._Application.Implementation
                 }
 
                 if (await _accountRepository.Exist(x =>
-                        (x.Username == command.Username || x.Mobile == command.Mobile) && x.Id != command.Id))
+                        (x.Username == command.Username || x.Mobile == command.Mobile) && x.Id != command.Id, cancellationToken))
                 {
                     _logger.LogWarning(ApplicationMessages.DuplicatedRecord);
                     return operation.Failed(ApplicationMessages.DuplicatedRecord);
                 }
 
                 var path = $"profilePhotos";
-                var picturePath = await _fileUploader.Upload(command.ProfilePhoto, path);
+                var picturePath = await _fileUploader.Upload(command.ProfilePhoto, path, cancellationToken);
                 account.Edit(command.Fullname, command.Username, command.Mobile, command.RoleId, picturePath);
-                await _accountRepository.SaveChanges();
+                await _accountRepository.SaveChanges(cancellationToken);
 
                 _logger.LogInformation("Account edited successfully.");
                 return operation.Succeeded();
@@ -113,12 +114,12 @@ namespace AM._Application.Implementation
             }
         }
 
-        public async Task<OperationResult> ChangePassword(ChangePassword command)
+        public async Task<OperationResult> ChangePassword(ChangePassword command,CancellationToken cancellationToken)
         {
             var operation = new OperationResult();
             try
             {
-                var account = await _accountRepository.Get(command.Id);
+                var account = await _accountRepository.Get(command.Id, cancellationToken);
                 if (account == null)
                 {
                     _logger.LogWarning(ApplicationMessages.RecordNotFound);
@@ -133,7 +134,7 @@ namespace AM._Application.Implementation
 
                 var password = _passwordHasher.Hash(command.Password);
                 account.ChangePassword(password);
-                await _accountRepository.SaveChanges();
+                await _accountRepository.SaveChanges(cancellationToken);
 
                 _logger.LogInformation("Account password changed successfully.");
                 return operation.Succeeded();
@@ -145,12 +146,12 @@ namespace AM._Application.Implementation
             }
         }
 
-        public async Task<OperationResult> Login(Login command)
+        public async Task<OperationResult> Login(Login command, CancellationToken cancellationToken)
         {
             var operation = new OperationResult();
             try
             {
-                var account = await _accountRepository.GetBy(command.Username);
+                var account = await _accountRepository.GetBy(command.Username, cancellationToken);
                 if (account == null)
                 {
                     _logger.LogWarning(ApplicationMessages.WrongUserPass);
@@ -164,7 +165,7 @@ namespace AM._Application.Implementation
                     return operation.Failed(ApplicationMessages.WrongUserPass);
                 }
 
-                var permissions = await _roleRepository.Get(account.RoleId);
+                var permissions = await _roleRepository.Get(account.RoleId, cancellationToken);
                    var access= permissions!.Permissions
                         .Select(x => x.Code)
                         .ToList();
@@ -184,11 +185,11 @@ namespace AM._Application.Implementation
             }
         }
 
-        public async Task<EditAccount> GetDetails(long id)
+        public async Task<EditAccount> GetDetails(long id,CancellationToken cancellationToken)
         {
             try
             {
-                var accountDetails = await _accountRepository.GetDetails(id);
+                var accountDetails = await _accountRepository.GetDetails(id, cancellationToken);
                 _logger.LogInformation("Account details retrieved successfully.");
                 return accountDetails;
             }
@@ -199,11 +200,11 @@ namespace AM._Application.Implementation
             }
         }
 
-        public async Task<List<AccountViewModel>> Search(AccountSearchModel searchModel)
+        public async Task<List<AccountViewModel>> Search(AccountSearchModel searchModel, CancellationToken cancellationToken)
         {
             try
             {
-                var searchResults = await _accountRepository.Search(searchModel);
+                var searchResults = await _accountRepository.Search(searchModel, cancellationToken);
                 _logger.LogInformation("Account search completed successfully.");
                 return searchResults;
             }
@@ -214,7 +215,7 @@ namespace AM._Application.Implementation
             }
         }
 
-        public Task Logout()
+        public Task Logout(CancellationToken cancellationToken)
         {
             try
             {
@@ -230,11 +231,11 @@ namespace AM._Application.Implementation
             return Task.CompletedTask;
         }
 
-        public async Task<List<AccountViewModel>> GetAccounts()
+        public async Task<List<AccountViewModel>> GetAccounts(CancellationToken cancellationToken)
         {
             try
             {
-                var accounts = await _accountRepository.GetAccounts();
+                var accounts = await _accountRepository.GetAccounts(cancellationToken);
                 _logger.LogInformation("Accounts retrieved successfully.");
                 return accounts;
             }

@@ -17,7 +17,7 @@ public class RoleRepository:BaseRepository<long,Role>,IRoleRepository
         _context = context;
     }
 
-    public async Task<List<RoleViewModel>> List()
+    public async Task<List<RoleViewModel>> List(CancellationToken cancellationToken)
     {
         var roles = await _context.Roles
             .Select(x => new RoleViewModel
@@ -26,14 +26,14 @@ public class RoleRepository:BaseRepository<long,Role>,IRoleRepository
                 Name = x.Name,
                 CreationDate = x.CreationDate.ToFarsi()
             })
-            .ToListAsync();
+            .ToListAsync(cancellationToken: cancellationToken);
 
         _logger.LogInformation("Retrieved roles successfully");
 
         return roles;
     }
 
-    public async Task<EditRole> GetDetails(long id)
+    public async Task<EditRole> GetDetails(long id, CancellationToken cancellationToken)
     {
         var role = await _context.Roles
             .Select(x => new EditRole
@@ -43,7 +43,7 @@ public class RoleRepository:BaseRepository<long,Role>,IRoleRepository
                 MappedPermissions = MapPermissions(x.Permissions)
             })
             .AsNoTracking()
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
 
         if (role != null)
         {

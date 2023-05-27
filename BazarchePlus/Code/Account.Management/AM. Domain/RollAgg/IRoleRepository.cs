@@ -5,7 +5,7 @@ namespace AM._Domain.RollAgg;
 
 public interface IRoleRepository:IBaseRepository<long,Role>
 {
-    Task<List<RoleViewModel>> List();
-    Task<EditRole> GetDetails(long id);
+    Task<List<RoleViewModel>> List(CancellationToken cancellationToken);
+    Task<EditRole> GetDetails(long id, CancellationToken cancellationToken);
 
 }

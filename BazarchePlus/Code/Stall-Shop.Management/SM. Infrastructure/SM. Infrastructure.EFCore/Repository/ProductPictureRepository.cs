@@ -18,7 +18,7 @@ public class ProductPictureRepository:BaseRepository<long,ProductPicture>,IProdu
         _context = context;
     }
 
-    public async Task<EditProductPicture> GetDetails(long id)
+    public async Task<EditProductPicture> GetDetails(long id, CancellationToken cancellationToken)
     {
         var productPicture = await _context.ProductPictures
             .Select(x => new EditProductPicture
@@ -28,7 +28,7 @@ public class ProductPictureRepository:BaseRepository<long,ProductPicture>,IProdu
                 PictureTitle = x.PictureTitle,
                 ProductId = x.ProductId
             })
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
 
         if (productPicture == null)
         {
@@ -43,12 +43,12 @@ public class ProductPictureRepository:BaseRepository<long,ProductPicture>,IProdu
         return productPicture;
     }
 
-    public async Task<ProductPicture> GetWithProductAndCategory(long id)
+    public async Task<ProductPicture> GetWithProductAndCategory(long id, CancellationToken cancellationToken)
     {
         var productPicture = await _context.ProductPictures
             .Include(x => x.Product)
             .ThenInclude(x => x.Category)
-            .FirstOrDefaultAsync(x => x.Id == id);
+            .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
 
         if (productPicture == null)
         {
@@ -61,7 +61,7 @@ public class ProductPictureRepository:BaseRepository<long,ProductPicture>,IProdu
         return productPicture;
     }
 
-    public async Task<List<ProductPictureViewModel>> Search(ProductPictureSearchModel searchModel)
+    public async Task<List<ProductPictureViewModel>> Search(ProductPictureSearchModel searchModel, CancellationToken cancellationToken)
     {
         var query = _context.ProductPictures
             .Include(x => x.Product)
@@ -80,7 +80,7 @@ public class ProductPictureRepository:BaseRepository<long,ProductPicture>,IProdu
             query = query.Where(x => x.ProductId == searchModel.ProductId);
         }
 
-        var productPictures = await query.OrderByDescending(x => x.Id).ToListAsync();
+        var productPictures = await query.OrderByDescending(x => x.Id).ToListAsync(cancellationToken: cancellationToken);
 
         // Log information 
         _logger.LogInformation("Retrieved product pictures successfully.");

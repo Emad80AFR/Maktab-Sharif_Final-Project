@@ -16,7 +16,7 @@ namespace FrameWork.Infrastructure
             _dbSet = context.Set<T>();
         }
 
-        public async Task<T?> Get(TKey id)
+        public async Task<T?> Get(TKey id, CancellationToken cancellationToken)
         {
             try
             {
@@ -30,12 +30,12 @@ namespace FrameWork.Infrastructure
             }
         }
 
-        public async Task<List<T>> Get()
+        public async Task<List<T>> Get(CancellationToken cancellationToken)
         {
             try
             {
                 _logger.LogInformation("Getting all entities");
-                return await _dbSet.ToListAsync();
+                return await _dbSet.ToListAsync(cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
@@ -44,13 +44,13 @@ namespace FrameWork.Infrastructure
             }
         }
 
-        public async Task Create(T entity)
+        public async Task Create(T entity, CancellationToken cancellationToken)
         {
 
             try
             {
                 _logger.LogInformation("Creating entity");
-                await _dbSet.AddAsync(entity);
+                await _dbSet.AddAsync(entity, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -59,12 +59,12 @@ namespace FrameWork.Infrastructure
             }
         }
 
-        public async Task<bool> Exist(Expression<Func<T, bool>> expression)
+        public async Task<bool> Exist(Expression<Func<T, bool>> expression, CancellationToken cancellationToken)
         {
             try
             {
                 _logger.LogInformation("Checking expression");
-               return await _dbSet.AnyAsync(expression);
+               return await _dbSet.AnyAsync(expression, cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
@@ -73,12 +73,12 @@ namespace FrameWork.Infrastructure
             }
         }
 
-        public async Task SaveChanges()
+        public async Task SaveChanges(CancellationToken cancellationToken)
         {
             try
             {
                 _logger.LogInformation("Saving data into database");
-                await _dbSet.SingleAsync();
+                await _dbSet.SingleAsync(cancellationToken: cancellationToken);
             }
             catch (Exception ex)
             {
