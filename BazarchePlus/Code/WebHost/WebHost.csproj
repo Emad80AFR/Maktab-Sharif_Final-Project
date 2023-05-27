@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ViewComponents\" />
     <Folder Include="wwwroot\Admin-Theme\assets\plugins\ckeditor-full\adapters\" />
     <Folder Include="wwwroot\Admin-Theme\assets\plugins\ckeditor-full\samples\" />
     <Folder Include="wwwroot\Admin-Theme\assets\plugins\noty\js\noty\layouts\" />

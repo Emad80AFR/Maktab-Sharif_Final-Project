@@ -1,12 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BP._Query.Contracts.Slide;
+using BP._Query.Query;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SM._Application.Contracts.Product;
 using SM._Application.Contracts.ProductCategory;
 using SM._Application.Contracts.ProductPicture;
+using SM._Application.Contracts.Slide;
 using SM._Application.Implementation;
 using SM._Domain.ProductAgg;
 using SM._Domain.ProductCategoryAgg;
 using SM._Domain.ProductPictureAgg;
+using SM._Domain.SlideAgg;
 using SM._Infrastructure.EFCore;
 using SM._Infrastructure.EFCore.Repository;
 
@@ -27,6 +31,10 @@ namespace SM._Infrastructure.Configuration
 
             services.AddScoped<IProductPictureApplication, ProductPictureApplication>();
             services.AddScoped<IProductPictureRepository, ProductPictureRepository>();
+
+            services.AddScoped<ISlideApplication, SlideApplication>();
+            services.AddScoped<ISlideRepository, SlideRepository>();
+            services.AddScoped<ISlideQuery, SlideQuery>();
         }
     }
 }
