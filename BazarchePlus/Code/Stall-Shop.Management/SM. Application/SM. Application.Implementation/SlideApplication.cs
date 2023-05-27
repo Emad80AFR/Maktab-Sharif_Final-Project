@@ -48,28 +48,95 @@ public class SlideApplication:ISlideApplication
         }
     }
 
-    public Task<OperationResult> Edit(EditSlide command, CancellationToken cancellationToken)
+    public async Task<OperationResult> Edit(EditSlide command, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var operation = new OperationResult();
+        var slide = await _slideRepository.Get(command.Id, cancellationToken);
+        if (slide == null)
+        {
+            // Log a message at the warning level
+            _logger.LogWarning("Slide not found for ID: {SlideId}", command.Id);
+            return operation.Failed(ApplicationMessages.RecordNotFound);
+        }
+
+        var pictureName = await _fileUploader.Upload(command.Picture, "slides", cancellationToken);
+
+        slide.Edit(pictureName, command.PictureAlt, command.PictureTitle,
+            command.Heading, command.Title, command.Text, command.Link, command.BtnText);
+
+        await _slideRepository.SaveChanges(cancellationToken);
+
+        // Log a message at the information level
+        _logger.LogInformation("Slide edited successfully: ID {SlideId}", command.Id);
+
+        return operation.Succeeded();
     }
 
-    public Task<OperationResult> Remove(long id, CancellationToken cancellationToken)
+    public async Task<OperationResult> Remove(long id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var operation = new OperationResult();
+        var slide = await _slideRepository.Get(id, cancellationToken);
+        if (slide == null)
+        {
+            // Log a message at the warning level
+            _logger.LogWarning("Slide not found for ID: {SlideId}", id);
+            return operation.Failed(ApplicationMessages.RecordNotFound);
+        }
+
+        slide.Remove();
+
+        await _slideRepository.SaveChanges(cancellationToken);
+
+        // Log a message at the information level
+        _logger.LogInformation("Slide removed successfully: ID {SlideId}", id);
+
+        return operation.Succeeded();
     }
 
-    public Task<OperationResult> Restore(long id, CancellationToken cancellationToken)
+    public async Task<OperationResult> Restore(long id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var operation = new OperationResult();
+        var slide = await _slideRepository.Get(id, cancellationToken);
+        if (slide == null)
+        {
+            // Log a message at the warning level
+            _logger.LogWarning("Slide not found for ID: {SlideId}", id);
+            return operation.Failed(ApplicationMessages.RecordNotFound);
+        }
+
+        slide.Restore();
+
+        await _slideRepository.SaveChanges(cancellationToken);
+
+        // Log a message at the information level
+        _logger.LogInformation("Slide restore successfully: ID {SlideId}", id);
+
+        return operation.Succeeded();
     }
 
-    public Task<EditSlide> GetDetails(long id, CancellationToken cancellationToken)
+    public async Task<EditSlide> GetDetails(long id, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        // Log a message at the information level
+        _logger.LogInformation("Fetching slide details for ID: {SlideId}", id);
+
+        var slide = await _slideRepository.GetDetails(id, cancellationToken);
+
+        // Log a message at the information level
+        _logger.LogInformation("Slide details retrieved successfully: ID {SlideId}", id);
+
+        return slide;
     }
 
-    public Task<List<SlideViewModel>> GetList(CancellationToken cancellationToken)
+    public async Task<List<SlideViewModel>> GetList(CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        // Log a message at the information level
+        _logger.LogInformation("Fetching slide list");
+
+        var slides = await _slideRepository.GetList(cancellationToken);
+
+        // Log a message at the information level
+        _logger.LogInformation("Slide list retrieved successfully");
+
+        return slides;
     }
 }

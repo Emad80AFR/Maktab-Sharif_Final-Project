@@ -5,7 +5,7 @@ namespace SM._Domain.SlideAgg;
 
 public interface ISlideRepository:IBaseRepository<long,Slide>
 {
-    EditSlide GetDetails(long id, CancellationToken cancellationToken);
-    List<SlideViewModel> GetList(CancellationToken cancellationToken);
+   Task<EditSlide>  GetDetails(long id, CancellationToken cancellationToken);
+    Task<List<SlideViewModel>> GetList(CancellationToken cancellationToken);
 
 }
