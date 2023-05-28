@@ -12,9 +12,10 @@ public class SlideViewComponent:ViewComponent
         _query = query;
     }
 
-    public async Task<IViewComponentResult> Invoke(CancellationToken cancellationToken)
+    public async Task<IViewComponentResult> InvokeAsync(CancellationToken cancellationToken)
     {
 
+        
         var slides = await _query.GetSlides(cancellationToken);
         return View(slides);
     }

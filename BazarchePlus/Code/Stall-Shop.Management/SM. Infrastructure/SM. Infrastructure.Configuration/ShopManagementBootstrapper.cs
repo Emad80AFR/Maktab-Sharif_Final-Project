@@ -1,4 +1,5 @@
-﻿using BP._Query.Contracts.Slide;
+﻿using BP._Query.Contracts.ProductCategory;
+using BP._Query.Contracts.Slide;
 using BP._Query.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,7 @@ namespace SM._Infrastructure.Configuration
 
             services.AddScoped<IProductCategoryApplication, ProductCategoryApplication>();
             services.AddScoped<IProductCategoryRepository, ProductCategoryRepository>();
+            services.AddScoped<IProductCategoryQuery,ProductCategoryQuery>();
 
             services.AddScoped<IProductApplication, ProductApplication>();
             services.AddScoped<IProductRepository, ProductRepository>();
