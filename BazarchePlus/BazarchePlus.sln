@@ -69,13 +69,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DM. Application", "DM. Appl
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DM. Infrastructure", "DM. Infrastructure", "{E81FAAB8-2F8C-48FE-81C4-93B9CC22264A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DM.Application.Contracts", "Code\Discount.Managemet\DM. Application\DM.Application.Contracts\DM.Application.Contracts.csproj", "{4C19AACE-CF33-4E8A-9392-04B8E8A1654F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DM. Application.Contracts", "Code\Discount.Managemet\DM. Application\DM.Application.Contracts\DM. Application.Contracts.csproj", "{4C19AACE-CF33-4E8A-9392-04B8E8A1654F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DM. Infrastructure.EFCore", "Code\Discount.Managemet\DM. Infrastructure\DM. Infrastructure.EFCore\DM. Infrastructure.EFCore.csproj", "{7EA660EC-40C8-4BEC-9739-6F521CE2AC1F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DM.Infrastructure.Configuration", "Code\Discount.Managemet\DM. Infrastructure\DM.Infrastructure.Configuration\DM.Infrastructure.Configuration.csproj", "{2B4591BF-41E9-42B4-B1ED-A53E4DDECDFE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DM. Infrastructure.Configuration", "Code\Discount.Managemet\DM. Infrastructure\DM.Infrastructure.Configuration\DM. Infrastructure.Configuration.csproj", "{2B4591BF-41E9-42B4-B1ED-A53E4DDECDFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DM.Application.Implementation", "Code\Discount.Managemet\DM. Application\DM.Application.Implementation\DM.Application.Implementation.csproj", "{E4CDE2D4-55B0-4356-8FC2-5DB528AA2B82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DM. Application.Implementation", "Code\Discount.Managemet\DM. Application\DM.Application.Implementation\DM. Application.Implementation.csproj", "{E4CDE2D4-55B0-4356-8FC2-5DB528AA2B82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

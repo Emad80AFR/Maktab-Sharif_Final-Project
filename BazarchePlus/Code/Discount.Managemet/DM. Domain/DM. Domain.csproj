@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\0. FrameWork\FrameWork\FrameWork.csproj" />
-    <ProjectReference Include="..\DM. Application\DM.Application.Contracts\DM.Application.Contracts.csproj" />
+    <ProjectReference Include="..\DM. Application\DM.Application.Contracts\DM. Application.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

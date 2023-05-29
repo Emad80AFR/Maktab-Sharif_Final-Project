@@ -1,4 +1,6 @@
-﻿namespace BP._Query.Contracts.ProductCategory
+﻿using BP._Query.Contracts.Product;
+
+namespace BP._Query.Contracts.ProductCategory
 {
     public class ProductCategoryQueryModel
     {
@@ -11,6 +13,6 @@
         public string Keywords { get; set; }
         public string MetaDescription { get; set; }
         public string Description { get; set; }
-        //public List<ProductQueryModel> Products { get; set; }
+        public List<ProductQueryModel> Products { get; set; }
     }
 }

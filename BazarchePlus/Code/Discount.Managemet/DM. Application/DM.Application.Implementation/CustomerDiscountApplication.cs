@@ -99,7 +99,6 @@ namespace DM.Application.Implementation
         {
             try
             {
-                // Log a message at the information level
                 _logger.LogInformation("Performing customer discount search...");
 
                 var discounts = await _customerDiscountRepository.Search(searchModel,cancellationToken);

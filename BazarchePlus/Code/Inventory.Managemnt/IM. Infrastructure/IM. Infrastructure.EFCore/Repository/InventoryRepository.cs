@@ -25,7 +25,7 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
         _accountContext = accountContext;
     }
 
-    public async Task<EditInventory?> GetDetails(long id,CancellationToken cancellationToken)
+    public async Task<EditInventory> GetDetails(long id,CancellationToken cancellationToken)
     {
         var inventory = await _inventoryContext.Inventory
             .Select(x => new EditInventory
@@ -42,10 +42,10 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
             _logger.LogWarning("Inventory not found for {Id}:",id);
         }
 
-        return inventory;
+        return inventory!;
     }
 
-    public async Task<Inventory?> GetBy(long productId, CancellationToken cancellationToken)
+    public async Task<Inventory> GetBy(long productId, CancellationToken cancellationToken)
     {
         var inventory = await _inventoryContext.Inventory.FirstOrDefaultAsync(x => x.ProductId == productId, cancellationToken: cancellationToken);
 
@@ -55,7 +55,7 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
             _logger.LogWarning($"Inventory not found for productId: {productId}");
         }
 
-        return inventory; ;
+        return inventory!; ;
     }
 
     public async Task<List<InventoryViewModel>> Search(InventorySearchModel searchModel, CancellationToken cancellationToken)

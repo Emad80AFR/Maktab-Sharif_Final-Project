@@ -134,13 +134,10 @@ namespace IM._Application.Implementation
         public async Task<EditInventory> GetDetails(long id,CancellationToken cancellationToken)
         {
             var inventoryDetails = await _inventoryRepository.GetDetails(id, cancellationToken);
-            if (inventoryDetails == null)
-            {
-                _logger.LogWarning("Inventory details not found for Id: {InventoryId}", id);
-                return null!;
-            }
+            if (inventoryDetails != null) return inventoryDetails;
+            _logger.LogWarning("Inventory details not found for Id: {InventoryId}", id);
+            return null!;
 
-            return inventoryDetails;
         }
 
         public async Task<List<InventoryViewModel>> Search(InventorySearchModel searchModel, CancellationToken cancellationToken)
@@ -155,13 +152,10 @@ namespace IM._Application.Implementation
         public async Task<List<InventoryOperationViewModel>> GetOperationLog(long inventoryId, CancellationToken cancellationToken)
         {
             var operationLog = await _inventoryRepository.GetOperationLog(inventoryId, cancellationToken);
-            if (operationLog == null)
-            {
-                _logger.LogWarning("Operation log not found for InventoryId: {InventoryId}", inventoryId);
-                return null!;
-            }
+            if (operationLog != null) return operationLog;
+            _logger.LogWarning("Operation log not found for InventoryId: {InventoryId}", inventoryId);
+            return null!;
 
-            return operationLog;
         }
     }
 }

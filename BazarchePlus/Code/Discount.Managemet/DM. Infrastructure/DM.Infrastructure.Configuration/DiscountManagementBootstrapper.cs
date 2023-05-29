@@ -1,6 +1,8 @@
-﻿using DM._Domain.CustomerDiscountAgg;
+﻿using DM._Domain.ColleagueDiscountAgg;
+using DM._Domain.CustomerDiscountAgg;
 using DM._Infrastructure.EFCore;
 using DM._Infrastructure.EFCore.Repository;
+using DM.Application.Contracts.ColleagueDiscount;
 using DM.Application.Contracts.CustomerDiscount;
 using DM.Application.Implementation;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,9 @@ namespace DM.Infrastructure.Configuration
 
             services.AddScoped<ICustomerDiscountApplication, CustomerDiscountApplication>();
             services.AddScoped<ICustomerDiscountRepository, CustomerDiscountRepository>();
+
+            services.AddScoped<IColleagueDiscountApplication, ColleagueDiscountApplication>();
+            services.AddScoped<IColleagueDiscountRepository, ColleagueDiscountRepository>();
 
         }
     }

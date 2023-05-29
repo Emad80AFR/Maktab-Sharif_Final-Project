@@ -18,7 +18,7 @@ public class InventoryOperation
     }
 
     public InventoryOperation(bool operation, long count, long operatorId, long currentCount,
-        string description, long orderId, long invetoryId)
+        string description, long orderId, long inventoryId)
     {
         Operation = operation;
         Count = count;
@@ -26,7 +26,7 @@ public class InventoryOperation
         CurrentCount = currentCount;
         Description = description;
         OrderId = orderId;
-        InventoryId = invetoryId;
+        InventoryId = inventoryId;
         OperationDate = DateTime.Now;
 
     }

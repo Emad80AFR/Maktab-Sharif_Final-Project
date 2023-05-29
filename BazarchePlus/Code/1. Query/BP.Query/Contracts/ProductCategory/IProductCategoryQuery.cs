@@ -4,6 +4,6 @@
     {
         //Task<ProductCategoryQueryModel> GetProductCategoryWithProductsBy(string slug);
         Task<List<ProductCategoryQueryModel>> GetProductCategories(CancellationToken cancellationToken);
-        //Task<List<ProductCategoryQueryModel>> GetProductCategoriesWithProducts();
+        Task<List<ProductCategoryQueryModel>> GetProductCategoriesWithProducts(CancellationToken cancellationToken);
     }
 }

@@ -1,4 +1,5 @@
 using AM._Infrastructure.Configuration;
+using DM.Infrastructure.Configuration;
 using FrameWork.Application;
 using IM._Infrastructure.Configuration;
 using SM._Infrastructure.Configuration;
@@ -16,6 +17,7 @@ namespace WebHost
             var connectionString = builder.Configuration.GetConnectionString("BazarchePlusDb");
             ShopManagementBootstrapper.Configure(builder.Services,connectionString);
             InventoryManagementBootstrapper.Configure(builder.Services, connectionString);
+            DiscountManagementBootstrapper.Configure(builder.Services,connectionString!);
             AccountManagementBootstrapper.Configure(builder.Services,connectionString);
 
 

@@ -20,8 +20,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\DM. Application\DM.Application.Contracts\DM.Application.Contracts.csproj" />
-	  <ProjectReference Include="..\..\DM. Application\DM.Application.Implementation\DM.Application.Implementation.csproj" />
+	  <ProjectReference Include="..\..\DM. Application\DM.Application.Contracts\DM. Application.Contracts.csproj" />
+	  <ProjectReference Include="..\..\DM. Application\DM.Application.Implementation\DM. Application.Implementation.csproj" />
 	  <ProjectReference Include="..\..\DM. Domain\DM. Domain.csproj" />
 	  <ProjectReference Include="..\DM. Infrastructure.EFCore\DM. Infrastructure.EFCore.csproj" />
 	</ItemGroup>
