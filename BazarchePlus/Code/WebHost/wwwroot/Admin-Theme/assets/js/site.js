@@ -10,10 +10,10 @@ SinglePage.LoadModal = function () {
         null,
         function (htmlPage) {
             $("#ModalContent").html(htmlPage);
-            //const container = document.getElementById("ModalContent");
-            //const forms = container.getElementsByTagName("form");
-            //const newForm = forms[forms.length - 1];
-            //$.validator.unobtrusive.parse(newForm);
+            const container = document.getElementById("ModalContent");
+            const forms = container.getElementsByTagName("form");
+            const newForm = forms[forms.length - 1];
+            $.validator.unobtrusive.parse(newForm);
             showModal();
         }).fail(function (error) {
             alert("خطایی رخ داده، لطفا با مدیر سیستم تماس بگیرید.");
@@ -35,24 +35,23 @@ $(document).ready(function () {
     $("#MainModal").on("shown.bs.modal",
         function () {
             window.location.hash = "##";
-            //$('.persianDateInput').persianDatepicker({
-            //    format: 'YYYY/MM/DD',
-            //    autoClose: true
-            //});
+            $('.persianDateInput').persianDatepicker({
+                format: 'YYYY/MM/DD',
+                autoClose: true
+            });
         });
 
     $(document).on("submit",
         'form[data-ajax="true"]',
         function (e) {
-            debugger;
             e.preventDefault();
             var form = $(this);
             const method = form.attr("method").toLocaleLowerCase();
             const url = form.attr("action");
-            const data = form.serializeArray();
             var action = form.attr("data-action");
 
             if (method === "get") {
+                const data = form.serializeArray();
                 $.get(url,
                     data,
                     function (data) {
@@ -63,11 +62,11 @@ $(document).ready(function () {
                 $.ajax({
                     url: url,
                     type: "post",
-                    data: data,
-                   /* enctype: "multipart/form-data",*/
+                    data: formData,
+                    enctype: "multipart/form-data",
                     dataType: "json",
-                    //processData: false,
-                    //contentType: false,
+                    processData: false,
+                    contentType: false,
                     success: function (data) {
                         CallBackHandler(data, action, form);
                     },
@@ -185,27 +184,14 @@ function handleAjaxCall(method, url, data) {
     }
 }
 
-//jQuery.validator.addMethod("maxFileSize",
-//    function (value, element, params) {
-//        var size = element.files[0].size;
-//        var maxSize = 3 * 1024 * 1024;
-//        if (size > maxSize)
-//            return false;
-//        else {
-//            return true;
-//        }
-//    });
-//jQuery.validator.unobtrusive.adapters.addBool("maxFileSize");
-
-//jQuery.validator.addMethod("maxFileSize",
-//    function (value, element, params) {
-//        var size = element.files[0].size;
-//        var maxSize = 3 * 1024 * 1024;
-//        debugger;
-//        if (size > maxSize)
-//            return false;
-//        else {
-//            return true;
-//        }
-//    });
-//jQuery.validator.unobtrusive.adapters.addBool("maxFileSize");
+jQuery.validator.addMethod("maxFileSize",
+    function (value, element, params) {
+        var size = element.files[0].size;
+        var maxSize = 3 * 1024 * 1024;
+        if (size > maxSize)
+            return false;
+        else {
+            return true;
+        }
+    });
+jQuery.validator.unobtrusive.adapters.addBool("maxFileSize");

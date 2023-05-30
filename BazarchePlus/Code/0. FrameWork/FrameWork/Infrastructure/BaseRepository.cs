@@ -9,9 +9,11 @@ namespace FrameWork.Infrastructure
     { 
         private readonly ILogger<BaseRepository<TKey,T>> _logger;
         private readonly DbSet<T> _dbSet;
+        private readonly DbContext _context;
 
         public BaseRepository(DbContext context, ILogger<BaseRepository<TKey, T>> logger)
         {
+            _context = context;
             _logger = logger;
             _dbSet = context.Set<T>();
         }
@@ -78,7 +80,7 @@ namespace FrameWork.Infrastructure
             try
             {
                 _logger.LogInformation("Saving data into database");
-                await _dbSet.SingleAsync(cancellationToken: cancellationToken);
+                await _context.SaveChangesAsync(cancellationToken);
             }
             catch (Exception ex)
             {

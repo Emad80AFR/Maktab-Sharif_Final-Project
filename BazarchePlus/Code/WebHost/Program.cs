@@ -2,6 +2,7 @@ using AM._Infrastructure.Configuration;
 using DM.Infrastructure.Configuration;
 using FrameWork.Application;
 using IM._Infrastructure.Configuration;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using SM._Infrastructure.Configuration;
 
 namespace WebHost
@@ -11,19 +12,35 @@ namespace WebHost
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddRazorPages();
+
             var connectionString = builder.Configuration.GetConnectionString("BazarchePlusDb");
+
             ShopManagementBootstrapper.Configure(builder.Services,connectionString);
             InventoryManagementBootstrapper.Configure(builder.Services, connectionString);
             DiscountManagementBootstrapper.Configure(builder.Services,connectionString!);
             AccountManagementBootstrapper.Configure(builder.Services,connectionString);
 
 
-            builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+            builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
             builder.Services.AddScoped<IFileUploader, FileUploader>();
             builder.Services.AddScoped<IAuthHelper, AuthHelper>();
+
+            builder.Services.Configure<CookiePolicyOptions>(options =>
+            {
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.Lax;
+            });
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o =>
+                {
+                    o.LoginPath = new PathString("/Account");
+                    o.LogoutPath = new PathString("/Account");
+                    o.AccessDeniedPath = new PathString("/AccessDenied");
+                });
+
 
             var app = builder.Build();
 
@@ -34,8 +51,13 @@ namespace WebHost
                 app.UseHsts();
             }
 
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
+
+            app.UseCookiePolicy();
 
             app.UseRouting();
 

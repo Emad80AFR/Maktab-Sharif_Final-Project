@@ -29,6 +29,8 @@
     <link href="~/Admin-Theme/assets/css/effects.css" rel="stylesheet">
     <link href="~/Admin-Theme/assets/plugins/data-table/DataTables-1.10.16/css/jquery.dataTables.css" rel="stylesheet">
     <link href="~/Admin-Theme/assets/css/persian-datepicker.min.css">
+
+    @await RenderSectionAsync("Css", false)
     <!-- END PAGE CSS -->
 
 </head>
@@ -237,25 +239,18 @@
         </div><!-- /.col-md-12 -->
     </div><!-- /.row -->
     <!-- BEGIN CODE MODAL -->
-    <div id="MainModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content" id="ModalContent">
-            </div>
+<div id="MainModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content" id="ModalContent">
+
+
+
         </div>
     </div>
+</div>
     <!-- END CODE MODAL -->
 
-
-
-
-
-
-
-
-
-
-
-    <div id="large-modal" class="modal fade" role="dialog" tabindex="-1">
+@*    <div id="large-modal" class="modal fade" role="dialog" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -278,8 +273,13 @@
                 </div><!-- /.modal-footer -->
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
-    <!-- BEGIN JS -->
+    </div><!-- /.modal -->*@
+
+
+
+
+
+<!-- BEGIN JS -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/Admin-Theme/assets/plugins/bootstrap/bootstrap5/js/bootstrap.bundle.min.js"></script>
     <script src="~/Admin-Theme/assets/plugins/metisMenu/dist/metisMenu.min.js"></script>
@@ -290,11 +290,11 @@
     <script src="~/Admin-Theme/assets/plugins/iCheck/icheck.min.js"></script>
     <script src="~/Admin-Theme/assets/plugins/switchery/dist/switchery.js"></script>
     <script src="~/Admin-Theme/assets/js/core.js"></script>
-    <script src="~/Admin-Theme/assets/js/site.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Admin-Theme/assets/js/persian-date.min.js"> </script>
     <script src="~/Admin-Theme/assets/js/persian-datepicker.min.js"> </script>
+    <script src="~/Admin-Theme/assets/js/site.js"></script>
 
 
     <!-- BEGIN PAGE JAVASCRIPT -->

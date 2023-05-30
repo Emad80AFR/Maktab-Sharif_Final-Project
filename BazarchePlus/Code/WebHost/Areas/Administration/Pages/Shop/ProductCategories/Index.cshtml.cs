@@ -30,26 +30,26 @@ namespace WebHost.Areas.Administration.Pages.Shop.ProductCategories
         }
 
         //[NeedsPermission(ShopPermissions.CreateProductCategory)]
-        public JsonResult OnPostCreate(CreateProductCategory command,CancellationToken cancellationToken)
+        public async Task<JsonResult> OnPostCreate(CreateProductCategory command,CancellationToken cancellationToken)
         {
-            var result = _productCategoryApplication.Create(command, cancellationToken);
+            var result = await _productCategoryApplication.Create(command, cancellationToken);
             return new JsonResult(result);
         }
 
-        public IActionResult OnGetEdit(long id, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnGetEdit(long id, CancellationToken cancellationToken)
         {
-            var productCategory = _productCategoryApplication.GetDetails(id, cancellationToken);
+            var productCategory =await _productCategoryApplication.GetDetails(id, cancellationToken);
             return Partial("Edit", productCategory);
         }
 
         //[NeedsPermission(ShopPermissions.EditProductCategory)]
-        public JsonResult OnPostEdit(EditProductCategory command, CancellationToken cancellationToken)
+        public async Task<JsonResult> OnPostEdit(EditProductCategory command, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)
             {
             }
 
-            var result = _productCategoryApplication.Edit(command, cancellationToken);
+            var result = await _productCategoryApplication.Edit(command, cancellationToken);
             return new JsonResult(result);
         }
     }

@@ -63,12 +63,9 @@ namespace FrameWork.Application
 
         public bool  IsAuthenticated()
         {
-            return _contextAccessor.HttpContext.User.Identity!.IsAuthenticated;
-            //var claims = _contextAccessor.HttpContext.User.Claims.ToList();
-            ////if (claims.Count > 0)
-            ////    return true;
-            ////return false;
-            //return claims.Count > 0;
+            //return _contextAccessor.HttpContext.User.Identity!.IsAuthenticated;
+            var claims = _contextAccessor.HttpContext.User.Claims.ToList();
+            return claims.Count > 0;
         }
 
         public void Signin(AuthViewModel account)

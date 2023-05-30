@@ -4,7 +4,7 @@ namespace ServiceHost.ViewComponents
 {
     public class FooterViewComponent : ViewComponent
     {
-        public IViewComponentResult InvokeAsync()
+        public IViewComponentResult Invoke()
         {
             return View();
         }
