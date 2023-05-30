@@ -2,7 +2,7 @@
 {
     public interface IProductCategoryQuery
     {
-        //Task<ProductCategoryQueryModel> GetProductCategoryWithProductsBy(string slug);
+        Task<ProductCategoryQueryModel> GetProductCategoryWithProductsBy(string slug,CancellationToken cancellationToken);
         Task<List<ProductCategoryQueryModel>> GetProductCategories(CancellationToken cancellationToken);
         Task<List<ProductCategoryQueryModel>> GetProductCategoriesWithProducts(CancellationToken cancellationToken);
     }

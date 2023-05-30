@@ -131,49 +131,70 @@ public class ProductCategoryQuery:IProductCategoryQuery
         }).ToList();
     }
 
-    //public ProductCategoryQueryModel GetProductCategoryWithProductsBy(string slug)
-    //{
-    //    var inventory = _inventoryContext.Inventory.Select(x =>
-    //        new { x.ProductId, x.UnitPrice }).ToList();
-    //    var discounts = _discountContext.CustomerDiscounts
-    //        .Where(x => x.StartDate < DateTime.Now && x.EndDate > DateTime.Now)
-    //        .Select(x => new { x.DiscountRate, x.ProductId, x.EndDate }).ToList();
+    public async Task<ProductCategoryQueryModel> GetProductCategoryWithProductsBy(string slug, CancellationToken cancellationToken)
+    {
+        try
+        {
+            _logger.LogInformation("Fetching product category with products by slug: {Slug}", slug);
 
-    //    var catetory = _context.ProductCategories
-    //        .Include(a => a.Products)
-    //        .ThenInclude(x => x.Category)
-    //        .Select(x => new ProductCategoryQueryModel
-    //        {
-    //            Id = x.Id,
-    //            Name = x.Name,
-    //            Description = x.Description,
-    //            MetaDescription = x.MetaDescription,
-    //            Keywords = x.Keywords,
-    //            Slug = x.Slug,
-    //            Products = MapProducts(x.Products)
-    //        }).AsNoTracking().FirstOrDefault(x => x.Slug == slug);
+            var inventory = await _inventoryContext.Inventory
+                .Select(x => new { x.ProductId, x.UnitPrice })
+                .ToListAsync(cancellationToken);
 
-    //    foreach (var product in catetory.Products)
-    //    {
-    //        var productInventory = inventory.FirstOrDefault(x => x.ProductId == product.Id);
-    //        if (productInventory != null)
-    //        {
-    //            var price = productInventory.UnitPrice;
-    //            product.Price = price.ToMoney();
-    //            var discount = discounts.FirstOrDefault(x => x.ProductId == product.Id);
-    //            if (discount != null)
-    //            {
-    //                int discountRate = discount.DiscountRate;
-    //                product.DiscountRate = discountRate;
-    //                product.DiscountExpireDate = discount.EndDate.ToDiscountFormat();
-    //                product.HasDiscount = discountRate > 0;
-    //                var discountAmount = Math.Round((price * discountRate) / 100);
-    //                product.PriceWithDiscount = (price - discountAmount).ToMoney();
-    //            }
-    //        }
-    //    }
+            var discounts = await _discountContext.CustomerDiscounts
+                .Where(x => x.StartDate < DateTime.Now && x.EndDate > DateTime.Now)
+                .Select(x => new { x.DiscountRate, x.ProductId, x.EndDate })
+                .ToListAsync(cancellationToken);
 
-    //    return catetory;
-    //}
+            var category = await _context.ProductCategories
+                .Include(a => a.Products)
+                .ThenInclude(x => x.Category)
+                .Select(x => new ProductCategoryQueryModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Description = x.Description,
+                    MetaDescription = x.MetaDescription,
+                    Keywords = x.Keywords,
+                    Slug = x.Slug,
+                    Products = MapProducts(x.Products)
+                })
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => x.Slug == slug, cancellationToken);
+
+            if (category != null)
+            {
+                foreach (var product in category.Products)
+                {
+                    var productInventory = inventory.FirstOrDefault(x => x.ProductId == product.Id);
+                    if (productInventory == null) continue;
+                    {
+                        var price = productInventory.UnitPrice;
+                        product.Price = price.ToMoney();
+                        var discount = discounts.FirstOrDefault(x => x.ProductId == product.Id);
+                        if (discount == null) continue;
+                        var discountRate = discount.DiscountRate;
+                        product.DiscountRate = discountRate;
+                        product.DiscountExpireDate = discount.EndDate.ToDiscountFormat();
+                        product.HasDiscount = discountRate > 0;
+                        var discountAmount = Math.Round((price * discountRate) / 100);
+                        product.PriceWithDiscount = (price - discountAmount).ToMoney();
+                    }
+                }
+            }
+
+            if (category != null)
+                _logger.LogInformation("Product category with products retrieved successfully. Category: {CategoryName}", category.Name);
+            else
+                _logger.LogWarning("No product category found for slug: {Slug}", slug);
+
+            return category;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while fetching product category with products for slug: {Slug}", slug);
+            throw; 
+        }
+    }
 
 }
