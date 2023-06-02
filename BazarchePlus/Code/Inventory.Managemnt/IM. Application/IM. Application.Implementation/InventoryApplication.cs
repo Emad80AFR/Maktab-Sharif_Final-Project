@@ -1,4 +1,6 @@
 ﻿using FrameWork.Application;
+using FrameWork.Application.Authentication;
+using FrameWork.Application.Messages;
 using IM._Application.Contracts.Inventory;
 using IM._Application.Contracts.Inventory.DTO_s;
 using IM._Domain.InventoryAgg;

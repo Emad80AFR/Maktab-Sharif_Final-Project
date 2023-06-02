@@ -1,4 +1,4 @@
-﻿namespace FrameWork.Application
+﻿namespace FrameWork.Application.Authentication.PasswordHashing
 {
     public sealed class HashingOptions
     {

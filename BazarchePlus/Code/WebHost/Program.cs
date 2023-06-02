@@ -1,6 +1,8 @@
 using AM._Infrastructure.Configuration;
 using DM.Infrastructure.Configuration;
-using FrameWork.Application;
+using FrameWork.Application.Authentication;
+using FrameWork.Application.Authentication.PasswordHashing;
+using FrameWork.Application.FileOpload;
 using IM._Infrastructure.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SM._Infrastructure.Configuration;

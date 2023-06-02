@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lampshapde Store</title>
+    <title>BazarchePlus</title>
 
     <!-- Vendor CSS -->
     <link href="~/Main-Theme/assets/css/vendors.css" rel="stylesheet" />
@@ -24,25 +24,18 @@
 
 
     <div class="search-overlay" id="search-overlay">
-        <a href="javascript:void(0)"
-           class="close-search-overlay"
-           id="close-search-overlay">
-            <i class="ion-ios-close-empty"></i>
-        </a>
-
-        <!--=======  search form  =======-->
-
-        <div class="search-form">
-            <form action="#">
-                <input type="search" placeholder="Search entire store here ..." />
-                <button type="submit">
-                    <i class="ion-android-search"></i>
-                </button>
-            </form>
-        </div>
-
-        <!--=======  End of search form  =======-->
+    <a href="javascript:void(0)" class="close-search-overlay" id="close-search-overlay">
+        <i class="ion-ios-close-empty"></i>
+    </a>
+    <div class="search-form">
+        <form method="get" asp-page="/Search">
+            <input type="search" name="value" id="value" placeholder="هرچه می خواهید در فروشگاه جستجو کنید ...">
+            <button type="submit">
+                <i class="ion-android-search"></i>
+            </button>
+        </form>
     </div>
+</div>
 
     <!-- scroll to top  -->
     <div id="scroll-top">

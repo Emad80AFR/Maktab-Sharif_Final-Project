@@ -38,28 +38,52 @@
                         </li>
                     </ul>
                 </li>
-                     <li>
-                    <a href="#" class="dropdown-toggle">
-                        <i class="icon-frame"></i>
-                <span>سیستم تخفیفات </span>
-                    </a>
-                    <ul>
-                        <li>
-                    <a asp-page="/Discounts/CustomerDiscounts/Index" class="">
-                                <i class="icon-frame"></i>
-                        <span>تخفیف مشتری</span>
-                            </a>
-                        </li>
-                        <li>
-                    <a asp-page="/Discounts/ColleagueDiscounts/Index" class="">
-                                <i class="icon-frame"></i>
-                        <span> تخفیف همکاری</span>
-                            </a>
-                        </li>
+                    <li>
+                        <a href="#" class="dropdown-toggle">
+                            <i class="icon-frame"></i>
+                            <span>سیستم تخفیفات </span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a asp-page="/Discounts/CustomerDiscounts/Index" class="">
+                                    <i class="icon-frame"></i>
+                                    <span>تخفیف مشتری</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-page="/Discounts/ColleagueDiscounts/Index" class="">
+                                    <i class="icon-frame"></i>
+                                    <span> تخفیف همکاری</span>
+                                </a>
+                            </li>
                        
-                    </ul>
-                </li>
-
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="dropdown-toggle">
+                            <i class="icon-frame"></i>
+                            <span>سیستم مدیریت کاربران </span>
+                        </a>
+                        <ul>
+                            <li>
+                    <a asp-page="/Accounts/Account/Index" class="">
+                                    <i class="icon-frame"></i>
+                                    <span>مدیریت کاربران</span>
+                                </a>
+                            </li>
+                            <li>
+                    <a asp-page="/Accounts/Role/Index" class="">
+                                    <i class="icon-frame"></i>
+                                    <span> مدیریت نقش ها</span>
+                                </a>
+                            </li>
+                       
+                        </ul>
+                    </li>
+        <li>
+            <a asp-page="/Inventory/Index" class=""><i class="icon-frame"></i><span> انبارداری </span></a>
+        </li>
+                    
 
 
                 </ul><!-- /#side-menu -->

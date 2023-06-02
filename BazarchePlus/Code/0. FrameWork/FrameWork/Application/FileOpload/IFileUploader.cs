@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace FrameWork.Application
+namespace FrameWork.Application.FileOpload
 {
     public interface IFileUploader
     {

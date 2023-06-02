@@ -19,7 +19,6 @@ namespace BP._Query.Query
         {
             try
             {
-                // Log a message at the information level
                 _logger.LogInformation("Fetching slides...");
 
                 var slides = await _shopContext.Slides
@@ -37,7 +36,6 @@ namespace BP._Query.Query
                     })
                     .ToListAsync(cancellationToken);
 
-                // Log a message at the information level if the slides were retrieved
                 if (slides != null && slides.Any())
                     _logger.LogInformation("Slides retrieved successfully. Total slides: {SlideCount}", slides.Count);
                 else
@@ -47,9 +45,8 @@ namespace BP._Query.Query
             }
             catch (Exception ex)
             {
-                // Log the error message
                 _logger.LogError(ex, "An error occurred while fetching slides.");
-                throw; // Rethrow the exception to propagate it to the caller
+                throw; 
             }
         }
     }

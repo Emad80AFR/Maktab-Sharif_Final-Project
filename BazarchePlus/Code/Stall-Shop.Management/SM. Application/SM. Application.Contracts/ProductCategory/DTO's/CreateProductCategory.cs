@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FrameWork.Application;
+using FrameWork.Application.FileOpload;
+using FrameWork.Application.Messages;
 using Microsoft.AspNetCore.Http;
 
 namespace SM._Application.Contracts.ProductCategory.DTO_s;

@@ -2,6 +2,7 @@
 using AM._Application.Contracts.Role.DTO_s;
 using AM._Domain.RollAgg;
 using FrameWork.Application;
+using FrameWork.Application.Messages;
 using Microsoft.Extensions.Logging;
 
 namespace AM._Application.Implementation;
@@ -28,7 +29,7 @@ public class RoleApplication:IRoleApplication
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
             }
 
-            var role = new Role(command.Name, new List<Permission>());
+            var role = new Role(command.Name);
             await _roleRepository.Create(role, cancellationToken);
             await _roleRepository.SaveChanges(cancellationToken);
 
@@ -63,7 +64,7 @@ public class RoleApplication:IRoleApplication
             var permissions = new List<Permission>();
             command.Permissions.ForEach(code => permissions.Add(new Permission(code)));
 
-            role.Edit(command.Name, permissions);
+            role.Edit(command.Name);
             await _roleRepository.SaveChanges(cancellationToken);
 
             _logger.LogInformation("Role updated successfully.");

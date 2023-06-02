@@ -1,18 +1,11 @@
-html {
-  font-size: 14px;
-}
-
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
+#getpicture{
+    /* opacity: 0; */
+    position: absolute;
+    top: 100px;
+    right: 65px;
+    bottom: 0;
+    /* left: -139px; */
+    width: 84%;
+    height: 5%;
+    z-index: 100;
 }

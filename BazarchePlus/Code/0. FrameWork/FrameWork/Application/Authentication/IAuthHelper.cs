@@ -1,4 +1,4 @@
-﻿namespace FrameWork.Application
+﻿namespace FrameWork.Application.Authentication
 {
     public interface IAuthHelper
     {

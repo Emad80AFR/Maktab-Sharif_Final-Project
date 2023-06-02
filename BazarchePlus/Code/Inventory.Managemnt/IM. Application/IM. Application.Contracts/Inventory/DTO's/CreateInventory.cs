@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FrameWork.Application;
+using FrameWork.Application.Messages;
 using SM._Application.Contracts.Product.DTO_s;
 
 namespace IM._Application.Contracts.Inventory.DTO_s;

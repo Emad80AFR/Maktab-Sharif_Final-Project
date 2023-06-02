@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
-namespace FrameWork.Application
+namespace FrameWork.Application.FileOpload
 {
     public class MaxFileSizeAttribute : ValidationAttribute, IClientModelValidator
     {

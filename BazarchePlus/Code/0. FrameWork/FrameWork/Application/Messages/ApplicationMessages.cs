@@ -1,4 +1,4 @@
-﻿namespace FrameWork.Application;
+﻿namespace FrameWork.Application.Messages;
 
 public class ApplicationMessages
 {

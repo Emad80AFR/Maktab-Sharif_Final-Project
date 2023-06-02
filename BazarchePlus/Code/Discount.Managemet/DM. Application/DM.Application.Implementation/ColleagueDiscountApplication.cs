@@ -2,6 +2,7 @@
 using DM.Application.Contracts.ColleagueDiscount;
 using DM.Application.Contracts.ColleagueDiscount.DTO_s;
 using FrameWork.Application;
+using FrameWork.Application.Messages;
 using Microsoft.Extensions.Logging;
 
 namespace DM.Application.Implementation;

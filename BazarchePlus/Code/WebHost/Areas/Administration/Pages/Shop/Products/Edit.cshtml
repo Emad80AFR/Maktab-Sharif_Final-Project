@@ -45,13 +45,25 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group">
-                    <label asp-for="Picture" class="control-label">عکس</label>
-                    <input type="file" class="form-control" asp-for="Picture" accept="image/*">
+                <div class="form-group relative">
+                    <input asp-for="Picture" accept="image/*" type="file" class="form-control">
                     <span asp-validation-for="Picture" class="error"></span>
+                    <label asp-for="Picture" >آپلود عکس</label>
+                    <div class="input-group round"> 
+                        <input  type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید">
+                        <span class="input-group-btn"> 
+                            <button type="button" class="btn btn-info"> 
+                                <i class="icon-picture"></i>
+                                آپلود عکس
+                                <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div></button>
+                        </span> 
+                    </div>
+                    <div class="help-block"></div>
+                    
                 </div>
             </div>
         </div>
+
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">

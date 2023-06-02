@@ -42,9 +42,9 @@ namespace WebHost.Areas.Administration.Pages.Shop.Products
         }
 
         //[NeedsPermission(ShopPermissions.CreateProduct)]
-        public JsonResult OnPostCreate(CreateProduct command,CancellationToken cancellationToken)
+        public async Task<JsonResult> OnPostCreate(CreateProduct command,CancellationToken cancellationToken)
         {
-            var result = _productApplication.Create(command, cancellationToken);
+            var result = await _productApplication.Create(command, cancellationToken);
             return new JsonResult(result);
         }
 

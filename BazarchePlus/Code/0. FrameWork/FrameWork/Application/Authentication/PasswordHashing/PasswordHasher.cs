@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 using Microsoft.Extensions.Options;
-namespace FrameWork.Application
+namespace FrameWork.Application.Authentication.PasswordHashing
 {
     public class PasswordHasher : IPasswordHasher
     {

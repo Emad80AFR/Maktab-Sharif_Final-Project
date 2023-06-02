@@ -3,6 +3,10 @@ using AM._Application.Contracts.Account.DTO_s;
 using AM._Domain.AccountAgg;
 using AM._Domain.RollAgg;
 using FrameWork.Application;
+using FrameWork.Application.Authentication;
+using FrameWork.Application.Authentication.PasswordHashing;
+using FrameWork.Application.FileOpload;
+using FrameWork.Application.Messages;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 
@@ -165,13 +169,10 @@ namespace AM._Application.Implementation
                     return operation.Failed(ApplicationMessages.WrongUserPass);
                 }
 
-                var permissions = await _roleRepository.Get(account.RoleId, cancellationToken);
-                   var access= permissions!.Permissions
-                        .Select(x => x.Code)
-                        .ToList();
+                   
 
                 var authViewModel = new AuthViewModel(account.Id, account.RoleId, account.Fullname
-                    , account.Username, account.Mobile, access);
+                    , account.Username, account.Mobile);
 
                 _authHelper.Signin(authViewModel);
 

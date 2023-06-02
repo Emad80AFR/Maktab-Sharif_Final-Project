@@ -1,4 +1,6 @@
 ﻿using FrameWork.Application;
+using FrameWork.Application.FileOpload;
+using FrameWork.Application.Messages;
 using Microsoft.Extensions.Logging;
 using SM._Application.Contracts.Product;
 using SM._Application.Contracts.Product.DTO_s;
