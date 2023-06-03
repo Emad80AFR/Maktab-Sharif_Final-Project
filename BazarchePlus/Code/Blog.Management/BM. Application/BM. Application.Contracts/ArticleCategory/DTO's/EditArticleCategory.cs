@@ -1,6 +1,4 @@
-﻿using BM._Application.Contracts.ArticleCategory.DTO_s;
-
-namespace BlogManagement.Application.Contracts.ArticleCategory
+﻿namespace BM._Application.Contracts.ArticleCategory.DTO_s
 {
     public class EditArticleCategory : CreateArticleCategory
     {
