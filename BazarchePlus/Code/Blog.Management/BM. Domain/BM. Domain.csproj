@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>BM._Domain</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="ArticleCategoryAgg\" />
+    <Folder Include="ArticleAgg\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\0. FrameWork\FrameWork\FrameWork.csproj" />
+    <ProjectReference Include="..\BM. Application\BM. Application.Contracts\BM. Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
