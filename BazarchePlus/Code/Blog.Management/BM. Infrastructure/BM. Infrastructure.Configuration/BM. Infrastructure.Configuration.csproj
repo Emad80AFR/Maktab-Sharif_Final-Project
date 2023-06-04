@@ -21,6 +21,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\..\..\1. Query\BP.Query\BP. Query.csproj" />
 	  <ProjectReference Include="..\..\BM. Application\BM. Application.Contracts\BM. Application.Contracts.csproj" />
 	  <ProjectReference Include="..\..\BM. Application\BM. Application.Implementation\BM. Application.Implementation.csproj" />
 	  <ProjectReference Include="..\BM. Infrastructure.EFCore\BM. Infrastructure.EFCore.csproj" />

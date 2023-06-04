@@ -5,6 +5,8 @@ using BM._Domain.ArticleAgg;
 using BM._Domain.ArticleCategoryAgg;
 using BM._Infrastructure.EFCore;
 using BM._Infrastructure.EFCore.Repository;
+using BP._Query.Contracts.Article;
+using BP._Query.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +23,7 @@ namespace BM._Infrastructure.Configuration
 
             services.AddScoped<IArticleApplication, ArticleApplication>();
             services.AddScoped<IArticleRepository, ArticleRepository>();
+            services.AddScoped<IArticleQuery, ArticleQuery>();
 
         }
     }

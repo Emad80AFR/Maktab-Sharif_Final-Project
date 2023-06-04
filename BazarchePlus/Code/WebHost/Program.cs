@@ -1,4 +1,5 @@
 using AM._Infrastructure.Configuration;
+using BM._Infrastructure.Configuration;
 using DM.Infrastructure.Configuration;
 using FrameWork.Application.Authentication;
 using FrameWork.Application.Authentication.PasswordHashing;
@@ -6,6 +7,8 @@ using FrameWork.Application.FileOpload;
 using IM._Infrastructure.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SM._Infrastructure.Configuration;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 namespace WebHost
 {
@@ -23,8 +26,10 @@ namespace WebHost
             InventoryManagementBootstrapper.Configure(builder.Services, connectionString);
             DiscountManagementBootstrapper.Configure(builder.Services,connectionString!);
             AccountManagementBootstrapper.Configure(builder.Services,connectionString);
+            BlogManagementBootstrapper.Configure(builder.Services,connectionString);
 
 
+            builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Arabic));
             builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
             builder.Services.AddScoped<IFileUploader, FileUploader>();
             builder.Services.AddScoped<IAuthHelper, AuthHelper>();
