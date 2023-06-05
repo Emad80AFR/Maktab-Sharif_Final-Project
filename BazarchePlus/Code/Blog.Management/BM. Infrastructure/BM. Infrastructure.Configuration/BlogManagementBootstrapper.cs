@@ -14,7 +14,7 @@ namespace BM._Infrastructure.Configuration
 {
     public class BlogManagementBootstrapper
     {
-        public static void Configure(IServiceCollection services, string connectionString)
+        public static void Configure(IServiceCollection services, string? connectionString)
         {
             services.AddDbContext<BlogContext>(x => x.UseSqlServer(connectionString));
 

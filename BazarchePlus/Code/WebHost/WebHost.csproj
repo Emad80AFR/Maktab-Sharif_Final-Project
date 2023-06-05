@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Account.Management\AM. Infrastructure\AM. Infrastructure.Configuration\AM. Infrastructure.Configuration.csproj" />
     <ProjectReference Include="..\Blog.Management\BM. Application\BM. Application.Contracts\BM. Application.Contracts.csproj" />
     <ProjectReference Include="..\Blog.Management\BM. Infrastructure\BM. Infrastructure.Configuration\BM. Infrastructure.Configuration.csproj" />
+    <ProjectReference Include="..\Comment.Management\CM. Infrastructure\CM. Infrastructure.Configuration\CM. Infrastructure.Configuration.csproj" />
     <ProjectReference Include="..\Discount.Managemet\DM. Application\DM.Application.Contracts\DM. Application.Contracts.csproj" />
     <ProjectReference Include="..\Discount.Managemet\DM. Infrastructure\DM.Infrastructure.Configuration\DM. Infrastructure.Configuration.csproj" />
     <ProjectReference Include="..\Inventory.Managemnt\IM. Infrastructure\IM. Infrastructure.Configuration\IM. Infrastructure.Configuration.csproj" />

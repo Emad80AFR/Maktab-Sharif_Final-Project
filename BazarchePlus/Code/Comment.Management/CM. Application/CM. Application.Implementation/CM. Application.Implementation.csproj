@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>CM._Application.Implementation</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\CM. Domain\CM. Domain.csproj" />
+    <ProjectReference Include="..\CM. Application.Contracts\CM. Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

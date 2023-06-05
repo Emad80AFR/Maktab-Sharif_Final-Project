@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>CM._Domain</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="CommentAgg\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\0. FrameWork\FrameWork\FrameWork.csproj" />
+    <ProjectReference Include="..\CM. Application\CM. Application.Contracts\CM. Application.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

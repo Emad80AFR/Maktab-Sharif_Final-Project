@@ -12,7 +12,7 @@ namespace DM.Infrastructure.Configuration
 {
     public class DiscountManagementBootstrapper
     {
-        public static void Configure(IServiceCollection services, string connectionString)
+        public static void Configure(IServiceCollection services, string? connectionString)
         {
             services.AddDbContext<DiscountContext>(x => x.UseSqlServer(connectionString));
 
