@@ -40,7 +40,7 @@ public class RoleRepository:BaseRepository<long,Role>,IRoleRepository
             {
                 Id = x.Id,
                 Name = x.Name,
-                //MappedPermissions = MapPermissions(x.Permissions)
+                MappedPermissions = MapPermissions(x.Permissions)
             })
             .AsNoTracking()
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
@@ -57,8 +57,8 @@ public class RoleRepository:BaseRepository<long,Role>,IRoleRepository
 
         return role!;
     }
-    //private static List<PermissionDto> MapPermissions(IEnumerable<Permission> permissions)
-    //{
-    //    return permissions.Select(x => new PermissionDto(x.Code, x.Name)).ToList();
-    //}
+    private static List<PermissionDto> MapPermissions(IEnumerable<Permission> permissions)
+    {
+        return permissions.Select(x => new PermissionDto(x.Code, x.Name)).ToList();
+    }
 }

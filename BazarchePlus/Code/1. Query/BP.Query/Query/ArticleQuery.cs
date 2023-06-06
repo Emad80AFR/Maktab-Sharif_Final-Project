@@ -1,5 +1,7 @@
 ﻿using BM._Infrastructure.EFCore;
 using BP._Query.Contracts.Article;
+using BP._Query.Contracts.Comment;
+using CM._Infrastructure.EFCore;
 using FrameWork.Application;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -10,11 +12,13 @@ public class ArticleQuery:IArticleQuery
 {
     private readonly ILogger<ArticleQuery> _logger;
     private readonly BlogContext _blogContext;
+    private readonly CommentContext _commentContext;
 
-    public ArticleQuery(ILogger<ArticleQuery> logger, BlogContext blogContext)
+    public ArticleQuery(ILogger<ArticleQuery> logger, BlogContext blogContext, CommentContext commentContext)
     {
         _logger = logger;
         _blogContext = blogContext;
+        _commentContext = commentContext;
     }
 
     public async Task<List<ArticleQueryModel>> LatestArticles(CancellationToken cancellationToken)
@@ -81,29 +85,29 @@ public class ArticleQuery:IArticleQuery
             if (article != null && !string.IsNullOrWhiteSpace(article.Keywords))
                 article.KeywordList = article.Keywords.Split(",").ToList();
 
-            //var comments = await _commentContext.Comments
-            //    .Where(x => !x.IsCanceled)
-            //    .Where(x => x.IsConfirmed)
-            //    .Where(x => x.Type == CommentType.Article)
-            //    .Where(x => x.OwnerRecordId == article.Id)
-            //    .Select(x => new CommentQueryModel
-            //    {
-            //        Id = x.Id,
-            //        Message = x.Message,
-            //        Name = x.Name,
-            //        ParentId = x.ParentId,
-            //        CreationDate = x.CreationDate.ToFarsi()
-            //    })
-            //    .OrderByDescending(x => x.Id)
-            //    .ToListAsync(cancellationToken);
+            var comments = await _commentContext.Comments
+                .Where(x => !x.IsCanceled)
+                .Where(x => x.IsConfirmed)
+                .Where(x => x.Type == CommentType.Article)
+                .Where(x => x.OwnerRecordId == article.Id)
+                .Select(x => new CommentQueryModel
+                {
+                    Id = x.Id,
+                    Message = x.Message,
+                    Name = x.Name,
+                    ParentId = x.ParentId,
+                    CreationDate = x.CreationDate.ToFarsi()
+                })
+                .OrderByDescending(x => x.Id)
+                .ToListAsync(cancellationToken);
 
-            //foreach (var comment in comments)
-            //{
-            //    if (comment.ParentId > 0)
-            //        comment.parentName = comments.FirstOrDefault(x => x.Id == comment.ParentId)?.Name;
-            //}
+            foreach (var comment in comments)
+            {
+                if (comment.ParentId > 0)
+                    comment.parentName = comments.FirstOrDefault(x => x.Id == comment.ParentId)?.Name!;
+            }
 
-            //article.Comments = comments;
+            article!.Comments = comments;
 
             _logger.LogInformation("GetArticleDetails method executed successfully.");
 

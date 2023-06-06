@@ -12,7 +12,7 @@ namespace CM._Infrastructure.Configuration
     {
         public static void Configure(IServiceCollection services, string? connectionString)
         {
-            services.AddDbContext<CommentContext>(x => x.UseSqlServer(connectionString));
+            services.AddDbContext<CommentContext>(x => x.UseSqlServer(connectionString ));
 
             services.AddScoped<ICommentApplication, CommentApplication>();
             services.AddScoped<ICommentRepository, CommentRepository>();

@@ -42,8 +42,7 @@ namespace WebHost.Pages
         }
 
         public async Task<IActionResult> OnPostRegister(RegisterAccount command,CancellationToken cancellationToken)
-        {
-            var result = await _accountApplication.Register(command,cancellationToken);
+        { var result = await _accountApplication.Register(command,cancellationToken);
             if (result.IsSucceeded)
                 return RedirectToPage("/Account");
             RegisterMessage = result.Message;

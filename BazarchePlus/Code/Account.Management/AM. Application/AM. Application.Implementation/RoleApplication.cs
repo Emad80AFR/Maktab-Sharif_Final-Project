@@ -29,7 +29,7 @@ public class RoleApplication:IRoleApplication
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
             }
 
-            var role = new Role(command.Name);
+            var role = new Role(command.Name,new List<Permission>());
             await _roleRepository.Create(role, cancellationToken);
             await _roleRepository.SaveChanges(cancellationToken);
 
@@ -64,7 +64,8 @@ public class RoleApplication:IRoleApplication
             var permissions = new List<Permission>();
             command.Permissions.ForEach(code => permissions.Add(new Permission(code)));
 
-            role.Edit(command.Name);
+
+            role.Edit(command.Name,permissions);
             await _roleRepository.SaveChanges(cancellationToken);
 
             _logger.LogInformation("Role updated successfully.");

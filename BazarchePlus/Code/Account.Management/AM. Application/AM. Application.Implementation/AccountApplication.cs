@@ -103,7 +103,7 @@ namespace AM._Application.Implementation
                     return operation.Failed(ApplicationMessages.DuplicatedRecord);
                 }
 
-                var path = $"profilePhotos";
+                var path = "profilePhotos";
                 var picturePath = await _fileUploader.Upload(command.ProfilePhoto, path, cancellationToken);
                 account.Edit(command.Fullname, command.Username, command.Mobile, command.RoleId, picturePath);
                 await _accountRepository.SaveChanges(cancellationToken);
@@ -132,8 +132,7 @@ namespace AM._Application.Implementation
 
                 if (command.Password != command.RePassword)
                 {
-                    _logger.LogWarning(ApplicationMessages.PasswordsNotMatch);
-                    return operation.Failed(ApplicationMessages.PasswordsNotMatch);
+                    _logger.LogWarning("An error occurred,password Not Match");
                 }
 
                 var password = _passwordHasher.Hash(command.Password);
@@ -158,21 +157,24 @@ namespace AM._Application.Implementation
                 var account = await _accountRepository.GetBy(command.Username, cancellationToken);
                 if (account == null)
                 {
-                    _logger.LogWarning(ApplicationMessages.WrongUserPass);
+                    _logger.LogWarning("An error occurred ; password or username is wrong!");
                     return operation.Failed(ApplicationMessages.WrongUserPass);
                 }
 
                 var result = _passwordHasher.Check(account.Password, command.Password);
                 if (!result.Verified)
                 {
-                    _logger.LogWarning(ApplicationMessages.WrongUserPass);
+                    _logger.LogWarning("An error occurred ; password or username is wrong!");
                     return operation.Failed(ApplicationMessages.WrongUserPass);
                 }
 
-                   
+                var role = await _roleRepository.Get(account.RoleId, cancellationToken);
+                var permissions=role!.Permissions
+                    .Select(x => x.Code)
+                    .ToList();
 
                 var authViewModel = new AuthViewModel(account.Id, account.RoleId, account.Fullname
-                    , account.Username, account.Mobile);
+                    , account.Username, account.Mobile,permissions);
 
                 _authHelper.Signin(authViewModel);
 
@@ -212,7 +214,7 @@ namespace AM._Application.Implementation
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while searching for accounts.");
-                throw; // or handle the error appropriately
+                throw; 
             }
         }
 
@@ -226,7 +228,7 @@ namespace AM._Application.Implementation
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while signing out.");
-                throw; // or handle the error appropriately
+                throw;
             }
 
             return Task.CompletedTask;
@@ -243,7 +245,7 @@ namespace AM._Application.Implementation
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occurred while retrieving accounts.");
-                throw; // or handle the error appropriately
+                throw; 
             }
         }
     }

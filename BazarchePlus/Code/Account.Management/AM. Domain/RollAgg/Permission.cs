@@ -7,7 +7,6 @@
         public string Name { get; private set; }
         public long RoleId { get; private set; }
         public Role Role { get; private set; }
-        public List<int> Permissions { get; set; }
 
         public Permission(int code)
         {

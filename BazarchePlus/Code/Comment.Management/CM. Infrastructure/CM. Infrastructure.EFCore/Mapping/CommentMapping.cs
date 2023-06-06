@@ -21,5 +21,6 @@ public class CommentMapping:IEntityTypeConfiguration<Comment>
             .WithMany(x => x.Comments)
             .HasForeignKey(x => x.ParentId)
             .OnDelete(DeleteBehavior.NoAction);
+        
     }
 }

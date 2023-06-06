@@ -1,5 +1,9 @@
 using BP._Query.Contracts.Article;
 using BP._Query.Contracts.ArticleCategory;
+using CM._Application.Contracts.Comment;
+using CM._Application.Contracts.Comment.DTO_s;
+using CM._Infrastructure.EFCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebHost.Pages
@@ -11,12 +15,12 @@ namespace WebHost.Pages
         public List<ArticleCategoryQueryModel> ArticleCategories;
         private readonly IArticleQuery _articleQuery;
         private readonly IArticleCategoryQuery _articleCategoryQuery;
-        //private readonly ICommentApplication _commentApplication;
+        private readonly ICommentApplication _commentApplication;
 
-        public ArticleModel(IArticleQuery articleQuery, IArticleCategoryQuery articleCategoryQuery/*, ICommentApplication commentApplication*/)
+        public ArticleModel(IArticleQuery articleQuery, IArticleCategoryQuery articleCategoryQuery, ICommentApplication commentApplication)
         {
             _articleQuery = articleQuery;
-            //_commentApplication = commentApplication;
+            _commentApplication = commentApplication;
             _articleCategoryQuery = articleCategoryQuery;
         }
 
@@ -27,11 +31,11 @@ namespace WebHost.Pages
             ArticleCategories = await _articleCategoryQuery.GetArticleCategories(cancellationToken);
         }
 
-        //public IActionResult OnPost(AddComment command, string articleSlug)
-        //{
-        //    command.Type = CommentType.Article;
-        //    var result = _commentApplication.Add(command);
-        //    return RedirectToPage("/Article", new { Id = articleSlug });
-        //}
+        public async Task<IActionResult> OnPost(AddComment command, string articleSlug,CancellationToken cancellationToken)
+        {
+            command.Type = CommentType.Article;
+            var result = await _commentApplication.Add(command,cancellationToken);
+            return RedirectToPage("/Article", new { Id = articleSlug });
+        }
     }
 }

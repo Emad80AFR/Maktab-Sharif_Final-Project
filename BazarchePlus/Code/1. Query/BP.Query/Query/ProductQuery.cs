@@ -1,4 +1,6 @@
-﻿using BP._Query.Contracts.Product;
+﻿using BP._Query.Contracts.Comment;
+using BP._Query.Contracts.Product;
+using CM._Infrastructure.EFCore;
 using DM._Infrastructure.EFCore;
 using FrameWork.Application;
 using IM._Infrastructure.EFCore;
@@ -15,16 +17,16 @@ namespace BP._Query.Query
         private readonly ShopContext _context;
         private readonly InventoryContext _inventoryContext;
         private readonly DiscountContext _discountContext;
-        //private readonly CommentContext _commentContext;
+        private readonly CommentContext _commentContext;
 
         public ProductQuery(ShopContext context, InventoryContext inventoryContext,
-            DiscountContext discountContext, ILogger<ProductQuery> logger /*, CommentContext commentContext*/)
+            DiscountContext discountContext, ILogger<ProductQuery> logger, CommentContext commentContext)
         {
             _context = context;
             _discountContext = discountContext;
             _logger = logger;
             _inventoryContext = inventoryContext;
-            //_commentContext = commentContext;
+            _commentContext = commentContext;
         }
 
 
@@ -85,18 +87,18 @@ namespace BP._Query.Query
                     }
                 }
 
-                //product.Comments = await _commentContext.Comments
-                //    .Where(x => !x.IsCanceled)
-                //    .Where(x => x.IsConfirmed)
-                //    .Where(x => x.Type == CommentType.Product)
-                //    .Where(x => x.OwnerRecordId == product.Id)
-                //    .Select(x => new CommentQueryModel
-                //    {
-                //        Id = x.Id,
-                //        Message = x.Message,
-                //        Name = x.Name,
-                //        CreationDate = x.CreationDate.ToFarsi()
-                //    }).OrderByDescending(x => x.Id).ToListAsync(cancellationToken);
+                product.Comments = await _commentContext.Comments
+                    .Where(x => !x.IsCanceled)
+                    .Where(x => x.IsConfirmed)
+                    .Where(x => x.Type == CommentType.Product)
+                    .Where(x => x.OwnerRecordId == product.Id)
+                    .Select(x => new CommentQueryModel
+                    {
+                        Id = x.Id,
+                        Message = x.Message,
+                        Name = x.Name,
+                        CreationDate = x.CreationDate.ToFarsi()
+                    }).OrderByDescending(x => x.Id).ToListAsync(cancellationToken);
 
                 _logger.LogInformation("GetProductDetails method executed successfully.");
 

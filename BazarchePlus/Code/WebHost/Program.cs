@@ -10,6 +10,7 @@ using SM._Infrastructure.Configuration;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using CM._Infrastructure.Configuration;
+using FrameWork.Infrastructure;
 
 namespace WebHost
 {
@@ -48,6 +49,30 @@ namespace WebHost
                     o.LoginPath = new PathString("/Account");
                     o.LogoutPath = new PathString("/Account");
                     o.AccessDeniedPath = new PathString("/AccessDenied");
+                });
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminArea",
+                    builder => builder.RequireRole(new List<string> { Roles.Administrator, Roles.Seller }));
+
+                options.AddPolicy("Shop",
+                    builder => builder.RequireRole(new List<string> { Roles.Administrator }));
+
+                options.AddPolicy("Discount",
+                    builder => builder.RequireRole(new List<string> { Roles.Administrator }));
+
+                options.AddPolicy("Account",
+                    builder => builder.RequireRole(new List<string> { Roles.Administrator }));
+            });
+
+            builder.Services.AddRazorPages()
+                .AddMvcOptions(options => options.Filters.Add<SecurityPageFilter>())
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeAreaFolder("Administration", "/", "AdminArea");
+                    options.Conventions.AuthorizeAreaFolder("Administration", "/Shop", "Shop");
+                    options.Conventions.AuthorizeAreaFolder("Administration", "/Discounts", "Discount");
+                    options.Conventions.AuthorizeAreaFolder("Administration", "/Accounts", "Account");
                 });
 
 

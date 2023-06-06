@@ -1,111 +1,117 @@
-﻿            <div class="side-menu-container">
-                <ul class="metismenu" id="side-menu">
-                    <li>
-                        <a asp-page="/Index">
-                            <i class="icon-home"></i>
-                            <span>پیشخوان</span>
-                        </a>
-                    </li>
-                     <li>
-                    <a href="#" class="dropdown-toggle">
+﻿<div class="side-menu-container">
+    <ul class="metismenu" id="side-menu">
+        <li>
+            <a asp-page="/Index">
+                <i class="icon-home"></i>
+                <span>پیشخوان</span>
+            </a>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-frame"></i>
+                <span>فروشگاه </span>
+            </a>
+            <ul>
+                <li>
+                    <a asp-page="/Shop/ProductCategories/Index" class="waves-effect active">
                         <i class="icon-frame"></i>
-                        <span>فروشگاه </span>
+                        <span>گروه محصولات</span>
                     </a>
-                    <ul>
-                        <li>
-                            <a asp-page="/Shop/ProductCategories/Index" class="">
-                                <i class="icon-frame"></i>
-                                <span>گروه محصولات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-page="/Shop/Products/Index" class="">
-                                <i class="icon-frame"></i>
-                                <span> محصولات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-page="/Shop/ProductPictures/Index" class="">
-                                <i class="icon-frame"></i>
-                                <span>عکس محصولات</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a asp-page="/Shop/Slides/Index" class="">
-                                <i class="icon-frame"></i>
-                                <span>اسلایدر</span>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-                    <li>
-                        <a href="#" class="dropdown-toggle">
-                            <i class="icon-frame"></i>
-                            <span>سیستم تخفیفات </span>
-                        </a>
-                        <ul>
-                            <li>
-                                <a asp-page="/Discounts/CustomerDiscounts/Index" class="">
-                                    <i class="icon-frame"></i>
-                                    <span>تخفیف مشتری</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a asp-page="/Discounts/ColleagueDiscounts/Index" class="">
-                                    <i class="icon-frame"></i>
-                                    <span> تخفیف همکاری</span>
-                                </a>
-                            </li>
-                       
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#" class="dropdown-toggle">
-                            <i class="icon-frame"></i>
-                            <span>سیستم مدیریت کاربران </span>
-                        </a>
-                        <ul>
-                            <li>
-                    <a asp-page="/Accounts/Account/Index" class="">
-                                    <i class="icon-frame"></i>
-                                    <span>مدیریت کاربران</span>
-                                </a>
-                            </li>
-                            <li>
-                    <a asp-page="/Accounts/Role/Index" class="">
-                                    <i class="icon-frame"></i>
-                                    <span> مدیریت نقش ها</span>
-                                </a>
-                            </li>
-                       
-                        </ul>
-                    </li>
-                    <li>
-                        <a asp-page="/Inventory/Index" class=""><i class="icon-frame"></i><span> انبارداری </span></a>
-                    </li>
-                    <li>
-                        <a href="#" class="dropdown-toggle">
-                            <i class="icon-frame"></i>
-                            <span>سیستم مقالات </span>
-                        </a>
-                        <ul>
-                            <li>
-                    <a asp-page="/Blog/ArticleCategories/Index" class="">
-                                    <i class="icon-frame"></i>
-                                    <span>گروه مقالات</span>
-                                </a>
-                            </li>
-                            <li>
-                    <a asp-page="/Blog/Articles/Index" class="">
-                                    <i class="icon-frame"></i>
-                                    <span> مقالات</span>
-                                </a>
-                            </li>
-                       
-                        </ul>
-                    </li>
-                    
+                <li>
+                    <a asp-page="/Shop/Products/Index" class="waves-effect active">
+                        <i class="icon-frame"></i>
+                        <span> محصولات</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Shop/ProductPictures/Index" class="waves-effect active">
+                        <i class="icon-frame"></i>
+                        <span>عکس محصولات</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Shop/Slides/Index" class="waves-effect active">
+                        <i class="icon-frame"></i>
+                        <span>اسلایدر</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-frame"></i>
+                <span>سیستم تخفیفات </span>
+            </a>
+            <ul>
+                <li>
+                    <a asp-page="/Discounts/CustomerDiscounts/Index" class="waves-effect active">
+                        <i class="icon-frame"></i>
+                        <span>تخفیف مشتری</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Discounts/ColleagueDiscounts/Index" class="waves-effect active">
+                        <i class="icon-frame"></i>
+                        <span> تخفیف همکاری</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-frame"></i>
+                <span>سیستم مدیریت کاربران </span>
+            </a>
+            <ul>
+                <li>
+                    <a asp-page="/Accounts/Account/Index" class="waves-effect active">
+                        <i class="icon-frame"></i>
+                        <span>مدیریت کاربران</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Accounts/Role/Index" class="waves-effect active">
+                        <i class="icon-frame"></i>
+                        <span> مدیریت نقش ها</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <li>
+            <a asp-page="/Inventory/Index" class="waves-effect active"><i class="icon-frame"></i><span> انبارداری </span></a>
+        </li>
+        <li>
+            <a asp-page="/Comments/Index" class="waves-effect active"><i class="icon-frame"></i><span> مدیریت کامنت ها </span></a>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-frame"></i>
+                <span>سیستم مقالات </span>
+            </a>
+            <ul>
+                <li>
+                    <a asp-page="/Blog/ArticleCategories/Index" class="waves-effect active">
+                        <i class="icon-frame"></i>
+                        <span>گروه مقالات</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Blog/Articles/Index" class="waves-effect active">
+                        <i class="icon-frame"></i>
+                        <span> مقالات</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+        <li>
+            <a asp-page="/Account" asp-page-handler="Logout" class="waves-effect active"><i class="icon-frame"></i><span> خروج </span></a>
+        </li>
 
 
-                </ul><!-- /#side-menu -->
-            </div><!-- /.side-menu-container -->
+
+    </ul>
+</div>
