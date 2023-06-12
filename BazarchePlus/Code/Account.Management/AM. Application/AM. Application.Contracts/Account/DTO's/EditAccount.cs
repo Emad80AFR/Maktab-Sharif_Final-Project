@@ -3,5 +3,6 @@
 public class EditAccount : RegisterAccount
 {
     public long Id { get; set; }
+    public string ProfilePictureName  { get; set; }
 
 }

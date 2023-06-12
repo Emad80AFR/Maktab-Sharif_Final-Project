@@ -9,7 +9,6 @@ namespace WebHost.Pages
     {
         [TempData]
         public string LoginMessage { get; set; }
-
         [TempData]
         public string RegisterMessage { get; set; }
 

@@ -1,8 +1,10 @@
 ﻿using CM._Application.Contracts.Comment;
 using CM._Application.Implementation;
 using CM._Domain.CommentAgg;
+using CM._Infrastructure.Configuration.Permissions;
 using CM._Infrastructure.EFCore;
 using CM._Infrastructure.EFCore.Repository;
+using FrameWork.Infrastructure.Permission;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -16,6 +18,8 @@ namespace CM._Infrastructure.Configuration
 
             services.AddScoped<ICommentApplication, CommentApplication>();
             services.AddScoped<ICommentRepository, CommentRepository>();
+
+            services.AddScoped<IPermissionExposer, CommentPermissionExposer>();
         }
     }
 }

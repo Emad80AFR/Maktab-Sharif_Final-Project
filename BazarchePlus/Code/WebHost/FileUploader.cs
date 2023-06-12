@@ -1,5 +1,5 @@
 ﻿using FrameWork.Application;
-using FrameWork.Application.FileOpload;
+using FrameWork.Application.FileUpload;
 
 namespace WebHost
 {

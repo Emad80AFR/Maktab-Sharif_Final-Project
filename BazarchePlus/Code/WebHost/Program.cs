@@ -1,15 +1,15 @@
 using AM._Infrastructure.Configuration;
 using BM._Infrastructure.Configuration;
-using DM.Infrastructure.Configuration;
 using FrameWork.Application.Authentication;
 using FrameWork.Application.Authentication.PasswordHashing;
-using FrameWork.Application.FileOpload;
 using IM._Infrastructure.Configuration;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SM._Infrastructure.Configuration;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using CM._Infrastructure.Configuration;
+using DM._Infrastructure.Configuration;
+using FrameWork.Application.FileUpload;
 using FrameWork.Infrastructure;
 
 namespace WebHost
@@ -20,7 +20,6 @@ namespace WebHost
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddHttpContextAccessor();
-            builder.Services.AddRazorPages();
 
             var connectionString = builder.Configuration.GetConnectionString("BazarchePlusDb");
 
@@ -55,14 +54,15 @@ namespace WebHost
                 options.AddPolicy("AdminArea",
                     builder => builder.RequireRole(new List<string> { Roles.Administrator, Roles.Seller }));
 
-                options.AddPolicy("Shop",
-                    builder => builder.RequireRole(new List<string> { Roles.Administrator }));
-
                 options.AddPolicy("Discount",
-                    builder => builder.RequireRole(new List<string> { Roles.Administrator }));
+                    builder => builder.RequireRole(new List<string> { Roles.Seller }));
 
                 options.AddPolicy("Account",
                     builder => builder.RequireRole(new List<string> { Roles.Administrator }));
+
+                options.AddPolicy("Comment",
+                    builder => builder.RequireRole(new List<string> { Roles.Administrator }));
+
             });
 
             builder.Services.AddRazorPages()
@@ -70,9 +70,9 @@ namespace WebHost
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizeAreaFolder("Administration", "/", "AdminArea");
-                    options.Conventions.AuthorizeAreaFolder("Administration", "/Shop", "Shop");
                     options.Conventions.AuthorizeAreaFolder("Administration", "/Discounts", "Discount");
                     options.Conventions.AuthorizeAreaFolder("Administration", "/Accounts", "Account");
+                    options.Conventions.AuthorizeAreaFolder("Administration", "/Comments", "Comment");
                 });
 
 

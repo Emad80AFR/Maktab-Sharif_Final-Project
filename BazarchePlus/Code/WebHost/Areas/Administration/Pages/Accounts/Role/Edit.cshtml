@@ -1,6 +1,21 @@
 ﻿@page
 @model WebHost.Areas.Administration.Pages.Accounts.Role.EditModel
 
+<!-- BEGIN BREADCRUMB -->
+<div class="col-md-12">
+    <div class="breadcrumb-box border shadow">
+        <ul class="breadcrumb">
+            <li><a href="dashboard.html">پیشخوان</a></li>
+            <li><a href="#">صفحات</a></li>
+            <li class="active">صفحه خام</li>
+        </ul>
+        <div class="breadcrumb-left">
+            سه شنبه، 1401/09/15
+            <i class="icon-calendar"></i>
+        </div><!-- /.breadcrumb-left -->
+    </div><!-- /.breadcrumb-box -->
+</div><!-- /.col-md-12 -->
+<!-- END BREADCRUMB -->
 <div class="row">
     <div class="col-md-12">
         <div class="panel panel-default">
@@ -12,14 +27,14 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <form method="post">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <div class="form-group">
                                         <label asp-for="Command.Name" class="control-label">نام</label>
                                         <input type="text" class="form-control" asp-for="Command.Name">
                                         <span asp-validation-for="Command.Name" class="error"></span>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-9">
                                     <label class="control-label col-md-3">انتخاب دسترسی ها</label>
                                     <div class="col-md-12">
                                         <select asp-for="Command.Permissions" asp-items="Model.Permissions" class="multi-select" multiple="multiple" id="my_multi_select3">
@@ -29,8 +44,11 @@
                                     <input type="hidden" asp-for="Command.Id" value="@Model.Command.Id"/>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-info waves-effect waves-light">ویرایش</button>
-                            <a asp-page="./Index" class="btn btn-dark waves-effect waves-light m-b-5">بازگشت</a>
+                            <div class="col-md-12">
+                                <button type="submit" class="btn btn-info  waves-effect waves-light">ویرایش</button>
+                                <a asp-page="./Index" class="btn btn-dark  waves-effect waves-light m-b-5">بازگشت</a>
+                            </div>
+                            
                         </form>
                     </div>
                 </div>

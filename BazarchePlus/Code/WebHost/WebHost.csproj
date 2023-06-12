@@ -32,6 +32,7 @@
     <Folder Include="wwwroot\Admin-Theme\assets\plugins\noty\js\noty\themes\" />
     <Folder Include="wwwroot\Admin-Theme\assets\plugins\paper-ripple\dist\systemjs\" />
     <Folder Include="wwwroot\ProductPictures\" />
+    <Folder Include="wwwroot\ProductPictures\profilePhotos\" />
   </ItemGroup>
 
 </Project>

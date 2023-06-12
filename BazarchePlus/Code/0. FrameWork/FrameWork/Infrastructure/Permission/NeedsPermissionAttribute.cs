@@ -1,4 +1,4 @@
-﻿namespace FrameWork.Infrastructure
+﻿namespace FrameWork.Infrastructure.Permission
 {
     public class NeedsPermissionAttribute : Attribute
     {

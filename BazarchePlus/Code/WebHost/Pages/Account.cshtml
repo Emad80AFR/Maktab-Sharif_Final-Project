@@ -31,10 +31,11 @@
                     <div class="page-content-wrapper">
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6">
-                                @if (Model.LoginMessage != null)
+                                @if (!string.IsNullOrWhiteSpace(Model.LoginMessage))
                                 {
                                     <div class="alert alert-danger">@Model.LoginMessage</div>
                                 }
+                                
                                 <form method="post" asp-page-handler="Login">
                                     <div class="login-form">
                                         <h4 class="login-title">ورود</h4>
@@ -62,7 +63,7 @@
                                 </form>
                             </div>
                             <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
-                                @if (Model.RegisterMessage != null)
+                                @if (!string.IsNullOrWhiteSpace(Model.RegisterMessage))
                                 {
                                     <div class="alert alert-danger">@Model.RegisterMessage</div>
                                 }

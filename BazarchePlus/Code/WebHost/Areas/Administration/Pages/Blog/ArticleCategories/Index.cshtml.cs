@@ -1,5 +1,7 @@
 using BM._Application.Contracts.ArticleCategory;
 using BM._Application.Contracts.ArticleCategory.DTO_s;
+using BM._Infrastructure.Configuration.Permissions;
+using FrameWork.Infrastructure.Permission;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -17,11 +19,13 @@ namespace WebHost.Areas.Administration.Pages.Blog.ArticleCategories
             _articleCategoryApplication = articleCategoryApplication;
         }
 
+        [NeedsPermission(BlogPermissions.ListArticleCategory)]
         public async Task OnGet(ArticleCategorySearchModel searchModel,CancellationToken cancellationToken)
         {
             ArticleCategories = await _articleCategoryApplication.Search(searchModel,cancellationToken);
         }
 
+        [NeedsPermission(BlogPermissions.CreateArticleCategory)]
         public IActionResult OnGetCreate()
         {
             return Partial("./Create", new CreateArticleCategory());
@@ -33,6 +37,7 @@ namespace WebHost.Areas.Administration.Pages.Blog.ArticleCategories
             return new JsonResult(result);
         }
 
+        [NeedsPermission(BlogPermissions.EditArticleCategory)]
         public async Task<IActionResult> OnGetEdit(long id,CancellationToken cancellationToken)
         {
             var productCategory = await _articleCategoryApplication.GetDetails(id,cancellationToken);

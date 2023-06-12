@@ -1,4 +1,4 @@
-﻿namespace FrameWork.Application.Authentication
+﻿  namespace FrameWork.Application.Authentication
 {
     public class AuthViewModel
     {
@@ -9,11 +9,12 @@
         public string Username { get; set; }
         public string Mobile { get; set; }
         public List<int> Permissions { get; set; }
+        public string ProfilePicture { get; set; }
         public AuthViewModel()
         {
         }
 
-        public AuthViewModel(long id, long roleId, string fullname, string username, string mobile, List<int> permissions)
+        public AuthViewModel(long id, long roleId, string fullname, string username, string mobile, string profilePicture, List<int> permissions)
         {
             Id = id;
             RoleId = roleId;
@@ -21,6 +22,7 @@
             Username = username;
             Mobile = mobile;
             Permissions = permissions;
+            ProfilePicture = profilePicture;
         }
     }
 }

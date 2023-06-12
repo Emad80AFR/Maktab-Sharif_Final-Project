@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using FrameWork.Application.Authentication;
-using FrameWork.Infrastructure;
+using FrameWork.Infrastructure.Permission;
 using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace WebHost

@@ -1,10 +1,60 @@
-﻿<div class="side-menu-container">
+﻿@using FrameWork.Application.Authentication
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IAuthHelper AuthHelper;
+@{
+    var currentAccount = AuthHelper.CurrentAccountInfo();
+}
+<div class="sidebar-top">
+    <div class="search-box">
+        <form class="search-form" action="#" method="GET">
+            <div class="input-group">
+                <input type="text" class="form-control placeholder-light" placeholder="جستجو..." name="key">
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-round submit">
+                        <i class="icon-magnifier"></i>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="user-box">
+        <a href="#">
+            <img src="~/ProductPictures/@currentAccount.ProfilePicture" alt="عکس پروفایل" class="img-circle img-responsive">
+        </a>
+        <div class="user-details">
+            <h4>@currentAccount.Fullname</h4>
+            <p class="role">@currentAccount.Role</p>
+        </div>
+    </div>
+</div>
+<div class="side-menu-container">
     <ul class="metismenu" id="side-menu">
         <li>
             <a asp-page="/Index">
                 <i class="icon-home"></i>
                 <span>پیشخوان</span>
             </a>
+        </li>
+        <li>
+            <a href="#" class="dropdown-toggle">
+                <i class="icon-frame"></i>
+                <span>سیستم مدیریت کاربران </span>
+            </a>
+            <ul>
+                <li>
+                    <a asp-page="/Accounts/Account/Index" class="waves-effect active">
+                        <i class="icon-frame"></i>
+                        <span>مدیریت کاربران</span>
+                    </a>
+                </li>
+                <li>
+                    <a asp-page="/Accounts/Role/Index" class="waves-effect active">
+                        <i class="icon-frame"></i>
+                        <span> مدیریت نقش ها</span>
+                    </a>
+                </li>
+
+            </ul>
         </li>
         <li>
             <a href="#" class="dropdown-toggle">
@@ -62,33 +112,6 @@
         <li>
             <a href="#" class="dropdown-toggle">
                 <i class="icon-frame"></i>
-                <span>سیستم مدیریت کاربران </span>
-            </a>
-            <ul>
-                <li>
-                    <a asp-page="/Accounts/Account/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
-                        <span>مدیریت کاربران</span>
-                    </a>
-                </li>
-                <li>
-                    <a asp-page="/Accounts/Role/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
-                        <span> مدیریت نقش ها</span>
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-        <li>
-            <a asp-page="/Inventory/Index" class="waves-effect active"><i class="icon-frame"></i><span> انبارداری </span></a>
-        </li>
-        <li>
-            <a asp-page="/Comments/Index" class="waves-effect active"><i class="icon-frame"></i><span> مدیریت کامنت ها </span></a>
-        </li>
-        <li>
-            <a href="#" class="dropdown-toggle">
-                <i class="icon-frame"></i>
                 <span>سیستم مقالات </span>
             </a>
             <ul>
@@ -107,6 +130,13 @@
 
             </ul>
         </li>
+        <li>
+            <a asp-page="/Inventory/Index" class="waves-effect active"><i class="icon-frame"></i><span> انبارداری </span></a>
+        </li>
+        <li>
+            <a asp-page="/Comments/Index" class="waves-effect active"><i class="icon-frame"></i><span> مدیریت کامنت ها </span></a>
+        </li>
+       
         <li>
             <a asp-page="/Account" asp-page-handler="Logout" class="waves-effect active"><i class="icon-frame"></i><span> خروج </span></a>
         </li>

@@ -1,5 +1,7 @@
+using DM._Infrastructure.Configuration.Permissions;
 using DM.Application.Contracts.CustomerDiscount;
 using DM.Application.Contracts.CustomerDiscount.DTO_s;
+using FrameWork.Infrastructure.Permission;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,12 +27,14 @@ namespace WebHost.Areas.Administration.Pages.Discounts.CustomerDiscounts
             _customerDiscountApplication = customerDiscountApplication;
         }
 
+        [NeedsPermission(DiscountsPermissions.ListCustomerDiscounts)]
         public async Task OnGet(CustomerDiscountSearchModel searchModel,CancellationToken cancellationToken)
         {
             Products = new SelectList(await _productApplication.GetProducts(cancellationToken), "Id", "Name");
             CustomerDiscounts = await _customerDiscountApplication.Search(searchModel,cancellationToken);
         }
 
+        [NeedsPermission(DiscountsPermissions.DefineCustomerDiscounts)]
         public async Task<IActionResult> OnGetCreate(CancellationToken cancellationToken)
         {
             var command = new DefineCustomerDiscount
@@ -46,6 +50,7 @@ namespace WebHost.Areas.Administration.Pages.Discounts.CustomerDiscounts
             return new JsonResult(result);
         }
 
+        [NeedsPermission(DiscountsPermissions.EditCustomerDiscount)]
         public async Task<IActionResult> OnGetEdit(long id,CancellationToken cancellationToken)
         {
             var customerDiscount = await _customerDiscountApplication.GetDetails(id,cancellationToken);

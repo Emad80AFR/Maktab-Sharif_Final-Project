@@ -1,6 +1,8 @@
 using BM._Application.Contracts.Article;
 using BM._Application.Contracts.Article.DTO_s;
 using BM._Application.Contracts.ArticleCategory;
+using BM._Infrastructure.Configuration.Permissions;
+using FrameWork.Infrastructure.Permission;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -21,6 +23,7 @@ namespace WebHost.Areas.Administration.Pages.Blog.Articles
             _articleCategoryApplication = articleCategoryApplication;
         }
 
+        [NeedsPermission(BlogPermissions.ListArticle)]
         public async Task OnGet(ArticleSearchModel searchModel,CancellationToken cancellationToken)
         {
             ArticleCategories = new SelectList(await _articleCategoryApplication.GetArticleCategories(cancellationToken), "Id", "Name");

@@ -1,5 +1,8 @@
+using FrameWork.Infrastructure;
+using FrameWork.Infrastructure.Permission;
 using IM._Application.Contracts.Inventory;
 using IM._Application.Contracts.Inventory.DTO_s;
+using IM._Infrastructure.Configuration.Permissions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -25,14 +28,14 @@ namespace WebHost.Areas.Administration.Pages.Inventory
             _inventoryApplication = inventoryApplication;
         }
 
-        //[NeedsPermission(InventoryPermissions.ListInventory)]
+        [NeedsPermission(InventoryPermissions.ListInventory)]
         public async Task OnGet(InventorySearchModel searchModel,CancellationToken cancellationToken)
         {
             Products = new SelectList(await _productApplication.GetProducts(cancellationToken), "Id", "Name");
             Inventory = await _inventoryApplication.Search(searchModel,cancellationToken);
         }
 
-        //[NeedsPermission(InventoryPermissions.CreateInventory)]
+        [NeedsPermission(InventoryPermissions.CreateInventory)]
         public async Task<IActionResult> OnGetCreate(CancellationToken cancellationToken)
         {
             var command = new CreateInventory
@@ -42,13 +45,14 @@ namespace WebHost.Areas.Administration.Pages.Inventory
             return Partial("./Create", command);
         }
 
-        //[NeedsPermission(InventoryPermissions.CreateInventory)]
+        [NeedsPermission(InventoryPermissions.CreateInventory)]
         public async Task<JsonResult> OnPostCreate(CreateInventory command,CancellationToken cancellationToken)
         {
             var result = await _inventoryApplication.Create(command,cancellationToken);
             return new JsonResult(result);
         }
 
+        [NeedsPermission(InventoryPermissions.EditInventory)]
         public async Task<IActionResult> OnGetEdit(long id,CancellationToken cancellationToken)
         {
             var inventory = await _inventoryApplication.GetDetails(id,cancellationToken);
@@ -56,13 +60,14 @@ namespace WebHost.Areas.Administration.Pages.Inventory
             return Partial("Edit", inventory);
         }
 
-        //[NeedsPermission(InventoryPermissions.EditInventory)]
+        [NeedsPermission(InventoryPermissions.EditInventory)]
         public async Task<JsonResult> OnPostEdit(EditInventory command,CancellationToken cancellationToken)
         {
             var result =await _inventoryApplication.Edit(command,cancellationToken);
             return new JsonResult(result);
         }
 
+        [NeedsPermission(InventoryPermissions.Increase)]
         public IActionResult OnGetIncrease(long id)
         {
             var command = new IncreaseInventory()
@@ -72,13 +77,14 @@ namespace WebHost.Areas.Administration.Pages.Inventory
             return Partial("Increase", command);
         }
 
-        //[NeedsPermission(InventoryPermissions.Increase)]
+        [NeedsPermission(InventoryPermissions.Increase)]
         public async Task<JsonResult> OnPostIncrease(IncreaseInventory command,CancellationToken cancellationToken)
         {
             var result = await _inventoryApplication.Increase(command ,cancellationToken);
             return new JsonResult(result);
         }
 
+        [NeedsPermission(InventoryPermissions.Reduce)]
         public IActionResult OnGetReduce(long id)
         {
             var command = new ReduceInventory()
@@ -88,14 +94,14 @@ namespace WebHost.Areas.Administration.Pages.Inventory
             return Partial("Reduce", command);
         }
 
-        //[NeedsPermission(InventoryPermissions.Reduce)]
+        [NeedsPermission(InventoryPermissions.Reduce)]
         public async Task<JsonResult> OnPostReduce(ReduceInventory command,CancellationToken cancellationToken)
         {
             var result = await _inventoryApplication.Reduce(command,cancellationToken);
             return new JsonResult(result);
         }
 
-        //[NeedsPermission(InventoryPermissions.OperationLog)]
+        [NeedsPermission(InventoryPermissions.OperationLog)]
         public async Task<IActionResult> OnGetLog(long id,CancellationToken cancellationToken)
         {
             var log = await _inventoryApplication.GetOperationLog(id,cancellationToken);

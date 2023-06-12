@@ -1,6 +1,8 @@
-﻿using IM._Application.Contracts.Inventory;
+﻿using FrameWork.Infrastructure.Permission;
+using IM._Application.Contracts.Inventory;
 using IM._Application.Implementation;
 using IM._Domain.InventoryAgg;
+using IM._Infrastructure.Configuration.Permissions;
 using IM._Infrastructure.EFCore;
 using IM._Infrastructure.EFCore.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,8 @@ namespace IM._Infrastructure.Configuration
 
             services.AddScoped<IInventoryApplication, InventoryApplication>();
             services.AddScoped<IInventoryRepository, InventoryRepository>();
+
+            services.AddScoped<IPermissionExposer, InventoryPermissionExposer>();
         }
 
     }

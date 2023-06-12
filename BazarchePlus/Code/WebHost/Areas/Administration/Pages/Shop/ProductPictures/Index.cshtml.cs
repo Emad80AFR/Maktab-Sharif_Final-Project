@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SM._Application.Contracts.Product;
 using SM._Application.Contracts.ProductPicture;
 using SM._Application.Contracts.ProductPicture.DTO_s;
-using System.Threading;
+using FrameWork.Infrastructure.Permission;
+using SM._Infrastructure.Configuration.Permissions;
 
 namespace WebHost.Areas.Administration.Pages.Shop.ProductPictures
 {
@@ -24,12 +25,14 @@ namespace WebHost.Areas.Administration.Pages.Shop.ProductPictures
             _productPictureApplication = productPictureApplication;
         }
 
+        [NeedsPermission(ShopPermissions.ListProductPictures)]
         public async Task OnGet(ProductPictureSearchModel searchModel,CancellationToken cancellationToken)
         {
             Products = new SelectList( await _productApplication.GetProducts(cancellationToken), "Id", "Name");
             ProductPictures = await _productPictureApplication.Search(searchModel, cancellationToken);
         }
 
+        [NeedsPermission(ShopPermissions.CreateProductPicture)]
         public async Task<IActionResult> OnGetCreate(CancellationToken cancellationToken)
         {
             var command = new CreateProductPicture
@@ -45,6 +48,7 @@ namespace WebHost.Areas.Administration.Pages.Shop.ProductPictures
             return new JsonResult(result);
         }
 
+        [NeedsPermission(ShopPermissions.EditProductPicture)]
         public async Task<IActionResult> OnGetEdit(long id,CancellationToken cancellationToken)
         {
             var productPicture =await _productPictureApplication.GetDetails(id, cancellationToken);
@@ -58,6 +62,7 @@ namespace WebHost.Areas.Administration.Pages.Shop.ProductPictures
             return new JsonResult(result);
         }
 
+        [NeedsPermission(ShopPermissions.DeleteProductPicture)]
         public async Task<IActionResult> OnGetRemove(long id,CancellationToken cancellationToken)
         {
             var result = await _productPictureApplication.Remove(id, cancellationToken);
@@ -68,6 +73,7 @@ namespace WebHost.Areas.Administration.Pages.Shop.ProductPictures
             return RedirectToPage("./Index");
         }
 
+        [NeedsPermission(ShopPermissions.RestoreProductPicture)]
         public async Task<IActionResult> OnGetRestore(long id,CancellationToken cancellationToken)
         {
             var result = await _productPictureApplication.Restore(id, cancellationToken);

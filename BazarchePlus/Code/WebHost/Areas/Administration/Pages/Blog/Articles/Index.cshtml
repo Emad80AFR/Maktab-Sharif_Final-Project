@@ -1,20 +1,35 @@
 ﻿@page
+@using FrameWork.Application
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using BM._Infrastructure.Configuration.Permissions
 @model WebHost.Areas.Administration.Pages.Blog.Articles.IndexModel
 @{
     Layout = "Shared/_AdminLayout";
     ViewData["title"] = "مدیریت مقالات";
 }
 
-<div class="row">
-    <div class="col-sm-12">
-        <h4 class="page-title pull-right">@ViewData["title"]</h4>
-        <p class="pull-left">
-            <a class="btn btn-success btn-lg" asp-page="./Create">ایجاد مقاله جدید</a>
-        </p>
+<div class="col-md-12">
+    <div class="breadcrumb-box border shadow">
+        <ul class="breadcrumb">
+            <li><a asp-page="/Index">پیشخوان</a></li>
+            <li><a href="#">مقالات</a></li>
+        </ul>
+        <div class="breadcrumb-left">
+            @DateTime.Now.ToFarsi()
+            <i class="icon-calendar"></i>
+        </div>
     </div>
 </div>
 
 <div class="row">
+    <div class="col-sm-12">
+        <p class="pull-Right" permission="BlogPermissions.CreateArticle">
+            <a class="btn btn-success btn-lg mb-2" asp-page="./Create">ایجاد مقاله جدید</a>
+        </p>
+    </div>
+</div>
+
+<div class="row" permission="BlogPermissions.SearchArticle">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -40,7 +55,7 @@
     </div>
 </div>
 
-<div class="row" id="ProductCategoriesDiv">
+<div class="row" id="ProductCategoriesDiv" permission="BlogPermissions.ListArticle">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -74,7 +89,7 @@
                                         <td>@item.ShortDescription</td>
                                         <td>@item.PublishDate</td>
                                         <td>
-                                            <a class="btn btn-warning pull-right m-rl-5" asp-page="./Edit" asp-route-id="@item.Id">
+                                            <a permission="BlogPermissions.EditArticle" class="btn btn-warning pull-right m-rl-5" asp-page="./Edit" asp-route-id="@item.Id">
                                                 <i class="fa fa-edit"></i> ویرایش
                                             </a>
                                         </td>

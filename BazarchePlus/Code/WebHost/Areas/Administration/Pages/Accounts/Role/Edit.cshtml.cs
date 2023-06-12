@@ -1,6 +1,6 @@
 using AM._Application.Contracts.Role;
 using AM._Application.Contracts.Role.DTO_s;
-using FrameWork.Infrastructure;
+using FrameWork.Infrastructure.Permission;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,7 +10,7 @@ namespace WebHost.Areas.Administration.Pages.Accounts.Role
     public class EditModel : PageModel
     {
         public EditRole Command;
-        public List<SelectListItem> Permissions = new List<SelectListItem>();
+        public List<SelectListItem> Permissions = new();
         private readonly IRoleApplication _roleApplication;
         private readonly IEnumerable<IPermissionExposer> _exposers;
 

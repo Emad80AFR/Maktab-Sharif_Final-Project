@@ -2,6 +2,7 @@
 using BP._Query.Contracts.ProductCategory;
 using BP._Query.Contracts.Slide;
 using BP._Query.Query;
+using FrameWork.Infrastructure.Permission;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using SM._Application.Contracts.Product;
@@ -13,6 +14,7 @@ using SM._Domain.ProductAgg;
 using SM._Domain.ProductCategoryAgg;
 using SM._Domain.ProductPictureAgg;
 using SM._Domain.SlideAgg;
+using SM._Infrastructure.Configuration.Permissions;
 using SM._Infrastructure.EFCore;
 using SM._Infrastructure.EFCore.Repository;
 
@@ -39,6 +41,9 @@ namespace SM._Infrastructure.Configuration
             services.AddScoped<ISlideApplication, SlideApplication>();
             services.AddScoped<ISlideRepository, SlideRepository>();
             services.AddScoped<ISlideQuery, SlideQuery>();
+
+            services.AddTransient<IPermissionExposer, ShopPermissionExposer>();
+
         }
     }
 }

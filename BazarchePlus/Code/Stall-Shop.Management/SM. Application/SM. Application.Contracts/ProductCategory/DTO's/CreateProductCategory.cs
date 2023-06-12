@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using FrameWork.Application.FileOpload;
+using FrameWork.Application.FileUpload;
 using FrameWork.Application.Messages;
 using Microsoft.AspNetCore.Http;
 

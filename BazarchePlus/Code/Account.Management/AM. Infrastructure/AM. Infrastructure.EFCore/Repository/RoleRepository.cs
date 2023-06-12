@@ -2,6 +2,7 @@
 using AM._Domain.RollAgg;
 using FrameWork.Application;
 using FrameWork.Infrastructure;
+using FrameWork.Infrastructure.Permission;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 

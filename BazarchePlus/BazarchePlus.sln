@@ -95,19 +95,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BM. Infrastructure.Configur
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Comment.Management", "Comment.Management", "{7333B95C-6E6D-4BF4-AFB8-34950D0BE526}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM. Domain", "Code\Comment.Management\CM. Domain\CM. Domain.csproj", "{157B1863-AFB1-4D40-BCA6-149CDAB4098F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CM. Domain", "Code\Comment.Management\CM. Domain\CM. Domain.csproj", "{157B1863-AFB1-4D40-BCA6-149CDAB4098F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CM. Application", "CM. Application", "{0958D533-07AD-4274-8F31-89FFCCEDDDCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM. Application.Contracts", "Code\Comment.Management\CM. Application\CM. Application.Contracts\CM. Application.Contracts.csproj", "{C24A0A4E-4F44-40C5-813C-BC71875E1F71}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CM. Application.Contracts", "Code\Comment.Management\CM. Application\CM. Application.Contracts\CM. Application.Contracts.csproj", "{C24A0A4E-4F44-40C5-813C-BC71875E1F71}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM. Application.Implementation", "Code\Comment.Management\CM. Application\CM. Application.Implementation\CM. Application.Implementation.csproj", "{4ABA1B60-83FA-43AB-9504-EC88A6321FEE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CM. Application.Implementation", "Code\Comment.Management\CM. Application\CM. Application.Implementation\CM. Application.Implementation.csproj", "{4ABA1B60-83FA-43AB-9504-EC88A6321FEE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CM. Infrastructure", "CM. Infrastructure", "{CB06C075-3FF6-4A6F-A163-973B24877A38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM. Infrastructure.EFCore", "Code\Comment.Management\CM. Infrastructure\CM. Infrastructure.EFCore\CM. Infrastructure.EFCore.csproj", "{7A9F492E-AF7F-447F-8647-EFC2381B0DCD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CM. Infrastructure.EFCore", "Code\Comment.Management\CM. Infrastructure\CM. Infrastructure.EFCore\CM. Infrastructure.EFCore.csproj", "{7A9F492E-AF7F-447F-8647-EFC2381B0DCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CM. Infrastructure.Configuration", "Code\Comment.Management\CM. Infrastructure\CM. Infrastructure.Configuration\CM. Infrastructure.Configuration.csproj", "{F160B9EA-19DB-4A56-944C-38D5C44C51D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CM. Infrastructure.Configuration", "Code\Comment.Management\CM. Infrastructure\CM. Infrastructure.Configuration\CM. Infrastructure.Configuration.csproj", "{F160B9EA-19DB-4A56-944C-38D5C44C51D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

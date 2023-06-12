@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using SM._Application.Contracts.Product.DTO_s;
 using System.ComponentModel.DataAnnotations;
-using FrameWork.Application.FileOpload;
+using FrameWork.Application.FileUpload;
 
 namespace SM._Application.Contracts.ProductPicture.DTO_s;
 

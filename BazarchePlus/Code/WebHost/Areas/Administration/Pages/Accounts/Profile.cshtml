@@ -1,0 +1,105 @@
+﻿@page
+@using FrameWork.Infrastructure
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using FrameWork.Application
+@model WebHost.Areas.Administration.Pages.Accounts.ProfileModel
+@{
+    Layout = "Shared/_AdminLayout";
+    ViewData["title"] = "پروفایل";
+}
+
+<div class="col-md-12">
+    <div class="breadcrumb-box border shadow">
+        <ul class="breadcrumb">
+            <li><a asp-page="/Index">پیشخوان</a></li>
+            <li><a href="#">ویرایش پروفایل</a></li>
+        </ul>
+        <div class="breadcrumb-left">
+            @DateTime.Now.ToFarsi()
+            <i class="icon-calendar"></i>
+        </div>
+    </div>
+</div>
+
+<div class="portlet-body edit-form">
+
+    <div class="row">
+        <div class="col-lg-6 col-md-10 m-auto m-b-30">
+            <div class="text-center">
+                <div class="user-box">
+                    <a href="#">
+                        <img src="~/ProductPictures/@Model.Command.ProfilePictureName" alt="عکس پروفایل" class="img-circle img-responsive">
+                    </a>
+                    <div class="user-details">
+                        <h4>@Model.Command.Username</h4>
+                        <p class="role">@Roles.GetRoleBy(Model.Command.RoleId)</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <form id="form" role="form" method="post" enctype="multipart/form-data">
+                <div class="form-body">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Command.Fullname" class="control-label">نام</label>
+                                <input type="text" class="form-control" asp-for="Command.Fullname">
+                                <span asp-validation-for="Command.Fullname" class="error"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Command.Username" class="control-label">نام کاربری</label>
+                                <input type="text" class="form-control" asp-for="Command.Username">
+                                <span asp-validation-for="Command.Username" class="error"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Command.Mobile" class="control-label">موبایل</label>
+                                <input type="text" class="form-control" asp-for="Command.Mobile">
+                                <span asp-validation-for="Command.Mobile" class="error"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group relative">
+                                <input asp-for="Command.ProfilePhoto" accept="image/*" type="file" class="form-control">
+                                <span asp-validation-for="Command.ProfilePhoto" class="error"></span>
+                                <label asp-for="Command.ProfilePhoto">آپلود عکس</label>
+                                <div class="input-group round"> 
+                                    <input  type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید">
+                                    <span class="input-group-btn"> 
+                                        <button type="button" class="btn btn-info"> 
+                                            <i class="icon-picture"></i>
+                                            آپلود عکس
+                                            <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div></button>
+                                    </span> 
+                                </div>
+                                <div class="help-block"></div>
+                    
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" asp-for="Command.RoleId" value="@Model.Command.RoleId"/>
+                    <input type="hidden" asp-for="Command.Id" value="@Model.Command.Id"/>
+
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-info btn-round">
+                        <i class="icon-check"></i>
+                        ذخیره
+                    </button>
+                    <a asp-page="/Index" class="btn btn-warning btn-round pull-left">
+                        <i class="icon-close"></i>
+                        بازگشت
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

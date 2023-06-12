@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SM._Application.Contracts.Product;
 using SM._Application.Contracts.Product.DTO_s;
 using SM._Application.Contracts.ProductCategory;
-using System.Threading;
+using FrameWork.Infrastructure;
+using FrameWork.Infrastructure.Permission;
+using SM._Infrastructure.Configuration.Permissions;
 
 namespace WebHost.Areas.Administration.Pages.Shop.Products
 {
@@ -25,13 +27,14 @@ namespace WebHost.Areas.Administration.Pages.Shop.Products
             _productCategoryApplication = productCategoryApplication;
         }
 
-        //[NeedsPermission(ShopPermissions.ListProducts)]
+        [NeedsPermission(ShopPermissions.ListProducts)]
         public async Task OnGet(ProductSearchModel searchModel,CancellationToken cancellationToken)
         {
             ProductCategories = new SelectList( await _productCategoryApplication.GetProductCategories(cancellationToken), "Id", "Name");
             Products =await _productApplication.Search(searchModel, cancellationToken);
         }
 
+        [NeedsPermission(ShopPermissions.CreateProduct)]
         public async Task<IActionResult> OnGetCreate(CancellationToken cancellationToken)
         {
             var command = new CreateProduct
@@ -41,13 +44,13 @@ namespace WebHost.Areas.Administration.Pages.Shop.Products
             return Partial("./Create", command);
         }
 
-        //[NeedsPermission(ShopPermissions.CreateProduct)]
         public async Task<JsonResult> OnPostCreate(CreateProduct command,CancellationToken cancellationToken)
         {
             var result = await _productApplication.Create(command, cancellationToken);
             return new JsonResult(result);
         }
 
+        [NeedsPermission(ShopPermissions.EditProduct)]
         public async Task<IActionResult> OnGetEdit(long id,CancellationToken cancellationToken)
         {
             var product =await _productApplication.GetDetails(id, cancellationToken);
@@ -55,7 +58,6 @@ namespace WebHost.Areas.Administration.Pages.Shop.Products
             return Partial("Edit", product);
         }
 
-        //[NeedsPermission(ShopPermissions.EditProduct)]
         public JsonResult OnPostEdit(EditProduct command, CancellationToken cancellationToken)
         {
             var result = _productApplication.Edit(command, cancellationToken);

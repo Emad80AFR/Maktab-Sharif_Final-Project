@@ -1,4 +1,4 @@
-﻿using FrameWork.Infrastructure;
+﻿using FrameWork.Infrastructure.Permission;
 
 namespace AM._Application.Contracts.Role.DTO_s;
 

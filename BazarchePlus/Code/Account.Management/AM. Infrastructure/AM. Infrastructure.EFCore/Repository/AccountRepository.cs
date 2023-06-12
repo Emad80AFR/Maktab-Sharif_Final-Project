@@ -42,7 +42,8 @@ public class AccountRepository:BaseRepository<long,Account>, IAccountRepository
                 Fullname = x.Fullname,
                 Mobile = x.Mobile,
                 RoleId = x.RoleId,
-                Username = x.Username
+                Username = x.Username,
+                ProfilePictureName = x.ProfilePhoto
             })
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
 

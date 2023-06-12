@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -24,5 +24,9 @@
 	  <ProjectReference Include="..\..\CM. Application\CM. Application.Contracts\CM. Application.Contracts.csproj" />
 	  <ProjectReference Include="..\..\CM. Application\CM. Application.Implementation\CM. Application.Implementation.csproj" />
 	  <ProjectReference Include="..\CM. Infrastructure.EFCore\CM. Infrastructure.EFCore.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Permissions\" />
 	</ItemGroup>
 </Project>

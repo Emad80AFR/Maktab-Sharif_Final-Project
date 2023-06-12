@@ -1,4 +1,7 @@
 ﻿@page
+@using FrameWork.Application
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using BM._Infrastructure.Configuration.Permissions
 @model WebHost.Areas.Administration.Pages.Blog.ArticleCategories.IndexModel
 @{
 }
@@ -8,16 +11,28 @@
     ViewData["title"] = "مدیریت گروه مقالات";
 }
 
-<div class="row">
-    <div class="col-sm-12">
-        <h4 class="page-title pull-right">@ViewData["title"]</h4>
-        <p class="pull-left">
-            <a class="btn btn-success btn-lg" href="#showmodal=@Url.Page("./Index", "Create")">ایجاد گروه مقاله جدید</a>
-        </p>
+<div class="col-md-12">
+    <div class="breadcrumb-box border shadow">
+        <ul class="breadcrumb">
+            <li><a asp-page="/Index">پیشخوان</a></li>
+            <li><a href="#">گروه مقالات</a></li>
+        </ul>
+        <div class="breadcrumb-left">
+            @DateTime.Now.ToFarsi()
+            <i class="icon-calendar"></i>
+        </div>
     </div>
 </div>
 
 <div class="row">
+    <div class="col-sm-12">
+        <p class="pull-Right" permission="BlogPermissions.CreateArticleCategory">
+            <a class="btn btn-success btn-lg mb-2" href="#showmodal=@Url.Page("./Index", "Create")">ایجاد گروه مقاله جدید</a>
+        </p>
+    </div>
+</div>
+
+<div class="row" permission="BlogPermissions.SearchArticleCategory">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -37,7 +52,7 @@
     </div>
 </div>
 
-<div class="row" id="ProductCategoriesDiv">
+<div class="row" id="ProductCategoriesDiv" permission="BlogPermissions.ListArticleCategory">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -73,8 +88,8 @@
                                         <td>@item.ArticlesCount</td>
                                         <td>@item.CreationDate</td>
                                         <td>
-                                            <a class="btn btn-warning pull-right m-rl-5" 
-                                               href="#showmodal=@Url.Page("./Index", "Edit", new { id = item.Id})">
+                                            <a permission="BlogPermissions.EditArticleCategory" class="btn btn-warning pull-right m-rl-5"
+                                           href="#showmodal=@Url.Page("./Index", "Edit", new { id = item.Id})">
                                                 <i class="fa fa-edit"></i> ویرایش
                                             </a>
                                         </td>

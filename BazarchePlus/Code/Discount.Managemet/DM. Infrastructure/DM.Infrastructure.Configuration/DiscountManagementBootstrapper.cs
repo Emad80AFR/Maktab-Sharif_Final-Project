@@ -1,14 +1,16 @@
 ﻿using DM._Domain.ColleagueDiscountAgg;
 using DM._Domain.CustomerDiscountAgg;
+using DM._Infrastructure.Configuration.Permissions;
 using DM._Infrastructure.EFCore;
 using DM._Infrastructure.EFCore.Repository;
 using DM.Application.Contracts.ColleagueDiscount;
 using DM.Application.Contracts.CustomerDiscount;
 using DM.Application.Implementation;
+using FrameWork.Infrastructure.Permission;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DM.Infrastructure.Configuration
+namespace DM._Infrastructure.Configuration
 {
     public class DiscountManagementBootstrapper
     {
@@ -22,6 +24,7 @@ namespace DM.Infrastructure.Configuration
             services.AddScoped<IColleagueDiscountApplication, ColleagueDiscountApplication>();
             services.AddScoped<IColleagueDiscountRepository, ColleagueDiscountRepository>();
 
+            services.AddScoped<IPermissionExposer, DiscountPermissionExposer>();
         }
     }
 }

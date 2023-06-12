@@ -1,4 +1,7 @@
 ﻿@page
+@using FrameWork.Application
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using DM._Infrastructure.Configuration.Permissions
 @model WebHost.Areas.Administration.Pages.Discounts.ColleagueDiscounts.IndexModel
 @{
 }
@@ -8,16 +11,28 @@
     ViewData["title"] = "مدیریت تخفیفات همکاران";
 }
 
-<div class="row">
-    <div class="col-sm-12">
-        <h4 class="page-title pull-right">@ViewData["title"]</h4>
-        <p class="pull-left">
-            <a class="btn btn-success btn-lg" href="#showmodal=@Url.Page("./Index", "Create")">تعریف تخفیف همکاری</a>
-        </p>
+<div class="col-md-12">
+    <div class="breadcrumb-box border shadow">
+        <ul class="breadcrumb">
+            <li><a asp-page="/Index">پیشخوان</a></li>
+            <li><a href="#">تخفیف همکاران</a></li>
+        </ul>
+        <div class="breadcrumb-left">
+            @DateTime.Now.ToFarsi()
+            <i class="icon-calendar"></i>
+        </div>
     </div>
 </div>
 
 <div class="row">
+    <div class="col-sm-12">
+        <p class="pull-right" permission="DiscountsPermissions.DefineColleagueDiscounts">
+            <a class="btn btn-success btn-lg mb-2" href="#showmodal=@Url.Page("./Index", "Create")">تعریف تخفیف همکاری</a>
+        </p>
+    </div>
+</div>
+
+<div class="row" permission="DiscountsPermissions.SearchColleagueDiscounts">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -39,7 +54,7 @@
     </div>
 </div>
 
-<div class="row" id="ProductCategoriesDiv">
+<div class="row" id="ProductCategoriesDiv" permission="DiscountsPermissions.ListColleagueDiscounts">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -48,7 +63,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12">
-                        <table id="datatable" class="table table-striped table-bordered">
+                        <table id="data-table" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -67,18 +82,18 @@
                                         <td>@item.DiscountRate%</td>
                                         <td>@item.CreationDate</td>
                                         <td>
-                                            <a class="btn btn-warning btn-custom waves-effect waves-light m-b-5"
+                                            <a permission="DiscountsPermissions.EditColleagueDiscount" class="btn btn-warning btn-custom waves-effect waves-light m-b-5"
                                                href="#showmodal=@Url.Page("./Index", "Edit", new { id = item.Id})">
                                                 <i class="fa fa-edit"></i> ویرایش
                                             </a>
                                             @if (item.IsRemoved)
                                             {
-                                                <a asp-page="./Index" asp-page-handler="Restore" asp-route-id="@item.Id"
+                                                <a permission="DiscountsPermissions.ActiveColleagueDiscount" asp-page="./Index" asp-page-handler="Restore" asp-route-id="@item.Id"
                                                    class="btn btn-success btn-custom waves-effect waves-light m-b-5">فعال سازی</a>
                                             }
                                             else
                                             {
-                                                <a asp-page="./Index" asp-page-handler="Remove" asp-route-id="@item.Id"
+                                                <a permission="DiscountsPermissions.DeActiveColleagueDiscount" asp-page="./Index" asp-page-handler="Remove" asp-route-id="@item.Id"
                                                    class="btn btn-danger btn-custom waves-effect waves-light m-b-5">غیرفعال</a>
                                             }
                                         </td>
@@ -94,12 +109,9 @@
 </div>
 
 @section Scripts {
-    <script src="~/adminTheme/assets/datatables/jquery.dataTables.min.js"></script>
-    <script src="~/adminTheme/assets/datatables/dataTables.bootstrap.js"></script>
-
+    <script src="~/Admin-Theme/assets/plugins/data-table/js/jquery.dataTables.min.js"></script>
+    <script src="~/Admin-Theme/assets/js/pages/datatable.js"></script>
     <script type="text/javascript">
-        $(document).ready(function () {
-            $('#datatable').dataTable();
-        });
+        tableMain = $('#data-table').DataTable();
     </script>
 }

@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SM._Application.Contracts.ProductCategory;
 using SM._Application.Contracts.ProductCategory.DTO_s;
-using System.Threading;
+using FrameWork.Infrastructure;
+using FrameWork.Infrastructure.Permission;
+using SM._Infrastructure.Configuration.Permissions;
 
 namespace WebHost.Areas.Administration.Pages.Shop.ProductCategories
 {
@@ -18,31 +20,31 @@ namespace WebHost.Areas.Administration.Pages.Shop.ProductCategories
             _productCategoryApplication = productCategoryApplication;
         }
 
-        //[NeedsPermission(ShopPermissions.ListProductCategories)]
+        [NeedsPermission(ShopPermissions.ListProductCategories)]
         public async Task OnGet(ProductCategorySearchModel searchModel,CancellationToken cancellationToken)
         {
             ProductCategories = await _productCategoryApplication.Search(searchModel, cancellationToken);
         }
 
+        [NeedsPermission(ShopPermissions.CreateProductCategory)]
         public IActionResult OnGetCreate()
         {
             return Partial("./Create", new CreateProductCategory());
         }
 
-        //[NeedsPermission(ShopPermissions.CreateProductCategory)]
         public async Task<JsonResult> OnPostCreate(CreateProductCategory command,CancellationToken cancellationToken)
         {
             var result = await _productCategoryApplication.Create(command, cancellationToken);
             return new JsonResult(result);
         }
 
+        [NeedsPermission(ShopPermissions.EditProductCategory)]
         public async Task<IActionResult> OnGetEdit(long id, CancellationToken cancellationToken)
         {
             var productCategory =await _productCategoryApplication.GetDetails(id, cancellationToken);
             return Partial("Edit", productCategory);
         }
 
-        //[NeedsPermission(ShopPermissions.EditProductCategory)]
         public async Task<JsonResult> OnPostEdit(EditProductCategory command, CancellationToken cancellationToken)
         {
             if (ModelState.IsValid)

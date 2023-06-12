@@ -5,7 +5,7 @@
         void SignOut();
         bool IsAuthenticated();
         void Signin(AuthViewModel account);
-        string CurrentAccountRole();
+        string? CurrentAccountRole();
         AuthViewModel CurrentAccountInfo();
         List<int> GetPermissions();
         long CurrentAccountId();

@@ -1,4 +1,6 @@
 ﻿@page
+@using FrameWork.Application
+@using SM._Infrastructure.Configuration.Permissions
 @model WebHost.Areas.Administration.Pages.Shop.ProductCategories.IndexModel
 
 
@@ -7,31 +9,28 @@
     ViewData["title"] = "مدیریت گروه محصولات";
 }
 
-<!-- BEGIN BREADCRUMB -->
 <div class="col-md-12">
     <div class="breadcrumb-box border shadow">
         <ul class="breadcrumb">
-            <li><a href="dashboard.html">پیشخوان</a></li>
-            <li><a href="#">صفحات</a></li>
-            <li class="active">صفحه خام</li>
+            <li><a asp-page="/Index">پیشخوان</a></li>
+            <li><a href="#">گروه محصولات</a></li>
         </ul>
         <div class="breadcrumb-left">
-            سه شنبه، 1401/09/15
+           @DateTime.Now.ToFarsi()
             <i class="icon-calendar"></i>
-        </div><!-- /.breadcrumb-left -->
-    </div><!-- /.breadcrumb-box -->
-</div><!-- /.col-md-12 -->
-<!-- END BREADCRUMB -->
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-sm-12">
-        <p class="pull-right">
+        <p class="pull-right" permission="ShopPermissions.CreateProductCategory">
             <a class="btn btn-success btn-lg mb-2" href="#showmodal=@Url.Page("./Index", "Create")">ایجاد گروه محصول جدید</a>
         </p>
     </div>
 </div>
 
-<div class="row">
+<div class="row" permission="ShopPermissions.SearchProductCategories">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -51,7 +50,7 @@
     </div>
 </div>
 
-<div class="row" id="ProductCategoriesDiv">
+<div class="row" id="ProductCategoriesDiv" permission="ShopPermissions.ListProductCategories">
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -82,7 +81,7 @@
                                         <td>@item.Name</td>
                                         <td>@item.CreationDate</td>
                                         <td>
-                                            <a class="btn btn-warning pull-right m-rl-5" 
+                                                <a permission="ShopPermissions.EditProductCategory" class="btn btn-warning pull-right m-rl-5"
                                                href="#showmodal=@Url.Page("./Index", "Edit", new { id = item.Id})">
                                                 <i class="fa fa-edit"></i> ویرایش
                                             </a>

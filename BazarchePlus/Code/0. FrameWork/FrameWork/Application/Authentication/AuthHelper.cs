@@ -26,6 +26,7 @@ namespace FrameWork.Application.Authentication
             result.Username = claims.FirstOrDefault(x => x.Type == "Username")!.Value;
             result.RoleId = long.Parse(claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)!.Value);
             result.Fullname = claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)!.Value;
+            result.ProfilePicture = claims.FirstOrDefault(x => x.Type == "ProfilePicture")!.Value;
             result.Role = Roles.GetRoleBy(result.RoleId);
             return result;
         }
@@ -54,11 +55,9 @@ namespace FrameWork.Application.Authentication
                 : "")!;
         }
 
-        public string CurrentAccountRole()
+        public string? CurrentAccountRole()
         {
-            if (IsAuthenticated())
-                return _contextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value!;
-            return null;
+            return IsAuthenticated() ? _contextAccessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Role)?.Value! : null;
         }
 
         public bool IsAuthenticated()
@@ -75,9 +74,10 @@ namespace FrameWork.Application.Authentication
                 new Claim("AccountId", account.Id.ToString()),
                 new Claim(ClaimTypes.Name, account.Fullname),
                 new Claim(ClaimTypes.Role, account.RoleId.ToString()),
-                new Claim("Username", account.Username), // Or Use ClaimTypes.NameIdentifier
+                new Claim("Username", account.Username), 
                 new Claim("permissions", permissions),
-                new Claim("Mobile", account.Mobile)
+                new Claim("Mobile", account.Mobile),
+                new Claim("ProfilePicture", account.ProfilePicture)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

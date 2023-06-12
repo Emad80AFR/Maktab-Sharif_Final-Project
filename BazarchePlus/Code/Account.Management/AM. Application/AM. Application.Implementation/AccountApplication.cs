@@ -5,10 +5,10 @@ using AM._Domain.RollAgg;
 using FrameWork.Application;
 using FrameWork.Application.Authentication;
 using FrameWork.Application.Authentication.PasswordHashing;
-using FrameWork.Application.FileOpload;
 using FrameWork.Application.Messages;
 using Microsoft.Extensions.Logging;
 using System.Threading;
+using FrameWork.Application.FileUpload;
 
 namespace AM._Application.Implementation
 {
@@ -174,7 +174,7 @@ namespace AM._Application.Implementation
                     .ToList();
 
                 var authViewModel = new AuthViewModel(account.Id, account.RoleId, account.Fullname
-                    , account.Username, account.Mobile,permissions);
+                    , account.Username, account.Mobile,account.ProfilePhoto,permissions);
 
                 _authHelper.Signin(authViewModel);
 

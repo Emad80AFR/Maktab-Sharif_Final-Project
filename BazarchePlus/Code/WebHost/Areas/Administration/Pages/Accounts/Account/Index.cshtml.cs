@@ -69,5 +69,7 @@ namespace WebHost.Areas.Administration.Pages.Accounts.Account
             var result = await _accountApplication.ChangePassword(command,cancellationToken);
             return new JsonResult(result);
         }
+
+
     }
 }
