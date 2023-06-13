@@ -16,4 +16,11 @@ public static class DiscountsPermissions
     public const int EditColleagueDiscount = 213;
     public const int DeActiveColleagueDiscount = 214;
     public const int ActiveColleagueDiscount = 215;
+
+
+
+
+    //Menu
+    public const int Menu = 220;
+
 }

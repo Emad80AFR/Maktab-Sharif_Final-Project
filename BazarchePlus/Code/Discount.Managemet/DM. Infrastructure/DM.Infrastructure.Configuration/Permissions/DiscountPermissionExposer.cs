@@ -29,6 +29,12 @@ public class DiscountPermissionExposer:IPermissionExposer
                     new(DiscountsPermissions.ActiveColleagueDiscount, "غیر فعال کردن "),
 
                 }
+            },
+            {
+                "DiscountMenu", new List<PermissionDto>
+                {
+                    new(DiscountsPermissions.Menu, "مشاهده منو")
+                }
             }
 
         };

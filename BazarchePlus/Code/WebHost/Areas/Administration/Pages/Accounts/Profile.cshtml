@@ -94,11 +94,31 @@
                         <i class="icon-check"></i>
                         ذخیره
                     </button>
-                    <a asp-page="/Index" class="btn btn-warning btn-round pull-left">
-                        <i class="icon-close"></i>
-                        بازگشت
-                    </a>
                 </div>
+            </form>
+            <hr/>
+            <form method="post" asp-page="Profile" asp-page-handler="ChangePassword">
+               
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label name="password" class="control-label">کلمه رمز</label>
+                            <input type="password" class="form-control" name="password">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                            <label name="rePassword" class="control-label">تکرار کلمه رمز</label>
+                            <input type="password" class="form-control" name="rePassword">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="id" value="@Model.Command.Id" />
+
+                    <button type="submit" class="btn btn-info btn-round">
+                        <i class="icon-check"></i>
+                        تغییر رمز
+                    </button>
             </form>
         </div>
     </div>

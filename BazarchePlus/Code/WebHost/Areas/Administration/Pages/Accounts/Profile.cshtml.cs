@@ -9,6 +9,7 @@ namespace WebHost.Areas.Administration.Pages.Accounts
     public class ProfileModel : PageModel
     {
         public EditAccount Command { get; set; }
+        public ChangePassword ChangePassword { get; set; }
         private readonly IRoleApplication _roleApplication;
         private readonly IAccountApplication _accountApplication;
 
@@ -21,10 +22,17 @@ namespace WebHost.Areas.Administration.Pages.Accounts
         {
             Command = await _accountApplication.GetDetails(id, cancellationToken);
             Command.Roles = await _roleApplication.List(cancellationToken);
+            ChangePassword = new ChangePassword { Id = id };
         }
         public async Task<IActionResult> OnPost(EditAccount command, CancellationToken cancellationToken)
         {
             var result = await _accountApplication.Edit(command, cancellationToken);
+            return RedirectToPage("/Index");
+        }
+        
+        public async Task<IActionResult> OnPostChangePassword(ChangePassword command, CancellationToken cancellationToken)
+        {
+            var result = await _accountApplication.ChangePassword(command, cancellationToken);
             return RedirectToPage("/Index");
         }
     }

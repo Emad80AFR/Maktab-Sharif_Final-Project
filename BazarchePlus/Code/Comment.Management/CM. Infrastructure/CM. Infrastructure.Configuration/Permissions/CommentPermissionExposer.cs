@@ -17,6 +17,12 @@ public class CommentPermissionExposer:IPermissionExposer
                     new(CommentsPermissions.ConfirmComment, "تایید پیام ")
 
                 }
+            },
+            {
+                "CommentMenu", new List<PermissionDto>
+                {
+                    new(CommentsPermissions.Menu, "مشاهده منو")
+                }
             }
 
         };

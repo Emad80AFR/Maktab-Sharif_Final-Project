@@ -9,5 +9,10 @@
         public const int Increase = 104;
         public const int Reduce = 105;
         public const int OperationLog = 106;
+
+
+        //Menu
+        public const int Menu = 110;
+
     }
 }

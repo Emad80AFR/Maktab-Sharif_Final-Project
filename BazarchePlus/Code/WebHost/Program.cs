@@ -11,6 +11,7 @@ using CM._Infrastructure.Configuration;
 using DM._Infrastructure.Configuration;
 using FrameWork.Application.FileUpload;
 using FrameWork.Infrastructure;
+using FrameWork.Infrastructure.ConfigurationModel;
 
 namespace WebHost
 {
@@ -20,6 +21,8 @@ namespace WebHost
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddHttpContextAccessor();
+            builder.Services.Configure<AppSettingsOption>(builder.Configuration);
+            //builder.Configuration.Get<AppSettingsOption>();
 
             var connectionString = builder.Configuration.GetConnectionString("BazarchePlusDb");
 
@@ -47,21 +50,21 @@ namespace WebHost
                 {
                     o.LoginPath = new PathString("/Account");
                     o.LogoutPath = new PathString("/Account");
-                    o.AccessDeniedPath = new PathString("/AccessDenied");
+                    o.AccessDeniedPath = new PathString("/Administration/AccessDenied");
                 });
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("AdminArea",
-                    builder => builder.RequireRole(new List<string> { Roles.Administrator, Roles.Seller }));
+                    builder => builder.RequireRole(new List<string> { Roles.Administrator, Roles.Seller,Roles.Developer }));
 
                 options.AddPolicy("Discount",
-                    builder => builder.RequireRole(new List<string> { Roles.Seller }));
+                    builder => builder.RequireRole(new List<string> { Roles.Seller, Roles.Developer }));
 
                 options.AddPolicy("Account",
-                    builder => builder.RequireRole(new List<string> { Roles.Administrator }));
+                    builder => builder.RequireRole(new List<string> { Roles.Administrator, Roles.Developer }));
 
                 options.AddPolicy("Comment",
-                    builder => builder.RequireRole(new List<string> { Roles.Administrator }));
+                    builder => builder.RequireRole(new List<string> { Roles.Administrator, Roles.Developer }));
 
             });
 

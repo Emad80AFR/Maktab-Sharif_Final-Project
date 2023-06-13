@@ -14,4 +14,9 @@ public static class BlogPermissions
     public const int CreateArticle = 412;
     public const int EditArticle = 413;
 
+
+    //Menu
+    public const int Menu = 420;
+
+
 }

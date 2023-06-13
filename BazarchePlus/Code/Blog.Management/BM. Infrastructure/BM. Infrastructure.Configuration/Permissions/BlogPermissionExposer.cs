@@ -16,13 +16,20 @@ public class BlogPermissionExposer:IPermissionExposer
                     new(BlogPermissions.CreateArticleCategory, "ایجاد"),
                     new(BlogPermissions.EditArticleCategory, "ویرایش ")
                 }
-            },{
+            },
+            {
                 "Article", new List<PermissionDto>
                 {
                     new(BlogPermissions.ListArticle, "مشاهده لیست"),
                     new(BlogPermissions.SearchArticle, "جستجو  "),
                     new(BlogPermissions.CreateArticle, "ایجاد"),
                     new(BlogPermissions.EditArticle, "ویرایش ")
+                }
+            },
+            {
+                "BlogMenu", new List<PermissionDto>
+                {
+                    new(BlogPermissions.Menu, "مشاهده منو")
                 }
             }
 

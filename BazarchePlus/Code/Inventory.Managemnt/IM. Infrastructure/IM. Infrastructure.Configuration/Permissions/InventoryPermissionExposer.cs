@@ -19,6 +19,12 @@ namespace IM._Infrastructure.Configuration.Permissions
                         new(InventoryPermissions.Reduce, "کاهش موجودی"),
                         new(InventoryPermissions.OperationLog, "مشاهده گردش انبار")
                     }
+                },
+                {
+                    "InventoryMenu", new List<PermissionDto>
+                    {
+                        new(InventoryPermissions.Menu, "مشاهده منو")
+                    }
                 }
             };
         }

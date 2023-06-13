@@ -47,6 +47,15 @@ namespace SM._Infrastructure.Configuration.Permissions
                         new(ShopPermissions.RestoreSlide, "فعال سازی"),
                     }
                 }
+                ,
+                {
+                    "ShopMenu", new List<PermissionDto>
+                    {
+                        new(ShopPermissions.Menu, "مشاهده منو"),
+                        new(ShopPermissions.ProductCategoryMenu, "زیر منو گروه محصولی"),
+                        new(ShopPermissions.SlideMenu, "زیرمنو اسلاید"),
+                    }
+                }
             };
         }
     }

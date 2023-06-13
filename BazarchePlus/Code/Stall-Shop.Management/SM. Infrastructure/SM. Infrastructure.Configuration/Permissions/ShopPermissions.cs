@@ -31,5 +31,11 @@
         public const int EditSlide = 42;
         public const int DeleteSlide = 43;
         public const int RestoreSlide = 44;
+
+        //Menu
+        public const int Menu = 50;
+        public const int ProductCategoryMenu = 51;
+        public const int SlideMenu = 52;
+
     }
 }
