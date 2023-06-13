@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\AM. Domain\AM. Domain.csproj" />
-    <ProjectReference Include="..\AM. Application.Contracts\AM. Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\AM. Domain\AM.Domain.csproj" />
+    <ProjectReference Include="..\AM. Application.Contracts\AM.Application.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

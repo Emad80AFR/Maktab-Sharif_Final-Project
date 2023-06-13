@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\0. FrameWork\FrameWork\FrameWork.csproj" />
     <ProjectReference Include="..\Account.Management\AM. Infrastructure\AM. Infrastructure.Configuration\AM. Infrastructure.Configuration.csproj" />
+    <ProjectReference Include="..\Auction.Management\AM. Infrastructure\AM. Infrastructure.Configuration\AM.Infrastructure.Configuration.csproj" />
     <ProjectReference Include="..\Blog.Management\BM. Application\BM. Application.Contracts\BM. Application.Contracts.csproj" />
     <ProjectReference Include="..\Blog.Management\BM. Infrastructure\BM. Infrastructure.Configuration\BM. Infrastructure.Configuration.csproj" />
     <ProjectReference Include="..\Comment.Management\CM. Infrastructure\CM. Infrastructure.Configuration\CM. Infrastructure.Configuration.csproj" />

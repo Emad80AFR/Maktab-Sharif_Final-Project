@@ -41,7 +41,7 @@ public class CustomerDiscountRepository:BaseRepository<long,CustomerDiscount>,IC
                 })
                 .FirstOrDefaultAsync(cancellationToken);
 
-            //  if the customer discount details were retrieved
+            
             if (customerDiscount != null)
                 _logger.LogInformation("Customer discount details retrieved successfully. CustomerDiscountId: {CustomerDiscountId}", customerDiscount.Id);
             else
@@ -51,7 +51,7 @@ public class CustomerDiscountRepository:BaseRepository<long,CustomerDiscount>,IC
         }
         catch (Exception ex)
         {
-            // Log the error message
+            
             _logger.LogError(ex, "An error occurred while fetching customer discount details.");
             throw; 
         }
@@ -96,7 +96,7 @@ public class CustomerDiscountRepository:BaseRepository<long,CustomerDiscount>,IC
             discounts.ForEach(discount =>
                 discount.Product = products.FirstOrDefault(x => x.Id == discount.ProductId)?.Name!);
 
-            // if the customer discounts were retrieved
+            
             if (discounts != null && discounts.Any())
                 _logger.LogInformation("Customer discounts retrieved successfully. Total discounts: {DiscountCount}", discounts.Count);
             else
@@ -106,7 +106,7 @@ public class CustomerDiscountRepository:BaseRepository<long,CustomerDiscount>,IC
         }
         catch (Exception ex)
         {
-            // Log the error message
+            
             _logger.LogError(ex, "An error occurred while performing customer discount search.");
             throw; 
         }

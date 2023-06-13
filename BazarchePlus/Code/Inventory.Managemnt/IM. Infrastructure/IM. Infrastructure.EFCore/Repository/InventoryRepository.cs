@@ -38,7 +38,7 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
 
         if (inventory == null)
         {
-            // Log a warning if inventory is not found for the given id
+            
             _logger.LogWarning("Inventory not found for {Id}:",id);
         }
 
@@ -51,7 +51,7 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
 
         if (inventory == null)
         {
-            // Log a warning if inventory is not found for the given productId
+            
             _logger.LogWarning($"Inventory not found for productId: {productId}");
         }
 
@@ -93,7 +93,7 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
 
         if (inventory == null)
         {
-            // Log a message at the warning level
+            
             _logger.LogWarning("Inventory not found for ID: {InventoryId}", inventoryId);
             return new List<InventoryOperationViewModel>();
         }
@@ -115,7 +115,7 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
             operation.Operator = accounts.FirstOrDefault(x => x.Id == operation.OperatorId)?.Fullname!;
         }
 
-        // Log a message at the information level
+        
         _logger.LogInformation("Retrieved operation log for inventory ID: {InventoryId}", inventoryId);
 
         return operations;

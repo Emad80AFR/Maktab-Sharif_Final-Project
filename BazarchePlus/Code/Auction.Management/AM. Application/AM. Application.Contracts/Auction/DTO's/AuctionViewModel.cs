@@ -3,7 +3,7 @@
 public class AuctionViewModel
 {
     public long Id { get; set; }
-    public long IsActive { get; set; }
+    public bool IsActive { get; set; }
     public long ProductId { get; set; }
     public string EndDate { get; set; }
     public double BasePrice { get; set; }

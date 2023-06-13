@@ -10,7 +10,7 @@ public class Auction:BaseClass<long>
     public long CustomerId { get; private set; }
     public double BasePrice { get; private set; }
     public long BidsCount { get; private set; }
-    public string WinnerUsername { get; private set; }
+    public string? WinnerUsername { get; private set; }
     public int Status { get; set; }
 
 

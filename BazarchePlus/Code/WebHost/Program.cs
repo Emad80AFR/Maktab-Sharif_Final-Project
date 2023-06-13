@@ -32,6 +32,7 @@ namespace WebHost
             AccountManagementBootstrapper.Configure(builder.Services,connectionString);
             BlogManagementBootstrapper.Configure(builder.Services,connectionString);
             CommentManagementBootstrapper.Configure(builder.Services,connectionString);
+            AuctionManagementBootstrapper.Configure(builder.Services,connectionString);
 
 
             builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Arabic));
