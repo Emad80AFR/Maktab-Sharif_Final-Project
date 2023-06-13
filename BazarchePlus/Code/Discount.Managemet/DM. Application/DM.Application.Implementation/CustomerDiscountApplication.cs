@@ -1,4 +1,5 @@
-﻿using DM._Domain.CustomerDiscountAgg;
+﻿using DM._Application.Contracts.CustomerDiscount.DTO_s;
+using DM._Domain.CustomerDiscountAgg;
 using DM.Application.Contracts.CustomerDiscount;
 using DM.Application.Contracts.CustomerDiscount.DTO_s;
 using FrameWork.Application;

@@ -22,4 +22,7 @@
 	  <ProjectReference Include="..\..\AM. Application\AM. Application.Implementation\AM.Application.Implementation.csproj" />
 	  <ProjectReference Include="..\AM. Infrastructure.EFCore\AM.Infrastructure.EFCore.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Permissions\" />
+	</ItemGroup>
 </Project>

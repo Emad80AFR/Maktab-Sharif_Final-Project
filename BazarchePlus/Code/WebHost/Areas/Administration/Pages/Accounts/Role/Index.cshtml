@@ -1,4 +1,5 @@
 ﻿@page
+@using FrameWork.Application
 @model WebHost.Areas.Administration.Pages.Accounts.Role.IndexModel
 @{
 }
@@ -11,12 +12,11 @@
 <div class="col-md-12">
     <div class="breadcrumb-box border shadow">
         <ul class="breadcrumb">
-            <li><a href="dashboard.html">پیشخوان</a></li>
-            <li><a href="#">صفحات</a></li>
-            <li class="active">صفحه خام</li>
+            <li><a asp-page="/Index">پیشخوان</a></li>
+            <li><a href="#">تقش ها</a></li>
         </ul>
         <div class="breadcrumb-left">
-            سه شنبه، 1401/09/15
+            @DateTime.Now.ToFarsi()
             <i class="icon-calendar"></i>
         </div>
     </div>
@@ -24,9 +24,8 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <h4 class="page-title pull-right">@ViewData["title"]</h4>
-        <p class="pull-left">
-            <a class="btn btn-success btn-lg" asp-page="Create">ایجاد نقش جدید</a>
+        <p class="pull-right">
+            <a class="btn btn-success btn-lg mb-2" asp-page="Create">ایجاد نقش جدید</a>
         </p>
     </div>
 </div>

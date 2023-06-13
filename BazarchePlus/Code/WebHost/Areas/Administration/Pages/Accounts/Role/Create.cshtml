@@ -1,24 +1,21 @@
 ﻿@page
+@using FrameWork.Application
 @model WebHost.Areas.Administration.Pages.Accounts.Role.CreateModel
-<!-- BEGIN BREADCRUMB -->
+
 <div class="col-md-12">
     <div class="breadcrumb-box border shadow">
         <ul class="breadcrumb">
-            <li><a href="dashboard.html">پیشخوان</a></li>
-            <li><a href="#">صفحات</a></li>
-            <li class="active">صفحه خام</li>
+            <li><a asp-page="/Index">پیشخوان</a></li>
+            <li><a href="#">ایجاد نقش</a></li>
         </ul>
         <div class="breadcrumb-left">
-            سه شنبه، 1401/09/15
+           @DateTime.Now.ToFarsi()
             <i class="icon-calendar"></i>
-        </div><!-- /.breadcrumb-left -->
-    </div><!-- /.breadcrumb-box -->
-</div><!-- /.col-md-12 -->
-<!-- END BREADCRUMB -->
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <h4 class="modal-title">ایجاد نقش جدید</h4>
+        </div>
+    </div>
 </div>
+
+
 
 
 <div class="row">

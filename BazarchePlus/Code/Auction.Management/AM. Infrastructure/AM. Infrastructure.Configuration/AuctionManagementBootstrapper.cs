@@ -1,8 +1,10 @@
 ﻿using AM._Application.Contracts.Auction;
 using AM._Application.Implementation;
 using AM._Domain.AuctionAgg;
+using AM._Infrastructure.Configuration.Permissions;
 using AM._Infrastructure.EFCore;
 using AM._Infrastructure.EFCore.Repository;
+using FrameWork.Infrastructure.Permission;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +19,8 @@ namespace AM._Infrastructure.Configuration
 
             services.AddScoped<IAuctionApplication, AuctionApplication>();
             services.AddScoped<IAuctionRepository, AuctionRepository>();
+
+            services.AddScoped<IPermissionExposer, AuctionPermissionExposer>();
         }
     }
 }

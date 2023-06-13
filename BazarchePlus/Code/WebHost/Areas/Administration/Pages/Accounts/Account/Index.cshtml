@@ -1,4 +1,5 @@
 ﻿@page
+@using FrameWork.Application
 @model WebHost.Areas.Administration.Pages.Accounts.Account.IndexModel
 @{
 }
@@ -7,26 +8,24 @@
     Layout = "Shared/_AdminLayout";
     ViewData["title"] = "مدیریت کاربران";
 }
-<!-- BEGIN BREADCRUMB -->
+
 <div class="col-md-12">
     <div class="breadcrumb-box border shadow">
         <ul class="breadcrumb">
-            <li><a href="dashboard.html">پیشخوان</a></li>
-            <li><a href="#">صفحات</a></li>
-            <li class="active">صفحه خام</li>
+            <li><a asp-page="/Index">پیشخوان</a></li>
+            <li><a href="#">اکانت ها</a></li>
         </ul>
         <div class="breadcrumb-left">
-            سه شنبه، 1401/09/15
+            @DateTime.Now.ToFarsi()
             <i class="icon-calendar"></i>
-        </div><!-- /.breadcrumb-left -->
-    </div><!-- /.breadcrumb-box -->
-</div><!-- /.col-md-12 -->
-<!-- END BREADCRUMB -->
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-sm-12">
-        <h4 class="page-title pull-right">@ViewData["title"]</h4>
-        <p class="pull-left">
-            <a class="btn btn-success btn-lg" href="#showmodal=@Url.Page("./Index", "Create")">ایجاد کاربر جدید</a>
+        <p class="pull-right">
+            <a class="btn btn-success btn-lg mb-2" href="#showmodal=@Url.Page("./Index", "Create")">ایجاد کاربر جدید</a>
         </p>
     </div>
 </div>

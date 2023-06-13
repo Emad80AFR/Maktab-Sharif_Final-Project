@@ -64,11 +64,12 @@ public class AuctionRepository:BaseRepository<long,Auction>,IAuctionRepository
             .Select(x => new AuctionViewModel
             {
                 Id = x.Id,
+                Status = x.Status,
                 BasePrice = x.BasePrice,
                 EndDate = x.EndDate.ToFarsi(),
                 IsActive = x.IsActive,
                 ProductId = x.ProductId,
-                Status = x.Status
+                CreationDate = x.CreationDate.ToFarsi()
             });
 
         if (searchModel.ProductId > 0)

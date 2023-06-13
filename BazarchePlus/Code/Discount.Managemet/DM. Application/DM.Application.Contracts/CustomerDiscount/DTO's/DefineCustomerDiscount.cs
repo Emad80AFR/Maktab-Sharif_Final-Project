@@ -2,7 +2,7 @@
 using FrameWork.Application.Messages;
 using SM._Application.Contracts.Product.DTO_s;
 
-namespace DM.Application.Contracts.CustomerDiscount.DTO_s
+namespace DM._Application.Contracts.CustomerDiscount.DTO_s
 {
     public class DefineCustomerDiscount
     {

@@ -5,6 +5,7 @@
 @using BM._Infrastructure.Configuration.Permissions
 @using CM._Infrastructure.Configuration.Permissions
 @using IM._Infrastructure.Configuration.Permissions
+@using AM._Infrastructure.Configuration.Permissions
 @inject IAuthHelper AuthHelper;
 @{
     var currentAccount = AuthHelper.CurrentAccountInfo();
@@ -40,7 +41,7 @@
                 <span>پیشخوان</span>
             </a>
         </li>
-        <li>
+        <li permission="AccountsPermissions.Menu">
             <a href="#" class="dropdown-toggle">
                 <i class="icon-frame"></i>
                 <span>سیستم مدیریت کاربران </span>
@@ -137,6 +138,9 @@
         </li>
         <li permission="InventoryPermissions.Menu">
             <a asp-page="/Inventory/Index" class="waves-effect active"><i class="icon-frame"></i><span> انبارداری </span></a>
+        </li>
+        <li permission="AuctionsPermissions.Menu">
+            <a asp-page="/Auctions/Auction/Index" class="waves-effect active"><i class="icon-frame"></i><span> مزایده ها </span></a>
         </li>
         <li permission="CommentsPermissions.Menu">
             <a asp-page="/Comments/Index" class="waves-effect active"><i class="icon-frame"></i><span> مدیریت کامنت ها </span></a>
