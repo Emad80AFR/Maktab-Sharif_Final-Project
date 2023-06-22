@@ -15,9 +15,9 @@
     <meta name="keywords" content="@ViewData["keywords"]" />
     <meta name="description" content="@ViewData["metaDescription"]" />
 
-    <link href="~/Theme/assets/css/vendors.css" rel="stylesheet">
-    <link href="~/Theme/assets/css/style.css" rel="stylesheet">
-    <link href="~/Theme/assets/css/Custom.css" rel="stylesheet">
+    <link href="~/Main-Theme/assets/css/vendors.css" rel="stylesheet">
+    <link href="~/Main-Theme/assets/css/style.css" rel="stylesheet">
+    <link href="~/Main-Theme/assets/css/Custom.css" rel="stylesheet">
 
     <!-- Vendor CSS -->
     <link href="~/Main-Theme/assets/css/vendors.css" rel="stylesheet" />
@@ -31,6 +31,7 @@
     @await Component.InvokeAsync("Menu",new{cancellationToken = CancellationToken.None})
 
     @RenderBody()
+
     @await Component.InvokeAsync("Footer")
 
 
@@ -38,28 +39,32 @@
 
 
     <div class="search-overlay" id="search-overlay">
-    <a href="javascript:void(0)" class="close-search-overlay" id="close-search-overlay">
-        <i class="ion-ios-close-empty"></i>
-    </a>
-    <div class="search-form">
-        <form method="get" asp-page="/Search">
-            <input type="search" name="value" id="value" placeholder="هرچه می خواهید در فروشگاه جستجو کنید ...">
-            <button type="submit">
-                <i class="ion-android-search"></i>
-            </button>
-        </form>
+        <a href="javascript:void(0)" class="close-search-overlay" id="close-search-overlay">
+            <i class="ion-ios-close-empty"></i>
+        </a>
+        <div class="search-form">
+            <form method="get" asp-page="/Search">
+                <input type="search" name="value" id="value" placeholder="هرچه می خواهید در فروشگاه جستجو کنید ...">
+                <button type="submit">
+                    <i class="ion-android-search"></i>
+                </button>
+            </form>
+        </div>
     </div>
-</div>
 
     <!-- scroll to top  -->
     <div id="scroll-top">
         <span>برو بالا</span><i class="ion-chevron-right"></i><i class="ion-chevron-right"></i>
     </div>
-    <!-- end of scroll to top -->
-    <!-- Vendor JS -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/Main-Theme/assets/js/vendors.js"></script>
-
-    <!-- Active JS -->
     <script src="~/Main-Theme/assets/js/active.js"></script>
+    <script src="~/Main-Theme/assets/js/plugins.js"></script>
+    <script src="~/Main-Theme/assets/js/custom.js"></script>
+    <script>
+        $(document).ready(function () {
+            updateCart();
+        });
+    </script>
 </body>
 </html>

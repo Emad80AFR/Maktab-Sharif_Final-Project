@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>SM._Infrastructure.InventoryAcl</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Inventory.Managemnt\IM. Application\IM. Application.Contracts\IM. Application.Contracts.csproj" />
+    <ProjectReference Include="..\..\SM. Domain\SM. Domain.csproj" />
+  </ItemGroup>
+
+</Project>

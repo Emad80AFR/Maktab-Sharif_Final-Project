@@ -6,6 +6,7 @@ using FrameWork.Application;
 using IM._Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using SM._Application.Contracts.Order.DTO_s;
 using SM._Domain.ProductPictureAgg;
 using SM._Infrastructure.EFCore;
 
@@ -239,6 +240,20 @@ namespace BP._Query.Query
                 _logger.LogError(ex, "An error occurred in Search method.");
                 throw;
             }
+        }
+
+        public async Task<List<CartItem>> CheckInventoryStatus(List<CartItem> cartItems,CancellationToken cancellationToken)
+        {
+            var inventory = await _inventoryContext.Inventory.ToListAsync(cancellationToken: cancellationToken);
+
+            foreach (var cartItem in cartItems.Where(cartItem =>
+                         inventory.Any(x => x.ProductId == cartItem.Id && x.InStock)))
+            {
+                var itemInventory = inventory.Find(x => x.ProductId == cartItem.Id);
+                cartItem.IsInStock = itemInventory!.CalculateCurrentCount() >= cartItem.Count;
+            }
+
+            return cartItems;
         }
     }
 }

@@ -58,9 +58,9 @@ namespace WebHost.Areas.Administration.Pages.Shop.Products
             return Partial("Edit", product);
         }
 
-        public JsonResult OnPostEdit(EditProduct command, CancellationToken cancellationToken)
+        public async Task<JsonResult> OnPostEdit(EditProduct command, CancellationToken cancellationToken)
         {
-            var result = _productApplication.Edit(command, cancellationToken);
+            var result = await _productApplication.Edit(command, cancellationToken);
             return new JsonResult(result);
         }
     }

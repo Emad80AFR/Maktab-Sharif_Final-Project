@@ -4,7 +4,7 @@ using AM._Application.Contracts.Role;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace WebHost.Areas.Administration.Pages.Accounts
+namespace WebHost.Areas.Administration.Pages
 {
     public class ProfileModel : PageModel
     {

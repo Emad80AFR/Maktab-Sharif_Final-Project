@@ -10,6 +10,7 @@ using System.Text.Unicode;
 using CM._Infrastructure.Configuration;
 using DM._Infrastructure.Configuration;
 using FrameWork.Application.FileUpload;
+using FrameWork.Application.ZarinPal;
 using FrameWork.Infrastructure;
 using FrameWork.Infrastructure.ConfigurationModel;
 
@@ -20,23 +21,27 @@ namespace WebHost
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
+
             builder.Services.AddHttpContextAccessor();
-            builder.Services.Configure<AppSettingsOption>(builder.Configuration);
-            //builder.Configuration.Get<AppSettingsOption>();
+            builder.Services.AddSession();
+            builder.Services.AddSingleton(builder.Configuration.GetSection("DomainSettings").Get<AppSettingsOption.Domainsettings>());
+            //builder.Services.Configure<AppSettingsOption>(builder.Configuration);
 
             var connectionString = builder.Configuration.GetConnectionString("BazarchePlusDb");
 
-            ShopManagementBootstrapper.Configure(builder.Services,connectionString);
             InventoryManagementBootstrapper.Configure(builder.Services, connectionString);
             DiscountManagementBootstrapper.Configure(builder.Services,connectionString);
             AccountManagementBootstrapper.Configure(builder.Services,connectionString);
-            BlogManagementBootstrapper.Configure(builder.Services,connectionString);
             CommentManagementBootstrapper.Configure(builder.Services,connectionString);
             AuctionManagementBootstrapper.Configure(builder.Services,connectionString);
+            ShopManagementBootstrapper.Configure(builder.Services,connectionString);
+            BlogManagementBootstrapper.Configure(builder.Services,connectionString);
 
 
             builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Arabic));
             builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            builder.Services.AddScoped<IZarinPalFactory, ZarinPalFactory>();
             builder.Services.AddScoped<IFileUploader, FileUploader>();
             builder.Services.AddScoped<IAuthHelper, AuthHelper>();
 
@@ -98,6 +103,8 @@ namespace WebHost
             app.UseCookiePolicy();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 

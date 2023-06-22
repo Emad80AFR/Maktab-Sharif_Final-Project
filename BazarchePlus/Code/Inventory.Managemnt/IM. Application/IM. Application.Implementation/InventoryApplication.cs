@@ -11,9 +11,8 @@ namespace IM._Application.Implementation
     public class InventoryApplication:IInventoryApplication
     {
         private readonly IAuthHelper _authHelper;
-        private readonly IInventoryRepository _inventoryRepository;
         private readonly ILogger<InventoryApplication> _logger;
-
+        private readonly IInventoryRepository _inventoryRepository;
         public InventoryApplication(IAuthHelper authHelper, IInventoryRepository inventoryRepository, ILogger<InventoryApplication> logger)
         {
             _authHelper = authHelper;
