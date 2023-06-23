@@ -13,10 +13,14 @@ public class Product:BaseClass<long>
     public string Picture { get; private set; }
     public string PictureAlt { get; private set; }
     public string PictureTitle { get; private set; }
-    public long CategoryId { get; private set; }
     public string Slug { get; private set; }
     public string Keywords { get; private set; }
     public string MetaDescription { get; private set; }
+    public long CategoryId { get; private set; }
+    public long SellerId { get; set; }
+    public bool IsActive { get; set; }
+    
+    
 
     public ProductCategory Category { get; private set; }
     public List<ProductPicture> ProductPictures { get; private set; }
@@ -27,7 +31,7 @@ public class Product:BaseClass<long>
     }
     public Product(string name, string code, string shortDescription, string description,
         string picture, string pictureAlt, string pictureTitle, long categoryId, string slug,
-        string keywords, string metaDescription)
+        string keywords, string metaDescription, long sellerId)
     {
         Name = name;
         Code = code;
@@ -40,6 +44,8 @@ public class Product:BaseClass<long>
         Slug = slug;
         Keywords = keywords;
         MetaDescription = metaDescription;
+        SellerId = sellerId;
+        IsActive = false;
     }
 
     public void Edit(string name, string code, string shortDescription, string description, string picture,
@@ -62,4 +68,12 @@ public class Product:BaseClass<long>
         MetaDescription = metaDescription;
     }
 
+    public void Activate()
+    {
+        IsActive = true;
+    }
+    public void DeActive()
+    {
+        IsActive = false;
+    }
 }

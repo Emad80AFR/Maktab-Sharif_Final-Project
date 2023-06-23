@@ -1,5 +1,6 @@
 ﻿using BP._Query.Contracts.Comment;
 using BP._Query.Contracts.Product;
+using BP._Query.Contracts.ProductCategory;
 using CM._Infrastructure.EFCore;
 using DM._Infrastructure.EFCore;
 using FrameWork.Application;
@@ -7,6 +8,7 @@ using IM._Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SM._Application.Contracts.Order.DTO_s;
+using SM._Domain.ProductAgg;
 using SM._Domain.ProductPictureAgg;
 using SM._Infrastructure.EFCore;
 
@@ -136,7 +138,7 @@ namespace BP._Query.Query
                     .Select(x => new { x.DiscountRate, x.ProductId })
                     .ToListAsync(cancellationToken);
 
-                var products = await _context.Products.Include(x => x.Category)
+                var products = await _context.Products.Where(x => x.IsActive).Include(x => x.Category)
                     .Select(product => new ProductQueryModel
                     {
                         Id = product.Id,
@@ -242,7 +244,7 @@ namespace BP._Query.Query
             }
         }
 
-        public async Task<List<CartItem>> CheckInventoryStatus(List<CartItem> cartItems,CancellationToken cancellationToken)
+        public async Task<List<CartItem>> CheckInventoryStatus(List<CartItem> cartItems, CancellationToken cancellationToken)
         {
             var inventory = await _inventoryContext.Inventory.ToListAsync(cancellationToken: cancellationToken);
 
@@ -255,5 +257,53 @@ namespace BP._Query.Query
 
             return cartItems;
         }
+
+        public async Task<List<ProductQueryModel>> GetProductsBy(long sellerId, CancellationToken cancellationToken)
+        {
+            var inventory = await _inventoryContext.Inventory
+                .Select(x => new { x.ProductId, x.UnitPrice })
+                .ToListAsync(cancellationToken);
+
+            var discounts = await _discountContext.CustomerDiscounts
+                .Where(x => x.StartDate < DateTime.Now && x.EndDate > DateTime.Now)
+                .Select(x => new { x.DiscountRate, x.ProductId, x.EndDate })
+                .ToListAsync(cancellationToken);
+
+            var products = await _context.Products.Where(product => product.SellerId == sellerId && product.IsActive)
+                .Select(product => new ProductQueryModel
+                {
+                    Id = product.Id,
+                    Category = product.Category.Name,
+                    CategorySlug = product.Category.Slug,
+                    Name = product.Name,
+                    Picture = product.Picture,
+                    PictureAlt = product.PictureAlt,
+                    PictureTitle = product.PictureTitle,
+                    ShortDescription = product.ShortDescription,
+                    Slug = product.Slug
+
+                }).ToListAsync(cancellationToken: cancellationToken);
+
+            foreach (var product in products)
+            {
+                var productInventory = inventory.FirstOrDefault(x => x.ProductId == product.Id);
+                if (productInventory == null) continue;
+                {
+                    var price = productInventory.UnitPrice;
+                    product.Price = price.ToMoney();
+                    var discount = discounts.FirstOrDefault(x => x.ProductId == product.Id);
+                    if (discount == null) continue;
+                    var discountRate = discount.DiscountRate;
+                    product.DiscountRate = discountRate;
+                    product.DiscountExpireDate = discount.EndDate.ToDiscountFormat();
+                    product.HasDiscount = discountRate > 0;
+                    var discountAmount = Math.Round((price * discountRate) / 100);
+                    product.PriceWithDiscount = (price - discountAmount).ToMoney();
+                }
+            }
+
+            return products;
+        }
+
     }
 }

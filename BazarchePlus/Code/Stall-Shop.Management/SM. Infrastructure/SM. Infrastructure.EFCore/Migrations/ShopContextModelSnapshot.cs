@@ -89,6 +89,9 @@ namespace SM._Infrastructure.EFCore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Keywords")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -118,6 +121,9 @@ namespace SM._Infrastructure.EFCore.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<long>("SellerId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("ShortDescription")
                         .IsRequired()

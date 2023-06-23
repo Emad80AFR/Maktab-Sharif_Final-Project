@@ -10,5 +10,7 @@ public interface IProductApplication
     Task<EditProduct> GetDetails(long id, CancellationToken cancellationToken);
     Task<List<ProductViewModel>> GetProducts(CancellationToken cancellationToken);
     Task<List<ProductViewModel>> Search(ProductSearchModel searchModel, CancellationToken cancellationToken);
+    Task<OperationResult> Activate(long id, CancellationToken cancellationToken);
+    Task<OperationResult> DeActive(long id, CancellationToken cancellationToken);
 
 }

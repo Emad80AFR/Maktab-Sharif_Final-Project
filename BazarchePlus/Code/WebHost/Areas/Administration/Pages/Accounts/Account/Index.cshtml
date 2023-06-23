@@ -39,23 +39,32 @@
             <div class="panel-body">
                 <form class="form-inline" role="form" method="get">
                     <div class="form-group">
-                        <label class="sr-only" asp-for="SearchModel.Fullname"></label>
-                        <input class="form-control" asp-for="SearchModel.Fullname" placeholder="نام">
+                        <label  asp-for="SearchModel.Fullname"></label>
+                        <input class="form-control " asp-for="SearchModel.Fullname" >
                     </div>
                     <div class="form-group">
-                        <label class="sr-only" asp-for="SearchModel.Username"></label>
-                        <input class="form-control" asp-for="SearchModel.Username" placeholder="نام کاربری">
+                        <label  asp-for="SearchModel.Username"></label>
+                        <input class="form-control" asp-for="SearchModel.Username" >
                     </div>
                     <div class="form-group">
-                        <label class="sr-only" asp-for="SearchModel.Mobile"></label>
-                        <input class="form-control" asp-for="SearchModel.Mobile" placeholder="موبایل">
+                        <label  asp-for="SearchModel.Mobile"></label>
+                        <input class="form-control" asp-for="SearchModel.Mobile" >
                     </div>
                     <div class="form-group">
-                        <label class="sr-only" asp-for="SearchModel.RoleId"></label>
-                        <select class="form-control" asp-for="SearchModel.RoleId" asp-items="Model.Roles">
-                            <option value="0">نقش ...</option>
+                        <label  asp-for="SearchModel.RoleId"></label>
+                        <select class="form-control" asp-for="SearchModel.RoleId" asp-items="Model.Roles" >
+                            <option value="0">نقش را انتخاب کنید...</option>
                         </select>
                     </div>
+                    <div class="form-group m-r-10">
+                        <div class="checkbox checkbox-primary">
+                            <input asp-for="SearchModel.IsActive">
+                            <label asp-for="SearchModel.IsActive" >
+                                جستجو در غیرفعال ها
+                            </label>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-success waves-effect waves-light m-l-10">جستجو</button>
                     <a class="btn btn-primary waves-effect waves-light m-l-10" asp-page="./Index">مشاهده همه</a>
                 </form>
@@ -82,6 +91,7 @@
                                     <th>نام کاربری</th>
                                     <th>موبایل</th>
                                     <th>نقش</th>
+                                    <th>وضعیت</th>
                                     <th>تاریخ تولید</th>
                                     <th>عملیات</th>
                                 </tr>
@@ -92,12 +102,22 @@
                                     <tr>
                                         <td>@item.Id</td>
                                         <td>
-                                            <img src="~/ProductPictures/@item.ProfilePhoto" style="width: 70px; height: 70px" />
+                                            <img src="~/UploadedPictures/@item.ProfilePhoto" style="width: 70px; height: 70px" />
                                         </td>
                                         <td>@item.Fullname</td>
                                         <td>@item.Username</td>
                                         <td>@item.Mobile</td>
                                         <td>@item.Role</td>
+                                        <td>
+                                        @if (item.IsActive)
+                                            {
+                                                <span class="text-success">فعال</span>
+                                            }
+                                        else
+                                        {
+                                                <span class="text-danger">فعال</span>
+                                        }
+
                                         <td>@item.CreationDate</td>
                                         <td>
                                             <a class="btn btn-warning waves-effect waves-light m-b-5"
@@ -108,6 +128,18 @@
                                                href="#showmodal=@Url.Page("./Index", "ChangePassword", new { id = item.Id})">
                                                 <i class="fa fa-key"></i> تغییر رمز
                                             </a>
+                                            @if (item.IsActive)
+                                            {
+                                                <a class="btn btn-danger waves-effect waves-light m-b-5" asp-page-handler="DeActivate" asp-route-id="@item.Id">
+                                                    <i class="fa fa-edit"></i> غیرفعال
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="btn btn-success waves-effect waves-light m-b-5" asp-page-handler="Activate" asp-route-id="@item.Id">
+                                                    <i class="fa fa-edit"></i> فعال سازی
+                                                </a>
+                                            }
                                         </td>
                                     </tr>
                                 }

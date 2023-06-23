@@ -13,6 +13,8 @@ public class CreateProduct
     [Required(ErrorMessage = ValidationMessages.IsRequired)]
     public string Code { get; set; }
 
+    public long SellerId { get; set; }
+
     [Required(ErrorMessage = ValidationMessages.IsRequired)]
     public string ShortDescription { get; set; }
 

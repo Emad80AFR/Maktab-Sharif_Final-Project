@@ -39,6 +39,9 @@ namespace IM._Infrastructure.EFCore.Migrations
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("SellerId")
+                        .HasColumnType("bigint");
+
                     b.Property<double>("UnitPrice")
                         .HasColumnType("float");
 

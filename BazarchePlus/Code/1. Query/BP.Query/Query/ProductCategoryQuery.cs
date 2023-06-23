@@ -78,7 +78,7 @@ public class ProductCategoryQuery:IProductCategoryQuery
                 {
                     Id = x.Id,
                     Name = x.Name,
-                    Products = MapProducts(x.Products)
+                    Products = MapProducts(x.Products.Where(product=>product.IsActive))
                 })
                 .AsNoTracking()
                 .ToListAsync(cancellationToken);
@@ -157,7 +157,7 @@ public class ProductCategoryQuery:IProductCategoryQuery
                     MetaDescription = x.MetaDescription,
                     Keywords = x.Keywords,
                     Slug = x.Slug,
-                    Products = MapProducts(x.Products)
+                    Products = MapProducts(x.Products.Where(product=>product.IsActive))
                 })
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Slug == slug, cancellationToken);

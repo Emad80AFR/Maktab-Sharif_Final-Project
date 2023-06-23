@@ -6,6 +6,7 @@ using SM._Application.Contracts.Product;
 using SM._Application.Contracts.Product.DTO_s;
 using SM._Domain.ProductAgg;
 using SM._Domain.ProductCategoryAgg;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace SM._Application.Implementation;
 
@@ -44,7 +45,7 @@ public class ProductApplication:IProductApplication
             var product = new Product(command.Name, command.Code,
                 command.ShortDescription, command.Description, picturePath,
                 command.PictureAlt, command.PictureTitle, command.CategoryId, slug,
-                command.Keywords, command.MetaDescription);
+                command.Keywords, command.MetaDescription,command.SellerId);
 
             await _productRepository.Create(product, cancellationToken);
             await _productRepository.SaveChanges(cancellationToken);
@@ -142,5 +143,65 @@ public class ProductApplication:IProductApplication
         _logger.LogInformation("Product search completed successfully.");
 
         return products;
+    }
+
+    public async Task<OperationResult> Activate(long id, CancellationToken cancellationToken)
+    {
+        var operation = new OperationResult();
+        var product = await _productRepository.Get(id, cancellationToken);
+
+        if (product == null)
+        {
+            // Log warning 
+            _logger.LogWarning("No product found with ID: {ProductId}", id);
+            return operation.Failed(ApplicationMessages.RecordNotFound);
+        }
+
+        try
+        {
+            product.Activate();
+            await _productRepository.SaveChanges(cancellationToken);
+
+            // Log information 
+            _logger.LogInformation("Product activate successfully: {ProductName}", product.Name);
+
+            return operation.Succeeded();
+        }
+        catch (Exception ex)
+        {
+            // Log error 
+            _logger.LogError(ex, "An error occurred during activating product: {ErrorMessage}", ex.Message);
+            return operation.Failed(ApplicationMessages.ErrorOccurred);
+        }
+    }
+
+    public async Task<OperationResult> DeActive(long id, CancellationToken cancellationToken)
+    {
+        var operation = new OperationResult();
+        var product = await _productRepository.Get(id, cancellationToken);
+
+        if (product == null)
+        {
+            // Log warning 
+            _logger.LogWarning("No product found with ID: {ProductId}", id);
+            return operation.Failed(ApplicationMessages.RecordNotFound);
+        }
+
+        try
+        {
+            product.DeActive();
+            await _productRepository.SaveChanges(cancellationToken);
+
+            // Log information 
+            _logger.LogInformation("Product deActive successfully: {ProductName}", product.Name);
+
+            return operation.Succeeded();
+        }
+        catch (Exception ex)
+        {
+            // Log error 
+            _logger.LogError(ex, "An error occurred during deActivating product: {ErrorMessage}", ex.Message);
+            return operation.Failed(ApplicationMessages.ErrorOccurred);
+        }
     }
 }

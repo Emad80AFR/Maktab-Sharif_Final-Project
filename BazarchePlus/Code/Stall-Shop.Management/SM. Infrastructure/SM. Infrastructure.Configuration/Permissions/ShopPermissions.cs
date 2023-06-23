@@ -7,7 +7,9 @@
         public const int SearchProducts = 11;
         public const int CreateProduct = 12;
         public const int EditProduct = 13;
-
+        public const int ActivateProduct = 14;
+        public const int DeActivateProduct
+            = 15;
 
         //ProductCategory
         public const int ListProductCategories = 20;

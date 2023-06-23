@@ -29,7 +29,8 @@ namespace IM._Application.Implementation
                 return operation.Failed(ApplicationMessages.DuplicatedRecord);
             }
 
-            var inventory = new Inventory(command.ProductId, command.UnitPrice);
+            var sellerId = _authHelper.CurrentAccountId();
+            var inventory = new Inventory(command.ProductId, command.UnitPrice,sellerId);
             await _inventoryRepository.Create(inventory, cancellationToken);
             try
             {
@@ -84,7 +85,7 @@ namespace IM._Application.Implementation
                 return operation.Failed(ApplicationMessages.RecordNotFound);
             }
 
-            const long operatorId = 1;
+            var operatorId = _authHelper.CurrentAccountId();
             inventory.Increase(command.Count, operatorId, command.Description);
             await _inventoryRepository.SaveChanges(cancellationToken);
 

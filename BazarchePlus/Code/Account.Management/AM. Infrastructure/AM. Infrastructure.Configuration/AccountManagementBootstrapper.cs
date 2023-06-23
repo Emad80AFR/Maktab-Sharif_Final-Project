@@ -6,6 +6,8 @@ using AM._Domain.RollAgg;
 using AM._Infrastructure.Configuration.Permissions;
 using AM._Infrastructure.EFCore;
 using AM._Infrastructure.EFCore.Repository;
+using BP._Query.Contracts.Seller;
+using BP._Query.Query;
 using FrameWork.Infrastructure.Permission;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +25,8 @@ namespace AM._Infrastructure.Configuration
 
             services.AddScoped<IRoleApplication, RoleApplication>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+
+            services.AddScoped<ISellerQuery, SellerQuery>();
 
             services.AddScoped<IPermissionExposer, AccountPermissionExposer>();
         }

@@ -63,5 +63,22 @@ namespace WebHost.Areas.Administration.Pages.Shop.Products
             var result = await _productApplication.Edit(command, cancellationToken);
             return new JsonResult(result);
         }
+
+        public async Task<IActionResult> OnGetActivate(long id, CancellationToken cancellationToken)
+        {
+            var result = await _productApplication.Activate(id, cancellationToken);
+            if (result.IsSucceeded)
+                return RedirectToPage("./Index");
+            Message = result.Message;
+            return RedirectToPage("./Index");
+        }
+        public async Task<IActionResult> OnGetDeActivate(long id, CancellationToken cancellationToken)
+        {
+            var result = await _productApplication.DeActive(id, cancellationToken);
+            if (result.IsSucceeded)
+                return RedirectToPage("./Index");
+            Message = result.Message;
+            return RedirectToPage("./Index");
+        }
     }
 }

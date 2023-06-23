@@ -21,8 +21,7 @@ public class RegisterAccount
 
     public long RoleId { get; set; }
 
-    [Required(ErrorMessage = ValidationMessages.IsRequired)]
-    public IFormFile ProfilePhoto { get; set; }
+    public IFormFile? ProfilePhoto { get; set; }
     public List<RoleViewModel> Roles { get; set; }
 
 }

@@ -2,6 +2,8 @@
 @using FrameWork.Infrastructure
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using FrameWork.Application
+@using FrameWork.Application.Authentication
+@inject IAuthHelper AuthHelper
 @model WebHost.Areas.Administration.Pages.ProfileModel
 @{
     Layout = "Shared/_AdminLayout";
@@ -28,7 +30,7 @@
             <div class="text-center">
                 <div class="user-box">
                     <a href="#">
-                        <img src="~/ProductPictures/@Model.Command.ProfilePictureName" alt="عکس پروفایل" class="img-circle img-responsive">
+                        <img src="~/UploadedPictures/@Model.Command.ProfilePictureName" alt="عکس پروفایل" class="img-circle img-responsive">
                     </a>
                     <div class="user-details">
                         <h4>@Model.Command.Username</h4>
@@ -37,7 +39,7 @@
                 </div>
             </div>
             <hr>
-            <form id="form" role="form" method="post" enctype="multipart/form-data">
+            <form id="form" role="form" method="post" enctype="multipart/form-data" asp-page-handler="@(AuthHelper.CurrentAccountRole()==Roles.Seller ? "EditSeller" : "Edit")">
                 <div class="form-body">
 
                     <div class="row">
@@ -68,7 +70,7 @@
                         <div class="col-md-6">
                             <div class="form-group relative">
                                 <input asp-for="Command.ProfilePhoto" type="file" class="form-control">
-                                <label asp-for="Command.ProfilePhoto">آپلود عکس</label>
+                                <label asp-for="Command.ProfilePhoto"> آپلود عکس پروفایل</label>
                                 <div class="input-group round"> 
                                     <input type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید">
                                     <span class="input-group-btn"> 
@@ -83,6 +85,37 @@
                             </div>
                         </div>
                     </div>
+                    @if (AuthHelper.CurrentAccountRole() == Roles.Seller)
+                    {
+                        <div class="row" >
+                            <div class="col-md-6">
+                                <div class="form-group relative">
+                                    <input asp-for="Command.ShopPicture" type="file" class="form-control">
+                                    <label asp-for="Command.ShopPicture"> آپلود عکس فروشگاه</label>
+                                    <div class="input-group round"> 
+                                        <input type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید">
+                                        <span class="input-group-btn"> 
+                                            <button type="button" class="btn btn-info"> 
+                                                <i class="icon-picture"></i>
+                                                آپلود عکس
+                                                <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div>
+                                            </button>
+                                        </span> 
+                                    </div>
+                                    <div class="help-block"></div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Command.ShopName" class="control-label">نام فروشگاه</label>
+                                    <input type="text" class="form-control" asp-for="Command.ShopName">
+                                    <span asp-validation-for="Command.ShopName" class="error"></span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    
+
                     <input type="hidden" asp-for="Command.RoleId" value="@Model.Command.RoleId"/>
                     <input type="hidden" asp-for="Command.Id" value="@Model.Command.Id"/>
 

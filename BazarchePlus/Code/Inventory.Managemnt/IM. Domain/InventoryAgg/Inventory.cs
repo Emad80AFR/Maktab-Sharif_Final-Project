@@ -5,15 +5,17 @@ namespace IM._Domain.InventoryAgg;
 public class Inventory:BaseClass<long>
 {
     public long ProductId { get; private set; }
+    public long SellerId { get; set; }
     public double UnitPrice { get; private set; }
     public bool InStock { get; private set; }
     public List<InventoryOperation> Operations { get; private set; }
 
-    public Inventory(long productId, double unitPrice)
+    public Inventory(long productId, double unitPrice,long sellerId)
     {
         ProductId = productId;
         UnitPrice = unitPrice;
         InStock = false;
+        SellerId = sellerId;
     }
 
     public void Edit(long productId, double unitPrice)

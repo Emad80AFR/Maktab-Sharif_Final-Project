@@ -1,4 +1,5 @@
 ﻿using FrameWork.Application;
+using FrameWork.Application.Authentication;
 using FrameWork.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -11,11 +12,13 @@ public class ProductPictureRepository:BaseRepository<long,ProductPicture>,IProdu
 {
     private readonly ILogger<ProductPictureRepository> _logger;
     private readonly ShopContext _context;
+    private readonly IAuthHelper _authHelper;
 
-    public ProductPictureRepository(ILogger<ProductPictureRepository> logger, ShopContext context):base(context,logger)
+    public ProductPictureRepository(ILogger<ProductPictureRepository> logger, ShopContext context, IAuthHelper authHelper):base(context,logger)
     {
         _logger = logger;
         _context = context;
+        _authHelper = authHelper;
     }
 
     public async Task<EditProductPicture> GetDetails(long id, CancellationToken cancellationToken)
@@ -72,9 +75,16 @@ public class ProductPictureRepository:BaseRepository<long,ProductPicture>,IProdu
                 CreationDate = x.CreationDate.ToFarsi(),
                 Picture = x.Picture,
                 ProductId = x.ProductId,
-                IsRemoved = x.IsRemoved
+                IsRemoved = x.IsRemoved,
+                ProductSellerId = x.Product.SellerId
+
             });
 
+        var role = _authHelper.CurrentAccountRole();
+        if (role == Roles.Seller)
+        {
+            query = query.Where(x => x.ProductSellerId == _authHelper.CurrentAccountId());
+        }
         if (searchModel.ProductId != 0)
         {
             query = query.Where(x => x.ProductId == searchModel.ProductId);

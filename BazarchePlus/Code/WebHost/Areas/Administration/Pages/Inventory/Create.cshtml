@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using FrameWork.Application.Authentication
+@inject IAuthHelper AuthHelper
 @model IM._Application.Contracts.Inventory.DTO_s.CreateInventory
 @{
 }
@@ -34,6 +36,7 @@
             </div>
         </div>
     </div>
+    <input type="hidden" asp-for="SellerId" value="@AuthHelper.CurrentAccountId()"/>
     <div class="modal-footer">
         <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">بستن</button>
         <button type="submit" class="btn btn-info waves-effect waves-light">تعریف</button>

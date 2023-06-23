@@ -1,5 +1,6 @@
 ﻿using AM._Infrastructure.EFCore;
 using FrameWork.Application;
+using FrameWork.Application.Authentication;
 using FrameWork.Infrastructure;
 using IM._Application.Contracts.Inventory.DTO_s;
 using IM._Domain.InventoryAgg;
@@ -15,14 +16,16 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
     private readonly InventoryContext _inventoryContext;
     private readonly ShopContext _shopContext;
     private readonly AccountContext _accountContext; 
+    private readonly IAuthHelper _authHelper;
 
 
-    public InventoryRepository(ILogger<InventoryRepository> logger, InventoryContext context, ShopContext shopContext, AccountContext accountContext):base(context,logger)
+    public InventoryRepository(ILogger<InventoryRepository> logger, InventoryContext context, ShopContext shopContext, AccountContext accountContext, IAuthHelper authHelper):base(context,logger)
     {
         _logger = logger;
         _inventoryContext = context;
         _shopContext = shopContext;
         _accountContext = accountContext;
+        _authHelper = authHelper;
     }
 
     public async Task<EditInventory> GetDetails(long id,CancellationToken cancellationToken)
@@ -60,7 +63,8 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
 
     public async Task<List<InventoryViewModel>> Search(InventorySearchModel searchModel, CancellationToken cancellationToken)
     {
-        var products = await _shopContext.Products.Select(x => new { x.Id, x.Name }).ToListAsync(cancellationToken: cancellationToken);
+        
+        
 
         var query = _inventoryContext.Inventory.Select(x => new InventoryViewModel
         {
@@ -69,9 +73,17 @@ public class InventoryRepository:BaseRepository<long,Inventory>,IInventoryReposi
             InStock = x.InStock,
             ProductId = x.ProductId,
             CurrentCount = x.CalculateCurrentCount(),
-            CreationDate = x.CreationDate.ToFarsi()
+            CreationDate = x.CreationDate.ToFarsi(),
+            SellerId = x.SellerId
         });
-
+        var productQuery = _shopContext.Products.Select(x => new { x.Id, x.Name, x.SellerId });
+        var role = _authHelper.CurrentAccountRole();
+        if (role == Roles.Seller)
+        {
+            query = query.Where(x => x.SellerId == _authHelper.CurrentAccountId());
+            productQuery = productQuery.Where(x => x.SellerId == _authHelper.CurrentAccountId());
+        }
+        var products = await productQuery.ToListAsync(cancellationToken: cancellationToken);
         if (searchModel.ProductId > 0)
             query = query.Where(x => x.ProductId == searchModel.ProductId);
 

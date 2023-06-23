@@ -16,7 +16,7 @@ namespace WebHost
         {
             if (file == null) return "";
 
-            var directoryPath = $"{_webHostEnvironment.WebRootPath}//ProductPictures//{path}";
+            var directoryPath = $"{_webHostEnvironment.WebRootPath}//UploadedPictures//{path}";
 
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);

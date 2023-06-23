@@ -171,48 +171,44 @@
         </div><!-- /.col-md-12 -->
     </div><!-- /.row -->
     <!-- BEGIN CODE MODAL -->
-<div id="MainModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content" id="ModalContent">
-
-
-
+    <div id="MainModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content" id="ModalContent">
+            </div>
         </div>
     </div>
-</div>
     <!-- END CODE MODAL -->
-
-@*    <div id="large-modal" class="modal fade" role="dialog" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">مودال با عرض بیشتر</h4>
-                </div><!-- /.modal-header -->
-                <div class="modal-body">
-                    <p>...</p>
-                    <p>...</p>
-                    <p>...</p>
-                    <p>...</p>
-                    <p>...</p>
-                    <p>...</p>
-                </div><!-- /.modal-body -->
-                <div class="modal-footer">
-                    <p class="text-right">
-                        <button type="button" class="btn btn-info btn-round">ذخیره</button>
-                        <button type="button" class="btn btn-danger btn-round" data-bs-dismiss="modal">بازگشت</button>
-                    </p>
-                </div><!-- /.modal-footer -->
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
+    @*    <div id="large-modal" class="modal fade" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+    <div class="modal-header">
+    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
+    <h4 class="modal-title">مودال با عرض بیشتر</h4>
+    </div><!-- /.modal-header -->
+    <div class="modal-body">
+    <p>...</p>
+    <p>...</p>
+    <p>...</p>
+    <p>...</p>
+    <p>...</p>
+    <p>...</p>
+    </div><!-- /.modal-body -->
+    <div class="modal-footer">
+    <p class="text-right">
+    <button type="button" class="btn btn-info btn-round">ذخیره</button>
+    <button type="button" class="btn btn-danger btn-round" data-bs-dismiss="modal">بازگشت</button>
+    </p>
+    </div><!-- /.modal-footer -->
+    </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->*@
 
 
 
 
 
-<!-- BEGIN JS -->
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- BEGIN JS -->
+    <script src="~/Admin-Theme/assets/plugins/jquery/dist/jquery-3.6.1.min.js"></script>
     <script src="~/Admin-Theme/assets/plugins/bootstrap/bootstrap5/js/bootstrap.bundle.min.js"></script>
     <script src="~/Admin-Theme/assets/plugins/metisMenu/dist/metisMenu.min.js"></script>
     <script src="~/Admin-Theme/assets/plugins/paper-ripple/dist/PaperRipple.min.js"></script>
@@ -222,12 +218,11 @@
     <script src="~/Admin-Theme/assets/plugins/iCheck/icheck.min.js"></script>
     <script src="~/Admin-Theme/assets/plugins/switchery/dist/switchery.js"></script>
     <script src="~/Admin-Theme/assets/js/core.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/Admin-Theme/assets/js/persian-date.min.js"> </script>
     <script src="~/Admin-Theme/assets/js/persian-datepicker.min.js"> </script>
     <script src="~/Admin-Theme/assets/js/site.js"></script>
-
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
     <!-- BEGIN PAGE JAVASCRIPT -->
     <script src="~/Admin-Theme/assets/plugins/raphael/raphael.min.js"></script>
@@ -240,26 +235,26 @@
     <script src="~/Admin-Theme/assets/js/pages/dashboard1.js"></script>
     <!-- END PAGE JAVASCRIPT -->
     @await RenderSectionAsync("Scripts",false)
-<script>
-    $('.persianDateInput').persianDatepicker({
-        format: 'YYYY/MM/DD',
-        autoClose: true,
-        initialValueType: "persian"
-    });
-</script>
-<script src="https://cdn.tiny.cloud/1/vknbrq1pie3xqb0f0warx7wrg3j6p5p162fmv7e8p6jxo7jz/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-    tinymce.init({
-        selector: '#BodyContent',
-        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-        tinycomments_mode: 'embedded',
-        tinycomments_author: 'Author name',
-        mergetags_list: [
-            { value: 'First.Name', title: 'First Name' },
-            { value: 'Email', title: 'Email' },
-        ]
-    });
-</script>
+    <script>
+        $('.persianDateInput').persianDatepicker({
+            format: 'YYYY/MM/DD',
+            autoClose: true,
+            initialValueType: "persian"
+        });
+    </script>
+    <script src="https://cdn.tiny.cloud/1/vknbrq1pie3xqb0f0warx7wrg3j6p5p162fmv7e8p6jxo7jz/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#BodyContent',
+            plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: 'Author name',
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' },
+            ]
+        });
+    </script>
 </body>
 </html>

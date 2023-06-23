@@ -1,4 +1,4 @@
-﻿@page
+﻿@page 
 @using FrameWork.Infrastructure
 @model AccountModel
 @{
@@ -31,11 +31,11 @@
                     <div class="page-content-wrapper">
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6">
-                                @if (!string.IsNullOrWhiteSpace(Model.LoginMessage))
+                                @if (!string.IsNullOrEmpty(Model.LoginMessage))
                                 {
                                     <div class="alert alert-danger">@Model.LoginMessage</div>
                                 }
-                                
+                                @*<div class="alert alert-danger asp-validation-summary="All"></div>*@
                                 <form method="post" asp-page-handler="Login">
                                     <div class="login-form">
                                         <h4 class="login-title">ورود</h4>

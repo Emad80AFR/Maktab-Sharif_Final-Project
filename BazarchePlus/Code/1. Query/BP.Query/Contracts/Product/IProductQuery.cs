@@ -9,5 +9,6 @@ namespace BP._Query.Contracts.Product
         Task<List<ProductQueryModel>> GetLatestArrivals(CancellationToken cancellationToken);
         Task<List<ProductQueryModel>> Search(string value, CancellationToken cancellationToken);
         Task<List<CartItem>> CheckInventoryStatus(List<CartItem> cartItems,CancellationToken cancellationToken);
+        Task<List<ProductQueryModel>> GetProductsBy(long sellerId, CancellationToken cancellationToken);
     }
 }

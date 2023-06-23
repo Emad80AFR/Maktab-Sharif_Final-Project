@@ -15,6 +15,8 @@ namespace SM._Infrastructure.Configuration.Permissions
                         new(ShopPermissions.SearchProducts, "جستجو"),
                         new(ShopPermissions.CreateProduct, "ایجاد"),
                         new(ShopPermissions.EditProduct, "ویرایش"),
+                        new(ShopPermissions.ActivateProduct, "فعال سازی"),
+                        new(ShopPermissions.DeActivateProduct, "غیر فعال سازی")
                     }
                 },
                 {

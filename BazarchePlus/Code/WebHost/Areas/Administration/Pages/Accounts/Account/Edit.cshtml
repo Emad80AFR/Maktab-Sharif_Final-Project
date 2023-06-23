@@ -55,18 +55,19 @@
                 <div class="form-group relative">
                     <input asp-for="ProfilePhoto" accept="image/*" type="file" class="form-control">
                     <span asp-validation-for="ProfilePhoto" class="error"></span>
-                    <label asp-for="ProfilePhoto" >آپلود عکس</label>
-                    <div class="input-group round"> 
-                        <input  type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید">
-                        <span class="input-group-btn"> 
-                            <button type="button" class="btn btn-info"> 
+                    <label asp-for="ProfilePhoto">آپلود عکس</label>
+                    <div class="input-group round">
+                        <input type="text" class="form-control file-input" placeholder="برای آپلود کلیک کنید">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-info">
                                 <i class="icon-picture"></i>
                                 آپلود عکس
-                                <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div></button>
-                        </span> 
+                                <div class="paper-ripple"><div class="paper-ripple__background"></div><div class="paper-ripple__waves"></div></div>
+                            </button>
+                        </span>
                     </div>
                     <div class="help-block"></div>
-                    
+
                 </div>
             </div>
         </div>
@@ -78,3 +79,4 @@
         <button type="submit" class="btn btn-info waves-effect waves-light">ویرایش</button>
     </div>
 </form>
+

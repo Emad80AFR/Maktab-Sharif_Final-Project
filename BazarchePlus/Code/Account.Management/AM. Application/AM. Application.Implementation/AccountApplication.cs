@@ -9,6 +9,9 @@ using FrameWork.Application.Messages;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using FrameWork.Application.FileUpload;
+using Microsoft.AspNetCore.WebUtilities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Reflection;
 
 namespace AM._Application.Implementation
 {
@@ -118,6 +121,90 @@ namespace AM._Application.Implementation
             }
         }
 
+        public async Task<OperationResult> EditSeller(EditAccount command, CancellationToken cancellationToken)
+        {
+            var operation = new OperationResult();
+            try
+            {
+                var account = await _accountRepository.Get(command.Id, cancellationToken);
+                if (account == null)
+                {
+                    _logger.LogWarning(ApplicationMessages.RecordNotFound);
+                    return operation.Failed(ApplicationMessages.RecordNotFound);
+                }
+
+                if (await _accountRepository.Exist(x =>
+                        (x.Username == command.Username || x.Mobile == command.Mobile) && x.Id != command.Id, cancellationToken))
+                {
+                    _logger.LogWarning(ApplicationMessages.DuplicatedRecord);
+                    return operation.Failed(ApplicationMessages.DuplicatedRecord);
+                }
+
+                var profilePhotoPath = "profilePhotos";
+                var picturePath = await _fileUploader.Upload(command.ProfilePhoto, profilePhotoPath, cancellationToken);
+                var shopPhotoPath = "shopPhotos";
+                var shopPath = await _fileUploader.Upload(command.ShopPicture, shopPhotoPath, cancellationToken);
+                account.EditSeller( command.Fullname, command.ShopName!, command.Username,command.Mobile,picturePath, shopPath);
+                await _accountRepository.SaveChanges(cancellationToken);
+
+                _logger.LogInformation("Account edited successfully.");
+                return operation.Succeeded();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while editing the account.");
+                return operation.Failed("An error occurred while editing the account.");
+            }
+        }
+
+        public async Task<OperationResult> Activate(long id, CancellationToken cancellationToken)
+        {
+            var operation = new OperationResult();
+            try
+            {
+                var account = await _accountRepository.Get(id, cancellationToken);
+                if (account == null)
+                {
+                    _logger.LogWarning(ApplicationMessages.RecordNotFound);
+                    return operation.Failed(ApplicationMessages.RecordNotFound);
+                }
+                
+                account.Activate();
+                await _accountRepository.SaveChanges(cancellationToken);
+                _logger.LogInformation("Account Activate successfully.");
+                return operation.Succeeded();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while Activating the account.");
+                return operation.Failed("An error occurred while editing the account.");
+            }
+        }
+
+        public async Task<OperationResult> DeActive(long id, CancellationToken cancellationToken)
+        {
+            var operation = new OperationResult();
+            try
+            {
+                var account = await _accountRepository.Get(id, cancellationToken);
+                if (account == null)
+                {
+                    _logger.LogWarning(ApplicationMessages.RecordNotFound);
+                    return operation.Failed(ApplicationMessages.RecordNotFound);
+                }
+
+                account.Deactivate();
+                await _accountRepository.SaveChanges(cancellationToken);
+                _logger.LogInformation("Account DeActivate successfully.");
+                return operation.Succeeded();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while DeActivating the account.");
+                return operation.Failed("An error occurred while editing the account.");
+            }
+        }
+
         public async Task<OperationResult> ChangePassword(ChangePassword command,CancellationToken cancellationToken)
         {
             var operation = new OperationResult();
@@ -160,6 +247,9 @@ namespace AM._Application.Implementation
                     _logger.LogWarning("An error occurred ; password or username is wrong!");
                     return operation.Failed(ApplicationMessages.WrongUserPass);
                 }
+
+                if (!account.IsActive)
+                    return operation.Failed(ApplicationMessages.UnActiveAccount);
 
                 var result = _passwordHasher.Check(account.Password, command.Password);
                 if (!result.Verified)

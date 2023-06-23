@@ -12,6 +12,7 @@ public class CreateInventory
     [Range(1, double.MaxValue, ErrorMessage = ValidationMessages.IsRequired)]
     public double UnitPrice { get; set; }
 
+    public long SellerId { get; set; }
     public List<ProductViewModel> Products { get; set; }
 
 }

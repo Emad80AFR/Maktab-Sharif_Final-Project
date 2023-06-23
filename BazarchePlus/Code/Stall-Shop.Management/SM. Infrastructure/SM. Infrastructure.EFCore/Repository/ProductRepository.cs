@@ -1,9 +1,11 @@
 ﻿using FrameWork.Application;
+using FrameWork.Application.Authentication;
 using FrameWork.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SM._Application.Contracts.Product.DTO_s;
 using SM._Domain.ProductAgg;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace SM._Infrastructure.EFCore.Repository;
 
@@ -11,11 +13,12 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
 {
     private readonly ShopContext _context;
     private readonly ILogger<ProductRepository> _logger;
-
-    public ProductRepository(ILogger<ProductRepository> logger, ShopContext context):base(context,logger)
+    private readonly IAuthHelper _authHelper;
+    public ProductRepository(ILogger<ProductRepository> logger, ShopContext context, IAuthHelper authHelper):base(context,logger)
     {
         _logger = logger;
         _context = context;
+        _authHelper = authHelper;
     }
 
     public async Task<EditProduct> GetDetails(long id, CancellationToken cancellationToken)
@@ -72,14 +75,22 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
 
     public async Task<List<ProductViewModel>> GetProducts(CancellationToken cancellationToken)
     {
-        var products = await _context.Products
+        
+        var query =  _context.Products
             .Select(x => new ProductViewModel
             {
                 Id = x.Id,
-                Name = x.Name
+                Name = x.Name,
+                SellerId = x.SellerId
             })
-            .ToListAsync(cancellationToken: cancellationToken);
+            ;
+        var role = _authHelper.CurrentAccountRole();
+        if (role == Roles.Seller)
+        {
+            query = query.Where(x => x.SellerId == _authHelper.CurrentAccountId());
+        }
 
+        var products=await query.ToListAsync(cancellationToken: cancellationToken);
         // Log information 
         _logger.LogInformation("Retrieved product list successfully.");
 
@@ -88,6 +99,7 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
 
     public async Task<List<ProductViewModel>> Search(ProductSearchModel searchModel, CancellationToken cancellationToken)
     {
+        
         var query = _context.Products
             .Include(x => x.Category)
             .Select(x => new ProductViewModel
@@ -96,10 +108,21 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
                 Name = x.Name,
                 Category = x.Category.Name,
                 CategoryId = x.CategoryId,
+                SellerId = x.SellerId,
                 Code = x.Code,
                 Picture = x.Picture,
-                CreationDate = x.CreationDate.ToFarsi()
+                CreationDate = x.CreationDate.ToFarsi(),
+                IsActive = x.IsActive
             });
+        
+        var role = _authHelper.CurrentAccountRole();
+        if (role == Roles.Seller)
+        {
+            query=query.Where(x => x.SellerId == _authHelper.CurrentAccountId());
+        }
+
+        if (searchModel.IsActive)
+            query = query.Where(x => !x.IsActive);
 
         if (!string.IsNullOrWhiteSpace(searchModel.Name))
             query = query.Where(x => x.Name.Contains(searchModel.Name));

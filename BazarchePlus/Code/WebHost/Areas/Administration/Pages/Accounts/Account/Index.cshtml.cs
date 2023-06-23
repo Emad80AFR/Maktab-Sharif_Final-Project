@@ -69,6 +69,23 @@ namespace WebHost.Areas.Administration.Pages.Accounts.Account
             var result = await _accountApplication.ChangePassword(command,cancellationToken);
             return new JsonResult(result);
         }
+        public async Task<IActionResult> OnGetActivate(long id, CancellationToken cancellationToken)
+        {
+            var result = await _accountApplication.Activate(id, cancellationToken);
+            if (result.IsSucceeded)
+                return RedirectToPage("./Index");
+            Message = result.Message;
+            return RedirectToPage("./Index");
+        }
+        public async Task<IActionResult> OnGetDeActivate(long id, CancellationToken cancellationToken)
+        {
+            var result = await _accountApplication.DeActive(id, cancellationToken);
+            if (result.IsSucceeded)
+                return RedirectToPage("./Index");
+            Message = result.Message;
+            return RedirectToPage("./Index");
+        }
+
 
 
     }

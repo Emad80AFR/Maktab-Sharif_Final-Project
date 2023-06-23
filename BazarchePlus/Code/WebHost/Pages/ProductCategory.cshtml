@@ -13,7 +13,7 @@
                 <div class="breadcrumb-wrapper breadcrumb-bg">
                     <div class="breadcrumb-content">
                         <h1 class="breadcrumb-content__title">@Model.ProductCategory.Name</h1>
-                        <h2>@Model.ProductCategory.Description</h2>
+                        <h4><font size="-1">@Model.ProductCategory.Description</font></h4>
                         <ul class="breadcrumb-content__page-map">
                             <li><a asp-page="./Index">صفحه اصلی</a></li>
                             <li class="active">@Model.ProductCategory.Name</li>
@@ -80,7 +80,7 @@
                                                             </div>
                                                         }
                                                         <a asp-page="/Product" asp-route-id="@product.Slug">
-                                                            <img src="~/ProductPictures/@product.Picture" class="img-fluid"
+                                                            <img src="~/UploadedPictures/@product.Picture" class="img-fluid"
                                                                  alt="@product.PictureAlt" title="@product.PictureTitle">
                                                         </a>
                                                     </div>

@@ -43,7 +43,10 @@ public class AccountRepository:BaseRepository<long,Account>, IAccountRepository
                 Mobile = x.Mobile,
                 RoleId = x.RoleId,
                 Username = x.Username,
-                ProfilePictureName = x.ProfilePhoto
+                ProfilePictureName = x.ProfilePhoto,
+                ShopPictureName = x.ShopPhoto,
+                ShopName = x.ShopName
+                
             })
             .FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
 
@@ -87,8 +90,13 @@ public class AccountRepository:BaseRepository<long,Account>, IAccountRepository
                 Role = x.Role.Name,
                 RoleId = x.RoleId,
                 Username = x.Username,
-                CreationDate = x.CreationDate.ToFarsi()
+                CreationDate = x.CreationDate.ToFarsi(),
+                IsActive = x.IsActive
+                
             });
+
+        if (searchModel.IsActive)
+            query = query.Where(x => !x.IsActive);
 
         if (!string.IsNullOrWhiteSpace(searchModel.Fullname))
             query = query.Where(x => x.Fullname.Contains(searchModel.Fullname));

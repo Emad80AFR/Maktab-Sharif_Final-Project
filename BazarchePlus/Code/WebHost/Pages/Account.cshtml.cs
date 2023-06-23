@@ -20,18 +20,22 @@ namespace WebHost.Pages
             _accountApplication = accountApplication;
         }
 
-        public void OnGet()
+        public void OnGet(string? message)
         {
+            LoginMessage = message!;
         }
 
         public async Task<IActionResult> OnPostLogin(Login command,CancellationToken cancellationToken)
         {
             var result = await _accountApplication.Login(command,cancellationToken);
-            if (result.IsSucceeded)
-                return RedirectToPage("/Index");
 
-            LoginMessage = result.Message;
-            return RedirectToPage("/Account");
+            return result.IsSucceeded ? RedirectToPage("/Index") : RedirectToPage("./Account", new { message = result.Message });
+
+            //LoginMessage = result.Message;
+            //return RedirectToPage("./Account");
+
+            //ModelState.AddModelError("loginError",result.Message);
+            //return Page();
         }
 
         public async Task<IActionResult> OnGetLogout(CancellationToken cancellationToken)

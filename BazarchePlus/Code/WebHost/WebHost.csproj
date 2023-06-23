@@ -34,8 +34,9 @@
     <Folder Include="wwwroot\Admin-Theme\assets\plugins\noty\js\noty\layouts\" />
     <Folder Include="wwwroot\Admin-Theme\assets\plugins\noty\js\noty\themes\" />
     <Folder Include="wwwroot\Admin-Theme\assets\plugins\paper-ripple\dist\systemjs\" />
-    <Folder Include="wwwroot\ProductPictures\" />
-    <Folder Include="wwwroot\ProductPictures\profilePhotos\" />
+    <Folder Include="wwwroot\UploadedPictures\" />
+    <Folder Include="wwwroot\UploadedPictures\profilePhotos\" />
+    <Folder Include="wwwroot\UploadedPictures\مواد-غذایی\" />
   </ItemGroup>
 
 </Project>

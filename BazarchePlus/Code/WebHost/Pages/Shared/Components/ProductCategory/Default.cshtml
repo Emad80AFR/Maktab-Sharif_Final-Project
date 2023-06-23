@@ -14,14 +14,13 @@
                                 <div class="single-category-item">
                                     <div class="single-category-item__image">
                                         <a asp-page="/ProductCategory" asp-route-id="@item.Slug">
-                                            <img src="~/ProductPictures/@item.Picture" class="img-fluid" alt="@item.PictureAlt" title="@item.PictureTitle" />
+                                            <img src="~/UploadedPictures/@item.Picture" class="img-fluid" alt="@item.PictureAlt" title="@item.PictureTitle"  />
                                         </a>
                                     </div>
                                     <div class="single-category-item__content">
-                                        <h3 class="title">@item.Name</h3>
-                                        <a asp-page="/ProductCategory" asp-route-id="@item.Slug">
-                                            <i class="ion-android-arrow-dropleft-circle"></i> خرید
-                                        </a>
+                                        <h3 class="title"><strong>@item.Name <a asp-page="/ProductCategory" asp-route-id="@item.Slug">
+                                            <i class="ion-android-arrow-dropleft-circle"></i> 
+                                        </a></strong></h3>
                                     </div>
                                 </div>
                             </div>

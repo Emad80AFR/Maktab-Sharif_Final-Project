@@ -14,4 +14,8 @@
     <ProjectReference Include="..\..\Stall-Shop.Management\SM. Infrastructure\SM. Infrastructure.EFCore\SM. Infrastructure.EFCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\Seller\" />
+  </ItemGroup>
+
 </Project>

@@ -24,12 +24,17 @@ namespace WebHost.Areas.Administration.Pages
             Command.Roles = await _roleApplication.List(cancellationToken);
             ChangePassword = new ChangePassword { Id = id };
         }
-        public async Task<IActionResult> OnPost(EditAccount command, CancellationToken cancellationToken)
+        public async Task<IActionResult> OnPostEdit(EditAccount command, CancellationToken cancellationToken)
         {
             var result = await _accountApplication.Edit(command, cancellationToken);
             return RedirectToPage("/Index");
         }
-        
+        public async Task<IActionResult> OnPostEditSeller(EditAccount command, CancellationToken cancellationToken)
+        {
+            var result = await _accountApplication.EditSeller(command, cancellationToken);
+            return RedirectToPage("/Index");
+        }
+
         public async Task<IActionResult> OnPostChangePassword(ChangePassword command, CancellationToken cancellationToken)
         {
             var result = await _accountApplication.ChangePassword(command, cancellationToken);

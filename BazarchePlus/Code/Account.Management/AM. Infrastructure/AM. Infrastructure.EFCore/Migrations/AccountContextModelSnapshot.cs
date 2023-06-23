@@ -38,6 +38,9 @@ namespace AM._Infrastructure.EFCore.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Mobile")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -55,6 +58,14 @@ namespace AM._Infrastructure.EFCore.Migrations
 
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
+
+                    b.Property<string>("ShopName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("ShopPhoto")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Username")
                         .IsRequired()
