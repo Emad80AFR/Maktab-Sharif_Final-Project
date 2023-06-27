@@ -49,6 +49,7 @@ public class CartCalculatorService:ICartCalculatorService
 
             cartItem.DiscountAmount = ((cartItem.TotalItemPrice * cartItem.DiscountRate) / 100);
             cartItem.ItemPayAmount = cartItem.TotalItemPrice - cartItem.DiscountAmount;
+            
             cart.Add(cartItem);
         }
 

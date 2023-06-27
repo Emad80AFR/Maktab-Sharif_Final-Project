@@ -3,6 +3,7 @@
 public class Cart
 {
     public double TotalAmount { get; set; }
+    public double WageAmount { get; set; }
     public double DiscountAmount { get; set; }
     public double PayAmount { get; set; }
     public int PaymentMethod { get; set; }
@@ -16,6 +17,7 @@ public class Cart
     public void Add(CartItem cartItem)
     {
         Items.Add(cartItem);
+        WageAmount += cartItem.TotalItemWage;
         TotalAmount += cartItem.TotalItemPrice;
         DiscountAmount += cartItem.DiscountAmount;
         PayAmount += cartItem.ItemPayAmount;

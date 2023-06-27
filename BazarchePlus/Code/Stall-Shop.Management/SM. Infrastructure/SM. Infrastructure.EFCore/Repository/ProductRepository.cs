@@ -142,4 +142,11 @@ public class ProductRepository:BaseRepository<long,Product>,IProductRepository
 
         return productList;
     }
+
+    public async Task<long> GetProductSeller(long id, CancellationToken cancellationToken)
+    {
+        return await _context.Products
+            .Where(x => x.Id == id)
+            .Select(x => x.SellerId).FirstOrDefaultAsync(cancellationToken: cancellationToken);
+    }
 }

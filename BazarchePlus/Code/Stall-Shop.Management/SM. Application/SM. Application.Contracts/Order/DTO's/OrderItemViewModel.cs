@@ -9,5 +9,10 @@
         public double UnitPrice { get; set; }
         public int DiscountRate { get; set; }
         public long OrderId { get; set; }
+        public long SellerId { get; set; }
+        public string? SellerName { get; set; }
+        public double WageRate { get; set; }
+        
+        
     }
 }

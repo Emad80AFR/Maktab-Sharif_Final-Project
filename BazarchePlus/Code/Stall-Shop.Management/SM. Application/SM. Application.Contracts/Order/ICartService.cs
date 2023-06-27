@@ -6,5 +6,6 @@ namespace SM._Application.Contracts.Order
     {
         Cart Get();
         void Set(Cart cart);
+
     }
 }

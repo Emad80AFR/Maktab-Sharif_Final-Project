@@ -23,6 +23,7 @@
   <ItemGroup>
 	<ProjectReference Include="..\..\..\1. Query\BP.Query\BP. Query.csproj" />
 	<ProjectReference Include="..\..\SM. Application\SM. Application.Implementation\SM. Application.Implementation.csproj" />
+	<ProjectReference Include="..\SM. Infrastructure.AccountAcl\SM. Infrastructure.AccountAcl.csproj" />
 	<ProjectReference Include="..\SM. Infrastructure.EFCore\SM. Infrastructure.EFCore.csproj" />
 	<ProjectReference Include="..\SM. Infrastructure.InventoryAcl\SM. Infrastructure.InventoryAcl.csproj" />
   </ItemGroup>

@@ -116,4 +116,19 @@ public class AccountRepository:BaseRepository<long,Account>, IAccountRepository
 
         return accounts;
     }
+
+    public async Task<FinancialModel> GetFinancialInfo(long id, CancellationToken cancellationToken)
+    {
+       return (await _context.Accounts.Select(x => new FinancialModel
+       {
+           Id = x.Id,
+           Medal =x.Medal,
+           SaleAmount = x.SalesAmount
+       }).FirstOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken))!;
+    }
+
+    public Task<Account> GetManagerAccount(CancellationToken cancellationToken)
+    {
+       return _context.Accounts.FirstOrDefaultAsync(x => x.RoleId == int.Parse(Roles.Developer), cancellationToken)!;
+    }
 }

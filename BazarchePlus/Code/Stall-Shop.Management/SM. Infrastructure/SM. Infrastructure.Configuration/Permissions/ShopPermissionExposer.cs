@@ -48,12 +48,24 @@ namespace SM._Infrastructure.Configuration.Permissions
                         new(ShopPermissions.DeleteSlide, "حذف"),
                         new(ShopPermissions.RestoreSlide, "فعال سازی"),
                     }
+                },
+                {
+                    "Order", new List<PermissionDto>
+                    {
+                        new(ShopPermissions.SearchOrder, "جستجو سفارشات"),
+                        new(ShopPermissions.SearchByAccount, "جستجو با اکانت"),
+                        new(ShopPermissions.ConfirmOrder, "تایید سفارش"),
+                        new(ShopPermissions.RejectOrder, " لغو سفارش"),
+                        new(ShopPermissions.SeeOrderItems, " مشاهده آیتم ها"),
+                        new(ShopPermissions.SeeOrder, " مشاهده سفارش ها")
+                    }
                 }
                 ,
                 {
                     "ShopMenu", new List<PermissionDto>
                     {
                         new(ShopPermissions.Menu, "مشاهده منو"),
+                        new(ShopPermissions.OrderMenu, "مشاهده سفارشات"),
                         new(ShopPermissions.ProductCategoryMenu, "زیر منو گروه محصولی"),
                         new(ShopPermissions.SlideMenu, "زیرمنو اسلاید"),
                     }

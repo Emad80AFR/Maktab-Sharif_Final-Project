@@ -6,6 +6,7 @@ namespace BP._Query.Contracts.Product
     public class ProductQueryModel
     {
         public long Id { get; set; }
+        public long SellerId { get; set; }
         public string Picture { get; set; }
         public string PictureAlt { get; set; }
         public string PictureTitle { get; set; }
@@ -25,6 +26,7 @@ namespace BP._Query.Contracts.Product
         public string Keywords { get; set; }
         public string MetaDescription { get; set; }
         public bool IsInStock { get; set; }
+        public bool IsActive { get; set; }
         public List<CommentQueryModel> Comments { get; set; }
         public List<ProductPictureQueryModel> Pictures { get; set; }
     }

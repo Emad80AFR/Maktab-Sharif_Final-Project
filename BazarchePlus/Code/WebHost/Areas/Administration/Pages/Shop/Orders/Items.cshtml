@@ -1,0 +1,50 @@
+﻿@using FrameWork.Application
+@using FrameWork.Application.Authentication
+@using FrameWork.Infrastructure
+@inject IAuthHelper AuthHelper
+@model List<SM._Application.Contracts.Order.DTO_s.OrderItemViewModel>
+@{
+    long seller = 0;
+
+    if (AuthHelper.CurrentAccountRole()==Roles.Seller)
+    {
+        seller = AuthHelper.CurrentAccountId();
+    }
+}
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h4 class="modal-title">آیتم های سفارش</h4>
+</div>
+
+<div class="modal-body">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>محصول</th>
+                <th>تعداد</th>
+                <th>قیمت واحد</th>
+                <th>فروشنده</th>
+                <th>درصد تخفیف</th>
+                <th>درصد کارمزد</th>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.Where(item => AuthHelper.CurrentAccountRole() != Roles.Seller || item.SellerId == seller))
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Product</td>
+                <td>@item.Count</td>
+                <td>@item.UnitPrice.ToMoney()</td>
+                <td>@item.SellerName</td>
+                <td>@item.DiscountRate %</td>
+                <td>@item.WageRate %</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+<div class="modal-footer">
+        <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">بستن</button>
+</div>

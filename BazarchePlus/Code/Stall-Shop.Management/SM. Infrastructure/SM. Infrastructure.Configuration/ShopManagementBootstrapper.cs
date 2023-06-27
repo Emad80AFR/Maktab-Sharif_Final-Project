@@ -18,6 +18,7 @@ using SM._Domain.ProductCategoryAgg;
 using SM._Domain.ProductPictureAgg;
 using SM._Domain.Services;
 using SM._Domain.SlideAgg;
+using SM._Infrastructure.AccountAcl;
 using SM._Infrastructure.Configuration.Permissions;
 using SM._Infrastructure.EFCore;
 using SM._Infrastructure.EFCore.Repository;
@@ -55,6 +56,7 @@ namespace SM._Infrastructure.Configuration
             services.AddSingleton<ICartService, CartService>();
 
             services.AddScoped<IShopInventoryAcl, ShopInventoryAcl>();
+            services.AddScoped<IShopAccountAcl, ShopAccountAc>();
 
             services.AddTransient<IPermissionExposer, ShopPermissionExposer>();
 

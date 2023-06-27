@@ -28,9 +28,9 @@
 </head>
 
 <body>
-    @await Component.InvokeAsync("Menu",new{cancellationToken = CancellationToken.None})
+@await Component.InvokeAsync("Menu",new{cancellationToken = new CancellationToken()})
 
-    @RenderBody()
+@RenderBody()
 
     @await Component.InvokeAsync("Footer")
 

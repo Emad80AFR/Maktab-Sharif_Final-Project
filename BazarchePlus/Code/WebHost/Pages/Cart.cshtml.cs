@@ -50,9 +50,7 @@ namespace WebHost.Pages
             var value = Request.Cookies[CookieName];
             var cartItems = serializer.Deserialize<List<CartItem>>(value);
             foreach (var item in cartItems)
-            {
-                item.TotalItemPrice = item.UnitPrice * item.Count;
-            }
+                item.CalculateTotalItemPrice();
 
             CartItems = await _productQuery.CheckInventoryStatus(cartItems,cancellationToken);
 

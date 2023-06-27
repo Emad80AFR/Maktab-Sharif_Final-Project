@@ -53,6 +53,7 @@ namespace BP._Query.Query
                     .Select(x => new ProductQueryModel
                     {
                         Id = x.Id,
+                        SellerId = x.SellerId,
                         Category = x.Category.Name,
                         Name = x.Name,
                         Picture = x.Picture,
@@ -65,7 +66,7 @@ namespace BP._Query.Query
                         Keywords = x.Keywords,
                         MetaDescription = x.MetaDescription,
                         ShortDescription = x.ShortDescription,
-                        Pictures = MapProductPictures(x.ProductPictures)
+                        Pictures = MapProductPictures(x.ProductPictures),
                     }).AsNoTracking().FirstOrDefaultAsync(x => x.Slug == slug, cancellationToken);
 
                 if (product == null)
@@ -195,7 +196,7 @@ namespace BP._Query.Query
                     .Select(x => new { x.DiscountRate, x.ProductId, x.EndDate })
                     .ToListAsync(cancellationToken);
 
-                var query = _context.Products
+                var query = _context.Products.Where(x=>x.IsActive)
                     .Include(x => x.Category)
                     .Select(product => new ProductQueryModel
                     {

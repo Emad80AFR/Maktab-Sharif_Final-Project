@@ -32,5 +32,10 @@ namespace FrameWork.Application
             var random = new Random();
             return random.Next(100, 999).ToString();
         }
+        public static long RandomRefId()
+        {
+            var random = new Random();
+            return random.Next(1000000, 9999999);
+        }
     }
 }

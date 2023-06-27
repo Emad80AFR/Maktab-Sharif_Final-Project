@@ -17,5 +17,9 @@ public interface IAccountApplication
     Task<List<AccountViewModel>> Search(AccountSearchModel searchModel, CancellationToken cancellationToken);
     Task Logout(CancellationToken cancellationToken);
     Task<List<AccountViewModel>> GetAccounts(CancellationToken cancellationToken);
+    Task<FinancialModel> GetFinancialInfo(long id, CancellationToken cancellationToken);
+    Task<bool> UpdateFinancialInfo(long id,double amount, CancellationToken cancellationToken);
+    Task<bool> UpdateSaleAmount(double amount, CancellationToken cancellationToken);
+    Task<bool> AssignModel(long id, CancellationToken cancellationToken);
 
 }

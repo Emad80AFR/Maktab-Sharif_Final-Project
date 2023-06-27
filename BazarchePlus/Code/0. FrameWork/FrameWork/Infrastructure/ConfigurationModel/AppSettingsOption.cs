@@ -28,6 +28,9 @@ public class AppSettingsOption
     {
         public Codegenerator CodeGenerator { get; set; }
         public Payment Payment { get; set; }
+        public Medals Medals { get; set; }
+        public Saleamount SaleAmount { get; set; }
+        public Wage Wage { get; set; }
     }
 
     public class Codegenerator
@@ -41,6 +44,29 @@ public class AppSettingsOption
         public string siteUrl { get; set; }
         public string merchant { get; set; }
     }
+
+    public class Medals
+    {
+        public int Gold { get; set; }
+        public int Silver { get; set; }
+        public int Bronze { get; set; }
+    }
+
+    public class Saleamount
+    {
+        public int GoldSale { get; set; }
+        public int SilverSale { get; set; }
+        public int BronzeSale { get; set; }
+    }
+
+    public class Wage
+    {
+        public int GoldenWage { get; set; }
+        public int SilverWage { get; set; }
+        public int BronzeWage { get; set; }
+        public int Default { get; set; }
+    }
+
 
 }
 

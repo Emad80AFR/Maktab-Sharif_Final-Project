@@ -4,13 +4,14 @@
     ViewData["Title"] = "صفحه اصلی";
 }
 
-@await Component.InvokeAsync("Slide", new { cancellationToken = CancellationToken.None })
 
-@await Component.InvokeAsync("ProductCategory", new { cancellationToken = CancellationToken.None })
+@await Component.InvokeAsync("Slide", new { cancellationToken = new CancellationToken() })
 
-@await Component.InvokeAsync("ProductCategoryWithProduct",new{cancellationToken = CancellationToken.None})
+@await Component.InvokeAsync("ProductCategory", new { cancellationToken = new CancellationToken() })
 
-@await Component.InvokeAsync("LatestArrivals",new{cancellationToken = CancellationToken.None})
+@await Component.InvokeAsync("ProductCategoryWithProduct",new{cancellationToken = new CancellationToken()})
+
+@await Component.InvokeAsync("LatestArrivals",new{cancellationToken = new CancellationToken()})
 
 
 <!--====================  banner hover area ====================-->
@@ -138,7 +139,7 @@
     </div>
 <!--====================  End of feature logo area  ====================-->
 
-@await Component.InvokeAsync("LatestArticles",new{cancellationToken = CancellationToken.None})
+@await Component.InvokeAsync("LatestArticles",new{cancellationToken = new CancellationToken()})
 
 
 <!--====================  newsletter area ====================-->

@@ -12,6 +12,7 @@ using FrameWork.Application.FileUpload;
 using Microsoft.AspNetCore.WebUtilities;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 using System.Reflection;
+using FrameWork.Infrastructure.ConfigurationModel;
 
 namespace AM._Application.Implementation
 {
@@ -23,8 +24,10 @@ namespace AM._Application.Implementation
         private readonly IAccountRepository _accountRepository;
         private readonly IAuthHelper _authHelper;
         private readonly IRoleRepository _roleRepository;
+        private readonly AppSettingsOption.Domainsettings _appOptions;
 
-        public AccountApplication(ILogger<AccountApplication> logger, IFileUploader fileUploader, IPasswordHasher passwordHasher, IAccountRepository accountRepository, IAuthHelper authHelper, IRoleRepository roleRepository)
+
+    public AccountApplication(ILogger<AccountApplication> logger, IFileUploader fileUploader, IPasswordHasher passwordHasher, IAccountRepository accountRepository, IAuthHelper authHelper, IRoleRepository roleRepository, AppSettingsOption.Domainsettings appOptions)
         {
             _logger = logger;
             _fileUploader = fileUploader;
@@ -32,6 +35,7 @@ namespace AM._Application.Implementation
             _accountRepository = accountRepository;
             _authHelper = authHelper;
             _roleRepository = roleRepository;
+            _appOptions = appOptions;
         }
 
         public async Task<AccountViewModel> GetAccountBy(long id,CancellationToken cancellationToken)
@@ -337,6 +341,55 @@ namespace AM._Application.Implementation
                 _logger.LogError(ex, "An error occurred while retrieving accounts.");
                 throw; 
             }
+        }
+
+        public async Task<FinancialModel> GetFinancialInfo(long id, CancellationToken cancellationToken)
+        {
+            return await _accountRepository.GetFinancialInfo(id, cancellationToken);
+        }
+
+        public async Task<bool> UpdateFinancialInfo(long id, double amount, CancellationToken cancellationToken)
+        {
+            var account=await _accountRepository.Get(id,cancellationToken);
+            if (account == null)
+                return false;
+
+            account!.UpdateSaleAmount(amount);
+
+            if (account.SalesAmount >= _appOptions.SaleAmount.GoldSale)
+                account.Medal = _appOptions.Medals.Gold;
+            else if (account.SalesAmount >= _appOptions.SaleAmount.SilverSale)
+                account.Medal = _appOptions.Medals.Silver;
+            else if (account.SalesAmount >= _appOptions.SaleAmount.BronzeSale)
+                account.Medal = _appOptions.Medals.Bronze;
+            await _accountRepository.SaveChanges(cancellationToken);
+            return true;
+        }
+
+        public async Task<bool> UpdateSaleAmount(double amount, CancellationToken cancellationToken)
+        {
+            var account=await _accountRepository.GetManagerAccount(cancellationToken);
+            if (account == null)
+                return false;
+            account.UpdateSaleAmount(amount);
+            await _accountRepository.SaveChanges(cancellationToken);
+            return true;
+        }
+
+        public async Task<bool> AssignModel(long id, CancellationToken cancellationToken)
+        {
+            var account=await _accountRepository.Get(id, cancellationToken);
+            if (account == null)
+                return false;
+
+            if (account.SalesAmount >= _appOptions.SaleAmount.GoldSale)
+                account.Medal = _appOptions.Medals.Gold;
+            else if(account.SalesAmount>=_appOptions.SaleAmount.SilverSale)
+                account.Medal= _appOptions.Medals.Silver;
+            else if(account.SalesAmount>=_appOptions.SaleAmount.BronzeSale)
+                account.Medal=_appOptions.Medals.Bronze;
+            await _accountRepository.SaveChanges(cancellationToken);
+            return true;
         }
     }
 }

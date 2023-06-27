@@ -204,4 +204,9 @@ public class ProductApplication:IProductApplication
             return operation.Failed(ApplicationMessages.ErrorOccurred);
         }
     }
+
+    public async Task<long> GetProductSeller(long id, CancellationToken cancellationToken)
+    {
+        return await _productRepository.GetProductSeller(id,cancellationToken);
+    }
 }

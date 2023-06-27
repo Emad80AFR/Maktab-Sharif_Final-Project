@@ -1,4 +1,5 @@
-﻿using FrameWork.Application;
+﻿using System.Security.Cryptography.X509Certificates;
+using FrameWork.Application;
 using FrameWork.Application.Authentication;
 using FrameWork.Infrastructure.ConfigurationModel;
 using Microsoft.Extensions.Logging;
@@ -12,17 +13,19 @@ namespace SM._Application.Implementation;
 public class OrderApplication:IOrderApplication
 {
     private readonly IAuthHelper _authHelper;
+    private readonly IShopAccountAcl _shopAccountAcl;
     private readonly ILogger<OrderApplication> _logger;
     private readonly IOrderRepository _orderRepository;
     private readonly IShopInventoryAcl _shopInventoryAcl;
     private readonly AppSettingsOption.Domainsettings _appOptions;
-    public OrderApplication(ILogger<OrderApplication> logger, IOrderRepository orderRepository, IAuthHelper authHelper, AppSettingsOption.Domainsettings appOptions, IShopInventoryAcl shopInventoryAcl)
+    public OrderApplication(ILogger<OrderApplication> logger, IOrderRepository orderRepository, IAuthHelper authHelper, AppSettingsOption.Domainsettings appOptions, IShopInventoryAcl shopInventoryAcl, IShopAccountAcl shopAccountAcl)
     {
         _logger = logger;
         _authHelper = authHelper;
         _appOptions = appOptions;
         _orderRepository = orderRepository;
         _shopInventoryAcl = shopInventoryAcl;
+        _shopAccountAcl = shopAccountAcl;
     }
 
     public async Task<long> PlaceOrder(Cart cart, CancellationToken cancellationToken)
@@ -30,11 +33,11 @@ public class OrderApplication:IOrderApplication
         try
         {
             var currentAccountId = _authHelper.CurrentAccountId();
-            var order = new Order(currentAccountId, cart.PaymentMethod, cart.TotalAmount, cart.DiscountAmount, cart.PayAmount);
+            var order = new Order(currentAccountId, cart.PaymentMethod, cart.TotalAmount, cart.DiscountAmount, cart.PayAmount,cart.WageAmount);
 
             foreach (var cartItem in cart.Items)
             {
-                var orderItem = new OrderItem(cartItem.Id, cartItem.Count, cartItem.UnitPrice, cartItem.DiscountRate);
+                var orderItem = new OrderItem(cartItem.Id, cartItem.Count, cartItem.UnitPrice, cartItem.DiscountRate,cartItem.WageRate,cartItem.SellerId);
                 order.AddItem(orderItem);
             }
 
@@ -92,6 +95,20 @@ public class OrderApplication:IOrderApplication
                 _logger.LogWarning($"Failed to reduce inventory for order with ID: {orderId}");
                 return "";
             }
+
+
+            order.Items.ForEach(item =>
+            {
+                _shopAccountAcl.UpdateFinancialInfo(item, cancellationToken);
+                _shopAccountAcl.CalculateSaleAmount(item, cancellationToken);
+            });
+            //async void Action(OrderItem x)
+            //{
+            //    await _shopAccountAcl.UpdateFinancialInfo(x, cancellationToken);
+            //    //await _shopAccountAcl.CalculateSaleAmount(x.SellerId, cancellationToken);
+            //}
+
+            //order.Items.ForEach(Action);
 
             await _orderRepository.SaveChanges(cancellationToken);
 

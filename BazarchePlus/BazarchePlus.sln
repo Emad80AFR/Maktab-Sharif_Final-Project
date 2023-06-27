@@ -125,7 +125,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AM.Infrastructure.EFCore", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AM.Infrastructure.Configuration", "Code\Auction.Management\AM. Infrastructure\AM. Infrastructure.Configuration\AM.Infrastructure.Configuration.csproj", "{E472B6D6-9052-400D-8A9A-D76F62E0E776}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SM. Infrastructure.InventoryAcl", "Code\Stall-Shop.Management\SM. Infrastructure\SM. Infrastructure.InventoryAcl\SM. Infrastructure.InventoryAcl.csproj", "{415B6298-80EA-487C-8D72-7389E2E11278}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SM. Infrastructure.InventoryAcl", "Code\Stall-Shop.Management\SM. Infrastructure\SM. Infrastructure.InventoryAcl\SM. Infrastructure.InventoryAcl.csproj", "{415B6298-80EA-487C-8D72-7389E2E11278}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SM. Infrastructure.AccountAcl", "Code\Stall-Shop.Management\SM. Infrastructure\SM. Infrastructure.AccountAcl\SM. Infrastructure.AccountAcl.csproj", "{EA20EDC3-2E5B-4BB6-8FB8-7AB6D18CA971}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -289,6 +291,10 @@ Global
 		{415B6298-80EA-487C-8D72-7389E2E11278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{415B6298-80EA-487C-8D72-7389E2E11278}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{415B6298-80EA-487C-8D72-7389E2E11278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA20EDC3-2E5B-4BB6-8FB8-7AB6D18CA971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA20EDC3-2E5B-4BB6-8FB8-7AB6D18CA971}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA20EDC3-2E5B-4BB6-8FB8-7AB6D18CA971}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA20EDC3-2E5B-4BB6-8FB8-7AB6D18CA971}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -346,6 +352,7 @@ Global
 		{C24C938A-859A-43A1-A138-FAED4A7951F6} = {E58C0663-66E8-4E62-8793-6788BEE9EB68}
 		{E472B6D6-9052-400D-8A9A-D76F62E0E776} = {E58C0663-66E8-4E62-8793-6788BEE9EB68}
 		{415B6298-80EA-487C-8D72-7389E2E11278} = {8977F059-B301-46A0-B4C7-D1A36A3A1E6F}
+		{EA20EDC3-2E5B-4BB6-8FB8-7AB6D18CA971} = {8977F059-B301-46A0-B4C7-D1A36A3A1E6F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {465E86F6-2484-4274-BABD-77A5043D0816}

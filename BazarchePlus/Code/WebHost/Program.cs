@@ -13,6 +13,7 @@ using FrameWork.Application.FileUpload;
 using FrameWork.Application.ZarinPal;
 using FrameWork.Infrastructure;
 using FrameWork.Infrastructure.ConfigurationModel;
+using WebHost.Services;
 
 namespace WebHost
 {
@@ -25,6 +26,7 @@ namespace WebHost
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddSession();
+
             builder.Services.AddSingleton(builder.Configuration.GetSection("DomainSettings").Get<AppSettingsOption.Domainsettings>());
             //builder.Services.Configure<AppSettingsOption>(builder.Configuration);
 
@@ -38,9 +40,10 @@ namespace WebHost
             ShopManagementBootstrapper.Configure(builder.Services,connectionString);
             BlogManagementBootstrapper.Configure(builder.Services,connectionString);
 
-
             builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Arabic));
             builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+
+            builder.Services.AddScoped<ICalculateWage, CalculateCartItemWage>();
             builder.Services.AddScoped<IZarinPalFactory, ZarinPalFactory>();
             builder.Services.AddScoped<IFileUploader, FileUploader>();
             builder.Services.AddScoped<IAuthHelper, AuthHelper>();

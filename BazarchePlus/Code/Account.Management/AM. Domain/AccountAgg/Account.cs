@@ -16,7 +16,13 @@ public class Account:BaseClass<long>
     public string ProfilePhoto { get; private set; }
     public string? ShopPhoto { get; set; }
     public bool IsActive { get; set; }
+    public double SalesAmount { get; set; }
+    public int Medal { get; set; }
 
+    protected Account()
+    {
+        
+    }
     public Account(string fullname, string username, string password, string mobile,
         long roleId, string profilePhoto)
     {
@@ -74,5 +80,10 @@ public class Account:BaseClass<long>
     public void Deactivate()
     {
         IsActive=false;
+    }
+
+    public void UpdateSaleAmount(double saleAmount)
+    {
+        SalesAmount += saleAmount;
     }
 }

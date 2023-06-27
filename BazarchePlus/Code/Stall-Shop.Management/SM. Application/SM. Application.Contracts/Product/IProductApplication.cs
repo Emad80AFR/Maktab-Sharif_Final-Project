@@ -12,5 +12,6 @@ public interface IProductApplication
     Task<List<ProductViewModel>> Search(ProductSearchModel searchModel, CancellationToken cancellationToken);
     Task<OperationResult> Activate(long id, CancellationToken cancellationToken);
     Task<OperationResult> DeActive(long id, CancellationToken cancellationToken);
+    Task<long> GetProductSeller(long id, CancellationToken cancellationToken);
 
 }

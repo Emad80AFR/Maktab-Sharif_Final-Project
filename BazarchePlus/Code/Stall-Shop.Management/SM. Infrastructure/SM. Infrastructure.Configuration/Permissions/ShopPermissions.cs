@@ -39,5 +39,15 @@
         public const int ProductCategoryMenu = 51;
         public const int SlideMenu = 52;
 
+        //Order
+        public const int OrderMenu = 60;
+        public const int SearchOrder = 61;
+        public const int SearchByAccount = 62;
+        public const int RejectOrder =63;
+        public const int ConfirmOrder =64;
+        public const int SeeOrder =65;
+        public const int SeeOrderItems =66;
+
+
     }
 }

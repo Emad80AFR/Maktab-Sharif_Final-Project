@@ -9,5 +9,6 @@ public interface IProductRepository:IBaseRepository<long,Product>
     Task<Product> GetProductWithCategory(long id, CancellationToken cancellationToken);
     Task<List<ProductViewModel>> GetProducts(CancellationToken cancellationToken);
     Task<List<ProductViewModel>> Search(ProductSearchModel searchModel, CancellationToken cancellationToken);
+    Task<long> GetProductSeller(long id, CancellationToken cancellationToken);
 
 }
