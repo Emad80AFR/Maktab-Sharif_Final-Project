@@ -52,6 +52,26 @@ public class OrderApplication:IOrderApplication
         }
     }
 
+    public async Task<long> PlaceAuctionOrder(Cart cart,long winner, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var order = new Order(winner, cart.PaymentMethod, cart.TotalAmount, cart.DiscountAmount, cart.PayAmount, cart.WageAmount);
+            var cartItem=cart.Items.FirstOrDefault();
+            var orderItem = new OrderItem(cartItem!.Id, cartItem.Count, cartItem.UnitPrice, cartItem.DiscountRate, cartItem.WageRate, cartItem.SellerId);
+            order.AddItem(orderItem);
+
+            await _orderRepository.Create(order, cancellationToken);
+            await _orderRepository.SaveChanges(cancellationToken);
+            return order.Id;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error occurred while placing an order");
+            throw;
+        }
+    }
+
     public async Task<double> GetAmountBy(long id, CancellationToken cancellationToken)
     {
         try
@@ -151,4 +171,5 @@ public class OrderApplication:IOrderApplication
             throw; 
         }
     }
+
 }

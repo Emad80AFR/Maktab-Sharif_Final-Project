@@ -23,7 +23,7 @@ namespace WebHost
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
-
+            //builder.Services.AddSingleton<AuctionBackgroundService>;
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddSession();
 

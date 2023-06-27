@@ -21,5 +21,7 @@ public interface IAccountApplication
     Task<bool> UpdateFinancialInfo(long id,double amount, CancellationToken cancellationToken);
     Task<bool> UpdateSaleAmount(double amount, CancellationToken cancellationToken);
     Task<bool> AssignModel(long id, CancellationToken cancellationToken);
+    Task<string> GetAccountName(long id, CancellationToken cancellationToken);
+
 
 }

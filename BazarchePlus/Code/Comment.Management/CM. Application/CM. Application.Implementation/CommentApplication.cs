@@ -4,6 +4,7 @@ using CM._Domain.CommentAgg;
 using FrameWork.Application;
 using FrameWork.Application.Messages;
 using Microsoft.Extensions.Logging;
+using SM._Domain.OrderAgg;
 
 namespace CM._Application.Implementation;
 
@@ -11,11 +12,13 @@ public class CommentApplication:ICommentApplication
 {
     private readonly ILogger<CommentApplication> _logger;
     private readonly ICommentRepository _commentRepository;
+    private readonly IOrderRepository _orderRepository;
 
-    public CommentApplication(ILogger<CommentApplication> logger, ICommentRepository commentRepository)
+    public CommentApplication(ILogger<CommentApplication> logger, ICommentRepository commentRepository, IOrderRepository orderRepository)
     {
         _logger = logger;
         _commentRepository = commentRepository;
+        _orderRepository = orderRepository;
     }
 
     public async Task<OperationResult> Add(AddComment command, CancellationToken cancellationToken)
@@ -23,8 +26,11 @@ public class CommentApplication:ICommentApplication
         try
         {
             var operation = new OperationResult();
+            if (!await _orderRepository.CheckPlaceOrder(command.Sender,command.ProductId, cancellationToken))
+                return operation.Failed(ApplicationMessages.MessageAccessDenied);
+
             var comment = new Comment(command.Name, command.Email, command.Website, command.Message,
-                command.OwnerRecordId, command.Type, command.ParentId);
+                command.OwnerRecordId, command.Type, command.ParentId,command.Sender);
 
             await _commentRepository.Create(comment,cancellationToken);
             await _commentRepository.SaveChanges(cancellationToken);

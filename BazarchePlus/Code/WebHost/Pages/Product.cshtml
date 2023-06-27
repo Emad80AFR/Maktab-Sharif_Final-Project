@@ -1,5 +1,7 @@
 ﻿@page "{id}"
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+@using FrameWork.Application.Authentication
+@inject IAuthHelper AuthHelper
 @model ProductModel
 @{
     ViewData["Title"] = Model.Product.Name;
@@ -29,6 +31,8 @@
         </div>
     </div>
 </div>
+
+
 
 <div class="page-content-area">
     <div class="container">
@@ -69,7 +73,7 @@
                                                 {
                                                     <div class="single-image">
                                                         <img src="~/UploadedPictures/@picture.Picture" class="img-fluid"
-                                                             alt="@picture.PictureAlt" title="@picture.PictureTitle">
+                                                         alt="@picture.PictureAlt" title="@picture.PictureTitle">
                                                     </div>
                                                 }
                                             </div>
@@ -105,7 +109,7 @@
                                             {
                                                 <div class="single-image">
                                                     <img src="~/UploadedPictures/@picture.Picture" class="img-fluid"
-                                                         alt="@picture.PictureAlt" title="@picture.PictureTitle">
+                                                     alt="@picture.PictureAlt" title="@picture.PictureTitle">
                                                 </div>
                                             }
                                         </div>
@@ -118,13 +122,13 @@
                                         </p>
                                         <h2 class="product-title">@Model.Product.Name</h2>
                                         <div class="product-rating">
-                                            <span class="rating">
-                                                <i class="ion-android-star active"></i>
-                                                <i class="ion-android-star active"></i>
-                                                <i class="ion-android-star active"></i>
-                                                <i class="ion-android-star active"></i>
-                                                <i class="ion-android-star-outline"></i>
-                                            </span>
+                                            @* <span class="rating">
+                                            <i class="ion-android-star active"></i>
+                                            <i class="ion-android-star active"></i>
+                                            <i class="ion-android-star active"></i>
+                                            <i class="ion-android-star active"></i>
+                                            <i class="ion-android-star-outline"></i>
+                                            </span>*@
 
                                             <span class="review-count">
                                                 <a href="#">(2 reviews)</a> | <a href="#">نظر دهید</a>
@@ -208,6 +212,12 @@
                                 </div>
                             </div>
                         </div>
+                        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+                        {
+                            <div id="Warningdiv" class="text-center row">
+                                <div class=" col-lg-12 alert alert-danger">@Model.ErrorMessage</div>
+                            </div>
+                        }
                         <div class="product-description-review-area">
                             <div class="row">
                                 <div class="col-lg-12">
@@ -232,14 +242,14 @@
                                             <div class="tab-pane fade" id="review" role="tabpanel"
                                                  aria-labelledby="review-tab">
                                                 <div class="product-rating-wrap">
-                                                    
+
                                                     @foreach (var comment in Model.Product.Comments)
                                                     {
                                                         <div class="ratings-wrapper">
                                                             <div class="sin-ratings">
                                                                 <div class="rating-author">
                                                                     <h3>@comment.Name</h3>
-                                                                   
+
                                                                 </div>
                                                                 <p>@comment.Message</p>
                                                             </div>
@@ -264,6 +274,8 @@
                                                                 </div>
                                                                 <input type="hidden" name="ownerRecordId" value="@Model.Product.Id" />
                                                                 <input type="hidden" name="productSlug" value="@Model.Product.Slug" />
+                                                                <input type="hidden" name="sender" value="@AuthHelper.CurrentAccountId()" />
+                                                                <input type="hidden" name="productId" value="@Model.Product.Id" />
                                                                 <div class="col-12">
                                                                     <input value="ارسال" type="submit">
                                                                 </div>

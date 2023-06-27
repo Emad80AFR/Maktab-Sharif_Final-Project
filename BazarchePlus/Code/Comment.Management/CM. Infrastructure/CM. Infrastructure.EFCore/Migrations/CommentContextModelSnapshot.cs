@@ -60,11 +60,13 @@ namespace CM._Infrastructure.EFCore.Migrations
                     b.Property<long>("ParentId")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("Sender")
+                        .HasColumnType("bigint");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
                     b.Property<string>("Website")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 

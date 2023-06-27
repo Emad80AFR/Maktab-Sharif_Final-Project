@@ -43,9 +43,7 @@
                                                         <img src="~/UploadedPictures/@article.Picture"
                                                              class="img-fluid" alt="@article.PictureAlt" title="@article.PictureTitle">
                                                     </a>
-                                                    <div class="single-slider-post__date-sticker">
-                                                        <span class="month">@article.PublishDate</span>
-                                                    </div>
+                                              
                                                 </div>
                                                 <div class="single-slider-post__content">
                                                     <h3 class="title">
@@ -55,6 +53,9 @@
                                                     </h3>
                                                     @*<p class="post-meta">by <a href="#">HasTech</a></p>*@
                                                     <p class="short-desc">@article.ShortDescription</p>
+                                                   
+                                                        <div class="month">@article.PublishDate</div>
+                                                    
                                                     <a asp-page="/Article" asp-route-id="@article.Slug" class="blog-post-link">
                                                         ادامه مطلب
                                                     </a>

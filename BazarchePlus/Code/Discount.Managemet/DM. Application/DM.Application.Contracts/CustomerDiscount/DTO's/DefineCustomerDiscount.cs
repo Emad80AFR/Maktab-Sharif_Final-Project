@@ -8,6 +8,7 @@ namespace DM._Application.Contracts.CustomerDiscount.DTO_s
     {
         [Range(1, 100000, ErrorMessage = ValidationMessages.IsRequired)]
         public long ProductId { get; set; }
+        public long SellerId { get; set; }
 
         [Range(1, 99, ErrorMessage = ValidationMessages.IsRequired)]
         public int DiscountRate { get; set; }

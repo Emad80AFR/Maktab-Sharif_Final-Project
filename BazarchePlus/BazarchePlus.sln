@@ -127,7 +127,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AM.Infrastructure.Configura
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SM. Infrastructure.InventoryAcl", "Code\Stall-Shop.Management\SM. Infrastructure\SM. Infrastructure.InventoryAcl\SM. Infrastructure.InventoryAcl.csproj", "{415B6298-80EA-487C-8D72-7389E2E11278}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SM. Infrastructure.AccountAcl", "Code\Stall-Shop.Management\SM. Infrastructure\SM. Infrastructure.AccountAcl\SM. Infrastructure.AccountAcl.csproj", "{EA20EDC3-2E5B-4BB6-8FB8-7AB6D18CA971}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SM. Infrastructure.AccountAcl", "Code\Stall-Shop.Management\SM. Infrastructure\SM. Infrastructure.AccountAcl\SM. Infrastructure.AccountAcl.csproj", "{EA20EDC3-2E5B-4BB6-8FB8-7AB6D18CA971}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

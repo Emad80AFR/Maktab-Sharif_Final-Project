@@ -2,6 +2,7 @@
 using AM._Application.Contracts.Auction.DTO_s;
 using AM._Domain.AuctionAgg;
 using FrameWork.Application;
+using FrameWork.Application.Authentication;
 using FrameWork.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -14,12 +15,14 @@ public class AuctionRepository:BaseRepository<long,Auction>,IAuctionRepository
     private readonly AuctionContext _auctionContext;
     private readonly ShopContext _shopContext;
     private readonly ILogger<AuctionRepository> _logger;
+    private readonly IAuthHelper _authHelper;
 
-    public AuctionRepository(AuctionContext auctionContext, ILogger<AuctionRepository> logger, ShopContext shopContext):base(auctionContext,logger)
+    public AuctionRepository(AuctionContext auctionContext, ILogger<AuctionRepository> logger, ShopContext shopContext, IAuthHelper authHelper):base(auctionContext,logger)
     {
         _auctionContext = auctionContext;
         _logger = logger;
         _shopContext = shopContext;
+        _authHelper = authHelper;
     }
 
     public async Task<EditAuction> GetDetails(long id, CancellationToken cancellationToken)
@@ -64,6 +67,7 @@ public class AuctionRepository:BaseRepository<long,Auction>,IAuctionRepository
             .Select(x => new AuctionViewModel
             {
                 Id = x.Id,
+                SellerId = x.SellerId,
                 Status = x.Status,
                 BasePrice = x.BasePrice,
                 EndDate = x.EndDate.ToFarsi(),
@@ -71,6 +75,13 @@ public class AuctionRepository:BaseRepository<long,Auction>,IAuctionRepository
                 ProductId = x.ProductId,
                 CreationDate = x.CreationDate.ToFarsi()
             });
+
+        
+        var role = _authHelper.CurrentAccountRole();
+        if (role == Roles.Seller)
+        {
+            query = query.Where(x => x.SellerId == _authHelper.CurrentAccountId());
+        }
 
         if (searchModel.ProductId > 0)
         {
@@ -108,5 +119,30 @@ public class AuctionRepository:BaseRepository<long,Auction>,IAuctionRepository
             _logger.LogError(ex, "Error occurred while retrieving auctions");
             throw; 
         }
+    }
+
+    public async Task<List<AuctionProcessModel>> GetEndedAuctionsProducts(CancellationToken cancellationToken)
+    {
+        return await _auctionContext.Auctions
+            .Where(x=>x.Status==(int)AuctionStatus.Waiting && x.EndDate<DateTime.Now)
+            .Select(x=>new AuctionProcessModel()
+            {
+                ProductId = x.ProductId,
+                BasePrice = x.BasePrice,
+                CustomerId = x.CustomerId,
+
+            })
+            .ToListAsync(cancellationToken);
+    }
+
+    public async Task<List<long>> GetAuctionsProductId(CancellationToken cancellationToken)
+    {
+        return await _auctionContext.Auctions.Where(x => x.Status == (int)AuctionStatus.Waiting).Select(x => x.ProductId).ToListAsync(cancellationToken);
+
+    }
+
+    public Task<Auction> GetAuctionBy(long productId, CancellationToken cancellationToken)
+    {
+        return _auctionContext.Auctions.FirstOrDefaultAsync(x => x.ProductId == productId, cancellationToken)!;
     }
 }

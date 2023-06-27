@@ -131,4 +131,12 @@ public class AccountRepository:BaseRepository<long,Account>, IAccountRepository
     {
        return _context.Accounts.FirstOrDefaultAsync(x => x.RoleId == int.Parse(Roles.Developer), cancellationToken)!;
     }
+
+    public async Task<string> GetAccountName(long id, CancellationToken cancellationToken)
+    {
+        return (await _context.Accounts
+            .Where(x => x.Id == id)
+            .Select(x => x.Fullname)
+            .FirstOrDefaultAsync(cancellationToken: cancellationToken))!;
+    }
 }

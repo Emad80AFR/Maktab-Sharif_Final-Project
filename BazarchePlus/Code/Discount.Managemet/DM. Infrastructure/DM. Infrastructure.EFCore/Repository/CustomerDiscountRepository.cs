@@ -6,20 +6,23 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using SM._Infrastructure.EFCore;
 using System.Globalization;
+using FrameWork.Application.Authentication;
 
 namespace DM._Infrastructure.EFCore.Repository;
 
 public class CustomerDiscountRepository:BaseRepository<long,CustomerDiscount>,ICustomerDiscountRepository
 {
-    private readonly DiscountContext _discountContext;
+    private readonly IAuthHelper _authHelper;
     private readonly ShopContext _shopContext;
+    private readonly DiscountContext _discountContext;
     private readonly ILogger<CustomerDiscountRepository> _logger;
 
-    public CustomerDiscountRepository(ILogger<CustomerDiscountRepository> logger, ShopContext shopContext, DiscountContext discountContext):base(discountContext,logger)
+    public CustomerDiscountRepository(ILogger<CustomerDiscountRepository> logger, ShopContext shopContext, DiscountContext discountContext, IAuthHelper authHelper):base(discountContext,logger)
     {
         _logger = logger;
         _shopContext = shopContext;
         _discountContext = discountContext;
+        _authHelper = authHelper;
     }
 
     public async Task<EditCustomerDiscount> GetDetails(long id, CancellationToken cancellationToken)
@@ -75,8 +78,15 @@ public class CustomerDiscountRepository:BaseRepository<long,CustomerDiscount>,IC
                 StartDateGr = x.StartDate,
                 ProductId = x.ProductId,
                 Reason = x.Reason,
-                CreationDate = x.CreationDate.ToFarsi()
+                CreationDate = x.CreationDate.ToFarsi(),
+                SellerId = x.SellerId
             });
+
+            var role = _authHelper.CurrentAccountRole();
+            if (role == Roles.Seller)
+            {
+                query = query.Where(x => x.SellerId == _authHelper.CurrentAccountId());
+            }
 
             if (searchModel.ProductId > 0)
                 query = query.Where(x => x.ProductId == searchModel.ProductId);

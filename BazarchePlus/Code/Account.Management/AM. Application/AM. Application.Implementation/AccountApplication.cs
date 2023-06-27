@@ -391,5 +391,11 @@ namespace AM._Application.Implementation
             await _accountRepository.SaveChanges(cancellationToken);
             return true;
         }
+
+        public async Task<string> GetAccountName(long id, CancellationToken cancellationToken)
+        {
+
+            return await _accountRepository.GetAccountName(id,cancellationToken);
+        }
     }
 }

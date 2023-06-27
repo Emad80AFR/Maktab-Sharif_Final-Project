@@ -8,8 +8,7 @@
                 <div class="section-title-wrapper text-center section-space--half">
                     <h2 class="section-title">محصولات ما</h2>
                     <p class="section-subtitle">
-                        لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است
-                    </p>
+                        این بخش به شما کمک می‌کند تا با محصولات ما آشنا شوید و تصمیم به خرید محصولات بگیرید.</p>
                 </div>
             </div>
         </div>
@@ -29,7 +28,7 @@
                         @foreach (var category in Model)
                         {
                             <div class="tab-pane fade show @(Model.First() == category ? "active" : "")" id="product-series-@category.Id" role="tabpanel"
-                                 aria-labelledby="product-tab-1">
+                                 aria-labelledby="product-tab-2">
                                 <div class="single-row-slider-wrapper">
                                     <div class="ht-slick-slider" data-slick-setting='{
                                 "slidesToShow": 4,
@@ -71,13 +70,13 @@
                                                             <span class="category">
                                                                 <a asp-page="/ProductCategory" asp-route-id="@category.Slug">@product.Category</a>
                                                             </span>
-                                                            <span class="rating">
+                                                           @* <span class="rating">
                                                                 <i class="ion-android-star active"></i>
                                                                 <i class="ion-android-star active"></i>
                                                                 <i class="ion-android-star active"></i>
                                                                 <i class="ion-android-star active"></i>
                                                                 <i class="ion-android-star-outline"></i>
-                                                            </span>
+                                                            </span>*@
                                                         </div>
 
                                                         <h3 class="single-grid-product__title">

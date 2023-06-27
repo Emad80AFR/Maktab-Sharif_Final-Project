@@ -12,6 +12,7 @@ namespace BP._Query.Contracts.Product
         public string PictureTitle { get; set; }
         public string Name { get; set; }
         public double DoublePrice { get; set; }
+        public double BasePrice { get; set; }
         public string Price { get; set; }
         public string PriceWithDiscount { get; set; }
         public int DiscountRate { get; set; }
@@ -27,6 +28,7 @@ namespace BP._Query.Contracts.Product
         public string MetaDescription { get; set; }
         public bool IsInStock { get; set; }
         public bool IsActive { get; set; }
+        public bool IsInAuction { get; set; }
         public List<CommentQueryModel> Comments { get; set; }
         public List<ProductPictureQueryModel> Pictures { get; set; }
     }

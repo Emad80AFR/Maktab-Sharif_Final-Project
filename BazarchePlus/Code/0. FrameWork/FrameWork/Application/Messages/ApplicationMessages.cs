@@ -8,4 +8,5 @@ public class ApplicationMessages
     public static string WrongUserPass = "نام کاربری یا کلمه رمز اشتباه است";
     public static string ErrorOccurred { get; set; } = "خطایی رخ داده،لطفا با مدیر سیستم تماس بگیرید.";
     public static string UnActiveAccount { get; set; } = "اکانت شما هنوز تایید نشده،بعد از چند دقیقه مجددا امتحان کنید.";
+    public static string MessageAccessDenied { get; set; } = "شما باید قبلا محصول مورد نظر را خریدادی کنید.";
 }

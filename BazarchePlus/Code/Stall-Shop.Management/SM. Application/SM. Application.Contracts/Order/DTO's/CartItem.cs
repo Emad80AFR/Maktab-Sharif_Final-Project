@@ -21,6 +21,15 @@ public class CartItem
     {
         TotalItemPrice = Count * UnitPrice;
     }
+
+    public CartItem(long id, long sellerId, double unitPrice, int count)
+    {
+        Id = id;
+        SellerId = sellerId;
+        UnitPrice = unitPrice;
+        Count = count;
+    }
+
     public void CalculateTotalItemPrice()
     {
         TotalItemPrice = UnitPrice * Count;

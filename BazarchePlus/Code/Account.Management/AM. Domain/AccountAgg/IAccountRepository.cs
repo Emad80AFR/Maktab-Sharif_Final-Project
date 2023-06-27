@@ -11,6 +11,6 @@ public interface IAccountRepository:IBaseRepository<long,Account>
     Task<List<AccountViewModel>> Search(AccountSearchModel searchModel, CancellationToken cancellationToken);
     Task<FinancialModel> GetFinancialInfo(long id, CancellationToken cancellationToken);
     Task<Account> GetManagerAccount(CancellationToken cancellationToken);
-
+    Task<string> GetAccountName(long id, CancellationToken cancellationToken);
 
 }

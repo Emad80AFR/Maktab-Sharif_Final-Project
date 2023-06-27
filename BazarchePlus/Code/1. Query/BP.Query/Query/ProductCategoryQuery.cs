@@ -1,7 +1,9 @@
-﻿using BP._Query.Contracts.Product;
+﻿using AM._Infrastructure.EFCore;
+using BP._Query.Contracts.Product;
 using BP._Query.Contracts.ProductCategory;
 using DM._Infrastructure.EFCore;
 using FrameWork.Application;
+using IM._Domain.InventoryAgg;
 using IM._Infrastructure.EFCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -16,12 +18,14 @@ public class ProductCategoryQuery:IProductCategoryQuery
     private readonly ShopContext _context;
     private readonly InventoryContext _inventoryContext;
     private readonly DiscountContext _discountContext;
+    private readonly AuctionContext _auctionContext;
 
-    public ProductCategoryQuery(ShopContext context, ILogger<ProductCategoryQuery> logger, InventoryContext inventoryContext, DiscountContext discountContext)
+    public ProductCategoryQuery(ShopContext context, ILogger<ProductCategoryQuery> logger, InventoryContext inventoryContext, DiscountContext discountContext, AuctionContext auctionContext)
     {
         _context = context;
         _logger = logger;
         _discountContext = discountContext;
+        _auctionContext = auctionContext;
         _inventoryContext = inventoryContext;
     }
 
@@ -116,6 +120,61 @@ public class ProductCategoryQuery:IProductCategoryQuery
             throw; 
         }
     }
+
+    public async Task<List<ProductCategoryQueryModel>> GetAuctionProducts(CancellationToken cancellationToken)
+    {
+        try
+        {
+            _logger.LogInformation("Fetching product categories with products...");
+
+
+            var Auctions = await _auctionContext.Auctions.Select(x => new
+            {
+                x.ProductId,
+                x.IsActive,
+                x.BasePrice
+            }).ToListAsync(cancellationToken);
+
+
+            var categories = await _context.ProductCategories
+                .Include(x => x.Products)
+                .ThenInclude(x => x.Category)
+                .Select(x => new ProductCategoryQueryModel
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Products = MapProducts(x.Products.Where(product => !product.IsActive))
+                })
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+            foreach (var category in categories)
+            {
+                foreach (var product in category.Products)
+                {
+                    var productAuction = Auctions.FirstOrDefault(x => x.ProductId == product.Id);
+                    if (productAuction == null) continue;
+                        product.IsInAuction = productAuction.IsActive;
+                        product.BasePrice = productAuction.BasePrice;
+                }
+                category.Products=category.Products.Where(x=>x.IsInAuction).ToList();
+            }
+            
+
+            if (categories != null && categories.Any())
+                _logger.LogInformation("Product categories with products retrieved successfully. Total categories: {CategoryCount}", categories.Count);
+            else
+                _logger.LogWarning("No product categories found.");
+
+            return categories;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An error occurred while fetching product categories with products.");
+            throw;
+        }
+    }
+
 
     private static List<ProductQueryModel> MapProducts(IEnumerable<Product> products)
     {

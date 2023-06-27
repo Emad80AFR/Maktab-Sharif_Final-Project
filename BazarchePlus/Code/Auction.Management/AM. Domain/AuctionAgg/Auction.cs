@@ -5,6 +5,7 @@ namespace AM._Domain.AuctionAgg;
 public class Auction:BaseClass<long>
 {
     public long ProductId { get;private set; }
+    public long SellerId { get; set; }
     public DateTime EndDate { get; private set; }
     public bool IsActive { get; private set; }
     public long CustomerId { get; private set; }
@@ -14,13 +15,14 @@ public class Auction:BaseClass<long>
     public int Status { get; set; }
 
 
-    public Auction(long productId, DateTime endDate,double basePrice)
+    public Auction(long productId, DateTime endDate,double basePrice, long sellerId)
     {
         ProductId = productId;
         EndDate = endDate;
-        IsActive = false;
-        BasePrice=basePrice;
+        IsActive = true;
+        BasePrice = basePrice;
         Status = (int)AuctionStatus.Waiting;
+        SellerId = sellerId;
     }
 
     public void Edit(long productId, DateTime endDate, double basePrice)
@@ -39,10 +41,17 @@ public class Auction:BaseClass<long>
         IsActive = false;
     }
 
-    public void AddBid(long userId,double bidPrice)
+    public void AddBid(double maxBid, long customerId)
     {
         BidsCount += 1;
-        BasePrice = bidPrice;
-        CustomerId=userId;
+        BasePrice = maxBid;
+        CustomerId = customerId;
+    }
+
+    public void EndAuction(string winnerUsername)
+    {
+        Status = (int)AuctionStatus.Finished;
+        IsActive=false;
+        WinnerUsername=winnerUsername;
     }
 }

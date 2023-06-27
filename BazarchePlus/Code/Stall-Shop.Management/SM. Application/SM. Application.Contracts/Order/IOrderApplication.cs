@@ -5,6 +5,7 @@ namespace SM._Application.Contracts.Order
     public interface IOrderApplication
     {
         Task<long> PlaceOrder(Cart cart,CancellationToken cancellationToken);
+        Task<long> PlaceAuctionOrder(Cart cart,long winner,CancellationToken cancellationToken);
         Task<double> GetAmountBy(long id,CancellationToken cancellationToken);
         Task Cancel(long id,CancellationToken cancellationToken);
         Task<string> PaymentSucceeded(long orderId, long refId, CancellationToken cancellationToken);

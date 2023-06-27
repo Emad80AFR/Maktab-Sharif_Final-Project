@@ -72,6 +72,9 @@ namespace DM._Infrastructure.EFCore.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<long>("SellerId")
+                        .HasColumnType("bigint");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 

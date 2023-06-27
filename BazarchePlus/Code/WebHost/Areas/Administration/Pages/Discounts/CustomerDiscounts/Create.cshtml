@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using FrameWork.Application.Authentication
+@inject IAuthHelper AuthHelper
 @model DM._Application.Contracts.CustomerDiscount.DTO_s.DefineCustomerDiscount
 @{
 }
@@ -59,6 +61,7 @@
                 </div>
             </div>
         </div>
+        <input type="hidden"asp-for="SellerId " value="@AuthHelper.CurrentAccountId()"/>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">بستن</button>

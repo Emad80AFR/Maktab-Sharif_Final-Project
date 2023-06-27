@@ -32,7 +32,7 @@ namespace DM.Application.Implementation
                 var startDate = command.StartDate.ToGeorgianDateTime();
                 var endDate = command.EndDate.ToGeorgianDateTime();
                 var customerDiscount = new CustomerDiscount(command.ProductId, command.DiscountRate,
-                    startDate, endDate, command.Reason);
+                    startDate, endDate, command.Reason,command.SellerId);
                 await _customerDiscountRepository.Create(customerDiscount,cancellationToken);
                 await _customerDiscountRepository.SaveChanges(cancellationToken);
 

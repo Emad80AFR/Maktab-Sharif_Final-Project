@@ -20,6 +20,8 @@ namespace AM._Infrastructure.Configuration
             services.AddScoped<IAuctionApplication, AuctionApplication>();
             services.AddScoped<IAuctionRepository, AuctionRepository>();
 
+            services.AddSingleton<IAuctionService, AuctionService>();
+
             services.AddScoped<IPermissionExposer, AuctionPermissionExposer>();
         }
     }

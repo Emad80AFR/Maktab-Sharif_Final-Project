@@ -137,6 +137,19 @@ public class OrderRepository:BaseRepository<long,Order>,IOrderRepository
         }
     }
 
+    public async Task<bool> CheckPlaceOrder(long id, long productId, CancellationToken cancellationToken)
+    {
+       var orderList=await _shopContext.Orders
+           .Include(x=>x.Items)
+           .Where(x=>x.AccountId==id)
+           .Select(x=>x.Items)
+           .AsNoTracking()
+           .ToListAsync(cancellationToken: cancellationToken);
+
+        var productsId= (from order in orderList from item in order select item.ProductId).ToList();
+        return productsId.Contains(productId);
+    }
+
     private static List<long> MapSellers(IEnumerable<OrderItem> items)
     {
         return items.Select(x => x.SellerId).ToList();
