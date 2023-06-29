@@ -20,6 +20,7 @@ namespace WebHost
 {
     public class Program
     {
+        [Obsolete("Obsolete")]
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -92,8 +93,11 @@ namespace WebHost
                 });
 
             var app = builder.Build();
-            var backgroundJobClient = app.Services.GetRequiredService<IBackgroundJobClient>();
-            backgroundJobClient.Enqueue<AuctionBackgroundService>(x => x.ExecuteAsyncPublic(CancellationToken.None));
+            //var backgroundJobClient = app.Services.GetRequiredService<IBackgroundJobClient>();
+            //backgroundJobClient.Enqueue<AuctionBackgroundService>(x => x.ExecuteAsyncPublic(CancellationToken.None));
+
+            var backgroundJobClient = app.Services.GetRequiredService<IRecurringJobManager>();
+            backgroundJobClient.AddOrUpdate<AuctionBackgroundService>("test",x => x.ExecuteAsyncPublic(CancellationToken.None),Cron.Daily);
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

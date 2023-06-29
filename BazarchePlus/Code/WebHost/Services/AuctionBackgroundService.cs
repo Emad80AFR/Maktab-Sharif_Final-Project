@@ -21,13 +21,15 @@ public class AuctionBackgroundService:BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        var auctionProducts = await _auctionApplication.GetAuctionsProductId(cancellationToken);
-        _auctionService.InitialAuctions(auctionProducts);
+        
 
         while (!cancellationToken.IsCancellationRequested)
         {
+            var auctionProducts = await _auctionApplication.GetAuctionsProductId(cancellationToken);
+            _auctionService.InitialAuctions(auctionProducts);
+
             // Wait for 20 minutes
-            await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
+            //await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
 
             // Update the auction base price and winner id for each product
             foreach (var productId in auctionProducts)
