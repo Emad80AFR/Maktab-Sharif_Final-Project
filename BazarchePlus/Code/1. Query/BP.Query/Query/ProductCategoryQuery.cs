@@ -82,6 +82,7 @@ public class ProductCategoryQuery:IProductCategoryQuery
                 {
                     Id = x.Id,
                     Name = x.Name,
+                    Slug = x.Slug,
                     Products = MapProducts(x.Products.Where(product=>product.IsActive))
                 })
                 .AsNoTracking()
@@ -143,6 +144,7 @@ public class ProductCategoryQuery:IProductCategoryQuery
                 {
                     Id = x.Id,
                     Name = x.Name,
+                    Slug = x.Slug,
                     Products = MapProducts(x.Products.Where(product => !product.IsActive))
                 })
                 .AsNoTracking()

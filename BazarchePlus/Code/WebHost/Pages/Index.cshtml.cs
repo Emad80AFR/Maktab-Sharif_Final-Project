@@ -21,9 +21,10 @@ namespace WebHost.Pages
 
         }
 
-        public void OnPostAddBid(Bid bid,long productId)
+        public IActionResult OnPostAddBid(Bid bid,long productId)
         {
             _auctionService.AddBid(bid, productId);
+            return Page();
         }
     }
 }

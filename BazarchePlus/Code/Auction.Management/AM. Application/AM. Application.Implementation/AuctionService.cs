@@ -9,7 +9,8 @@ public class AuctionService:IAuctionService
     public Dictionary<long, List<Bid>> ProductBids = new();
     public void InitialAuctions(List<long> products)
     {
-        products.ForEach(x=>ProductBids[x]=new List<Bid>());
+        foreach (var product in products.Where(product => !ProductBids.ContainsKey(product)))
+            ProductBids[product]=new List<Bid>();
     }
 
     public List<Bid> GetBids(long id)

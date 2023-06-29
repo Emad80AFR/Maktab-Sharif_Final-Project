@@ -11,24 +11,26 @@ public class AuctionBackgroundService:BackgroundService
     private readonly IOrderApplication _orderApplication ;
     private readonly IAuctionApplication _auctionApplication;
     private readonly IProductApplication _productApplication ;
-    public AuctionBackgroundService(IAuctionApplication auctionApplication, IAuctionService auctionService,CancellationToken cancellationToken, IOrderApplication orderApplication, IProductApplication productApplication)
+    public AuctionBackgroundService(IAuctionApplication auctionApplication, IAuctionService auctionService, IOrderApplication orderApplication, IProductApplication productApplication)
     {
         _auctionService = auctionService;
         _orderApplication = orderApplication;
         _productApplication = productApplication;
         _auctionApplication = auctionApplication;
     }
+
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        _auctionService.InitialAuctions(await _auctionApplication.GetAuctionsProductId(cancellationToken));
+        var auctionProducts = await _auctionApplication.GetAuctionsProductId(cancellationToken);
+        _auctionService.InitialAuctions(auctionProducts);
 
         while (!cancellationToken.IsCancellationRequested)
         {
             // Wait for 20 minutes
-            await Task.Delay(TimeSpan.FromMinutes(20), cancellationToken);
+            await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
 
             // Update the auction base price and winner id for each product
-            foreach (var productId in await _auctionApplication.GetAuctionsProductId(cancellationToken))
+            foreach (var productId in auctionProducts)
             {
                 var bids=_auctionService.GetBids(productId);
                 if (bids.Count > 0)
@@ -53,5 +55,9 @@ public class AuctionBackgroundService:BackgroundService
                 await _auctionApplication.EndAuctionStatus(auction, cancellationToken);
             }
         }
+    }
+    public  Task ExecuteAsyncPublic(CancellationToken cancellationToken)
+    {
+        return  ExecuteAsync(cancellationToken);
     }
 }
