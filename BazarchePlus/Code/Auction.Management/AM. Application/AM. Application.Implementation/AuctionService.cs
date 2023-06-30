@@ -22,7 +22,7 @@ public class AuctionService:IAuctionService
     {
         if (!ProductBids.ContainsKey(productId))
         {
-            ProductBids[productId] = new List<Bid>();
+            ProductBids.Add(productId,new List<Bid>()); 
         }
 
         ProductBids[productId].Add(bid);

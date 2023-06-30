@@ -24,34 +24,33 @@ namespace WebHost
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
             builder.Services.AddSession();
             builder.Services.AddHttpContextAccessor();
-            //builder.Services.AddHostedService<AuctionBackgroundService>();
-            builder.Services.AddScoped<AuctionBackgroundService>();
 
             builder.Configuration.SetBasePath(Directory.GetCurrentDirectory());
             builder.Services.AddSingleton(builder.Configuration.GetSection("DomainSettings").Get<AppSettingsOption.Domainsettings>());
-            //builder.Services.Configure<AppSettingsOption>(builder.Configuration);
 
             var connectionString = builder.Configuration.GetConnectionString("BazarchePlusDb");
             builder.Services.AddHangfire(configuration => configuration.UseSqlServerStorage(connectionString));
 
 
-            InventoryManagementBootstrapper.Configure(builder.Services, connectionString);
-            DiscountManagementBootstrapper.Configure(builder.Services,connectionString);
+            ShopManagementBootstrapper.Configure(builder.Services,connectionString);
+            BlogManagementBootstrapper.Configure(builder.Services,connectionString);
             AccountManagementBootstrapper.Configure(builder.Services,connectionString);
             CommentManagementBootstrapper.Configure(builder.Services,connectionString);
             AuctionManagementBootstrapper.Configure(builder.Services,connectionString);
-            ShopManagementBootstrapper.Configure(builder.Services,connectionString);
-            BlogManagementBootstrapper.Configure(builder.Services,connectionString);
+            DiscountManagementBootstrapper.Configure(builder.Services,connectionString);
+            InventoryManagementBootstrapper.Configure(builder.Services, connectionString);
 
-            builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Arabic));
             builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
+            builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Arabic));
 
-            builder.Services.AddScoped<ICalculateWage, CalculateCartItemWage>();
-            builder.Services.AddScoped<IZarinPalFactory, ZarinPalFactory>();
-            builder.Services.AddScoped<IFileUploader, FileUploader>();
             builder.Services.AddScoped<IAuthHelper, AuthHelper>();
+            builder.Services.AddScoped<AuctionBackgroundService>();
+            builder.Services.AddScoped<IFileUploader, FileUploader>();
+            builder.Services.AddScoped<IZarinPalFactory, ZarinPalFactory>();
+            builder.Services.AddScoped<ICalculateWage, CalculateCartItemWage>();
 
             builder.Services.Configure<CookiePolicyOptions>(options =>
             {
@@ -93,8 +92,6 @@ namespace WebHost
                 });
 
             var app = builder.Build();
-            //var backgroundJobClient = app.Services.GetRequiredService<IBackgroundJobClient>();
-            //backgroundJobClient.Enqueue<AuctionBackgroundService>(x => x.ExecuteAsyncPublic(CancellationToken.None));
 
             var backgroundJobClient = app.Services.GetRequiredService<IRecurringJobManager>();
             backgroundJobClient.AddOrUpdate<AuctionBackgroundService>("test",x => x.ExecuteAsyncPublic(CancellationToken.None),Cron.Daily);

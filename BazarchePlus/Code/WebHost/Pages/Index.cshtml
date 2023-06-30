@@ -11,7 +11,6 @@
 
 @await Component.InvokeAsync("ProductCategoryWithProduct",new{cancellationToken = new CancellationToken()})
 
-@*@await Component.InvokeAsync("AuctionProducts",new{cancellationToken = new CancellationToken()})*@
 @await Component.InvokeAsync("AuctionsProducts",new{cancellationToken = new CancellationToken()})
 
 @await Component.InvokeAsync("LatestArrivals",new{cancellationToken = new CancellationToken()})

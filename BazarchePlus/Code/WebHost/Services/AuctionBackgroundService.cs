@@ -23,13 +23,8 @@ public class AuctionBackgroundService:BackgroundService
     {
         
 
-        while (!cancellationToken.IsCancellationRequested)
-        {
             var auctionProducts = await _auctionApplication.GetAuctionsProductId(cancellationToken);
             _auctionService.InitialAuctions(auctionProducts);
-
-            // Wait for 20 minutes
-            //await Task.Delay(TimeSpan.FromSeconds(20), cancellationToken);
 
             // Update the auction base price and winner id for each product
             foreach (var productId in auctionProducts)
@@ -56,7 +51,7 @@ public class AuctionBackgroundService:BackgroundService
                 await _orderApplication.PlaceAuctionOrder(cart, auction.CustomerId, cancellationToken);
                 await _auctionApplication.EndAuctionStatus(auction, cancellationToken);
             }
-        }
+        
     }
     public  Task ExecuteAsyncPublic(CancellationToken cancellationToken)
     {

@@ -44,8 +44,10 @@ public class Auction:BaseClass<long>
     public void AddBid(double maxBid, long customerId)
     {
         BidsCount += 1;
+        if (!(BasePrice < maxBid)) return;
         BasePrice = maxBid;
         CustomerId = customerId;
+
     }
 
     public void EndAuction(string winnerUsername)
