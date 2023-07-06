@@ -37,25 +37,23 @@
     <ul class="metismenu" id="side-menu">
         <li>
             <a asp-page="/Index">
-                <i class="icon-home"></i>
+                <i class="fa-solid fa-house"></i><
                 <span>پیشخوان</span>
             </a>
         </li>
         <li permission="AccountsPermissions.Menu">
             <a href="#" class="dropdown-toggle">
-                <i class="icon-frame"></i>
+                <i class="fa-solid fa-users"></i>
                 <span>سیستم مدیریت کاربران </span>
             </a>
             <ul>
                 <li>
                     <a asp-page="/Accounts/Account/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
                         <span>مدیریت کاربران</span>
                     </a>
                 </li>
                 <li>
                     <a asp-page="/Accounts/Role/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
                         <span> مدیریت نقش ها</span>
                     </a>
                 </li>
@@ -64,31 +62,27 @@
         </li>
         <li permission="ShopPermissions.Menu">
             <a href="#" class="dropdown-toggle">
-                <i class="icon-frame"></i>
+                <i class="fa-solid fa-shop"></i>
                 <span>فروشگاه </span>
             </a>
             <ul>
                 <li permission="ShopPermissions.ProductCategoryMenu">
                     <a asp-page="/Shop/ProductCategories/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
                         <span>گروه محصولات</span>
                     </a>
                 </li>
                 <li>
                     <a asp-page="/Shop/Products/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
                         <span> محصولات</span>
                     </a>
                 </li>
                 <li>
                     <a asp-page="/Shop/ProductPictures/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
                         <span>عکس محصولات</span>
                     </a>
                 </li>
                 <li permission="ShopPermissions.SlideMenu">
                     <a asp-page="/Shop/Slides/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
                         <span>اسلایدر</span>
                     </a>
                 </li>
@@ -96,19 +90,17 @@
         </li>
         <li permission="DiscountsPermissions.Menu">
             <a href="#" class="dropdown-toggle">
-                <i class="icon-frame"></i>
+                <i class="fa-sharp fa-solid fa-tags"></i>
                 <span>سیستم تخفیفات </span>
             </a>
             <ul>
                 <li>
                     <a asp-page="/Discounts/CustomerDiscounts/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
                         <span>تخفیف مشتری</span>
                     </a>
                 </li>
                 <li>
                     <a asp-page="/Discounts/ColleagueDiscounts/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
                         <span> تخفیف همکاری</span>
                     </a>
                 </li>
@@ -117,19 +109,17 @@
         </li>
         <li permission="BlogPermissions.Menu">
             <a href="#" class="dropdown-toggle">
-                <i class="icon-frame"></i>
+                <i class="fa-solid fa-newspaper"></i>
                 <span>سیستم مقالات </span>
             </a>
             <ul>
                 <li>
                     <a asp-page="/Blog/ArticleCategories/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
                         <span>گروه مقالات</span>
                     </a>
                 </li>
                 <li>
                     <a asp-page="/Blog/Articles/Index" class="waves-effect active">
-                        <i class="icon-frame"></i>
                         <span> مقالات</span>
                     </a>
                 </li>
@@ -137,20 +127,20 @@
             </ul>
         </li>
         <li permission="InventoryPermissions.Menu">
-            <a asp-page="/Inventory/Index" class="waves-effect active"><i class="icon-frame"></i><span> انبارداری </span></a>
+            <a asp-page="/Inventory/Index" class="waves-effect active"><i class="fa-solid fa-truck-ramp-box"></i><span> انبارداری </span></a>
         </li>
         <li permission="AuctionsPermissions.Menu">
-            <a asp-page="/Auctions/Auction/Index" class="waves-effect active"><i class="icon-frame"></i><span> مزایده ها </span></a>
+            <a asp-page="/Auctions/Auction/Index" class="waves-effect active"><i class="fa-solid fa-money-bill-trend-up"></i><span> مزایده ها </span></a>
         </li>
         <li>
-            <a asp-page="/Shop/Orders/Index" class="waves-effect active"><i class="icon-frame"></i><span> سفارشات </span></a>
+            <a asp-page="/Shop/Orders/Index" class="waves-effect active"><i class="fa-solid fa-cart-shopping"></i><span> سفارشات </span></a>
         </li>
         <li permission="CommentsPermissions.Menu">
-            <a asp-page="/Comments/Index" class="waves-effect active"><i class="icon-frame"></i><span> مدیریت کامنت ها </span></a>
+            <a asp-page="/Comments/Index" class="waves-effect active"><i class="fa-solid fa-comments"></i><span> مدیریت کامنت ها </span></a>
         </li>
        
         <li>
-            <a asp-page="/Account" asp-page-handler="Logout" class="waves-effect active"><i class="icon-frame"></i><span> خروج </span></a>
+            <a asp-page="/Account" asp-page-handler="Logout" class="waves-effect active"><i class="fa-solid fa-arrow-right-from-bracket"></i><span> خروج </span></a>
         </li>
 
 
