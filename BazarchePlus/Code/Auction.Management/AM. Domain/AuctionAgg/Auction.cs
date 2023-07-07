@@ -19,7 +19,7 @@ public class Auction:BaseClass<long>
     {
         ProductId = productId;
         EndDate = endDate;
-        IsActive = true;
+        IsActive = false;
         BasePrice = basePrice;
         Status = (int)AuctionStatus.Waiting;
         SellerId = sellerId;
@@ -55,5 +55,10 @@ public class Auction:BaseClass<long>
         Status = (int)AuctionStatus.Finished;
         IsActive=false;
         WinnerUsername=winnerUsername;
+    }
+    public void SuspendAuction()
+    {
+        Status = (int)AuctionStatus.Suspension;
+        IsActive = false;
     }
 }

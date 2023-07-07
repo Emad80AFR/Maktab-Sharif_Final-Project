@@ -14,15 +14,17 @@ public class AuctionRepository:BaseRepository<long,Auction>,IAuctionRepository
 {
     private readonly AuctionContext _auctionContext;
     private readonly ShopContext _shopContext;
+    private readonly AccountContext _accountContext;
     private readonly ILogger<AuctionRepository> _logger;
     private readonly IAuthHelper _authHelper;
 
-    public AuctionRepository(AuctionContext auctionContext, ILogger<AuctionRepository> logger, ShopContext shopContext, IAuthHelper authHelper):base(auctionContext,logger)
+    public AuctionRepository(AuctionContext auctionContext, ILogger<AuctionRepository> logger, ShopContext shopContext, IAuthHelper authHelper, AccountContext accountContext):base(auctionContext,logger)
     {
         _auctionContext = auctionContext;
         _logger = logger;
         _shopContext = shopContext;
         _authHelper = authHelper;
+        _accountContext = accountContext;
     }
 
     public async Task<EditAuction> GetDetails(long id, CancellationToken cancellationToken)
@@ -63,11 +65,16 @@ public class AuctionRepository:BaseRepository<long,Auction>,IAuctionRepository
             .Select(x => new { x.Id, x.Name })
             .ToListAsync(cancellationToken: cancellationToken);
 
+        var accounts = await _accountContext.Accounts
+            .Select(x => new { x.Id, x.Fullname })
+            .ToListAsync(cancellationToken: cancellationToken);
+
         var query = _auctionContext.Auctions
             .Select(x => new AuctionViewModel
             {
                 Id = x.Id,
                 SellerId = x.SellerId,
+                CustomerId = x.CustomerId,
                 Status = x.Status,
                 BasePrice = x.BasePrice,
                 EndDate = x.EndDate.ToFarsi(),
@@ -100,9 +107,11 @@ public class AuctionRepository:BaseRepository<long,Auction>,IAuctionRepository
             foreach (var auction in auctions)
             {
                 var product = products.FirstOrDefault(p => p.Id == auction.ProductId);
-                if (product != null)
+                var account = accounts.FirstOrDefault(x => x.Id == auction.CustomerId);
+                if (product != null && account!=null)
                 {
                     auction.ProductName = product.Name;
+                    auction.CustomerName = account.Fullname;
                 }
                 else
                 {

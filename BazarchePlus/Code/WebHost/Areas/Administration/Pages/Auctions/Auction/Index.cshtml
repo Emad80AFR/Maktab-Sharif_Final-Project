@@ -80,6 +80,7 @@
                                     <th>نام محصول</th>
                                     <th>وضعیت</th>
                                     <th>قیمت پایه</th>
+                                    <th>پیشنهاد دهنده</th>
                                     <th>تاریخ ایجاد</th>
                                     <th>تاریخ اتمام</th>
                                     <th>عملیات</th>
@@ -106,6 +107,7 @@
                                             }
                                         </td>
                                         <td>@item.BasePrice</td>
+                                        <td>@(item.CustomerName!=null ? item.CustomerName : "پیشنهاد ثبت نشده"  ) </td>
                                         <td>@item.CreationDate</td>
                                         <td>@item.EndDate</td>
                                         <td>

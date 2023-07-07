@@ -15,5 +15,6 @@ public interface IAuctionApplication
     Task<List<long>> GetAuctionsProductId(CancellationToken cancellationToken);
     Task SetMaxOffer(long productId, Bid bid, CancellationToken cancellationToken);
     Task EndAuctionStatus(AuctionProcessModel command, CancellationToken cancellationToken);
+    Task SuspendAuction(AuctionProcessModel command, CancellationToken cancellationToken);
 
 }

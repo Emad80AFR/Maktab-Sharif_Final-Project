@@ -6,7 +6,7 @@ using SM._Application.Contracts.Product;
 
 namespace WebHost.Services;
 
-public class AuctionBackgroundService : BackgroundService
+public class AuctionBackgroundService : IAuctionBackgroundService
 {
     private readonly ICalculateWage _calculateWage;
     private readonly IAuctionService _auctionService;
@@ -26,10 +26,8 @@ public class AuctionBackgroundService : BackgroundService
 
     }
 
-    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+    public async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-
-
         var auctionProducts = await _auctionApplication.GetAuctionsProductId(cancellationToken);
         _auctionService.InitialAuctions(auctionProducts);
 
@@ -70,8 +68,5 @@ public class AuctionBackgroundService : BackgroundService
         }
 
     }
-    public Task ExecuteAsyncPublic(CancellationToken cancellationToken)
-    {
-        return ExecuteAsync(cancellationToken);
-    }
+
 }

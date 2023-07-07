@@ -47,10 +47,10 @@ namespace WebHost
             builder.Services.AddSingleton(HtmlEncoder.Create(UnicodeRanges.BasicLatin, UnicodeRanges.Arabic));
 
             builder.Services.AddScoped<IAuthHelper, AuthHelper>();
-            builder.Services.AddScoped<AuctionBackgroundService>();
             builder.Services.AddScoped<IFileUploader, FileUploader>();
             builder.Services.AddScoped<IZarinPalFactory, ZarinPalFactory>();
             builder.Services.AddScoped<ICalculateWage, CalculateCartItemWage>();
+            builder.Services.AddScoped<IAuctionBackgroundService,AuctionBackgroundService>();
 
             builder.Services.Configure<CookiePolicyOptions>(options =>
             {
@@ -94,7 +94,7 @@ namespace WebHost
             var app = builder.Build();
 
             var backgroundJobClient = app.Services.GetRequiredService<IRecurringJobManager>();
-            backgroundJobClient.AddOrUpdate<AuctionBackgroundService>("test",x => x.ExecuteAsyncPublic(CancellationToken.None),Cron.Daily);
+            backgroundJobClient.AddOrUpdate<AuctionBackgroundService>("test", x => x.ExecuteAsync(CancellationToken.None), Cron.Daily);
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())

@@ -32,13 +32,11 @@ namespace AM._Application.Implementation
         public async Task<OperationResult> Define(DefineAuction command, CancellationToken cancellationToken)
         {
             var result = new OperationResult();
-            var product = await _productRepository.Get(command.ProductId, cancellationToken);
             if (await _auctionRepository.Exist(x => x.ProductId == command.ProductId, cancellationToken))
             {
                 _logger.LogWarning("Duplicate record found for product ID: {ProductId}", command.ProductId);
                 return result.Failed(ApplicationMessages.DuplicatedRecord);
             }
-            product?.DeActive();
             var currentAccountId=_authHelper.CurrentAccountId();
             var endDate = command.EndDate.ToGeorgianDateTime();
             var auction = new Auction(command.ProductId, endDate, command.BasePrice,currentAccountId);
@@ -47,7 +45,6 @@ namespace AM._Application.Implementation
             {
                 await _auctionRepository.Create(auction, cancellationToken);
                 await _auctionRepository.SaveChanges(cancellationToken);
-                await _productRepository.SaveChanges(cancellationToken);
                 _logger.LogInformation("Auction defined successfully for product ID: {ProductId}", command.ProductId);
                 return result.Succeeded();
             }
@@ -94,6 +91,8 @@ namespace AM._Application.Implementation
         public async Task<OperationResult> Activate(long id,CancellationToken cancellationToken)
         {
             var result = new OperationResult();
+            
+
             var auction = await _auctionRepository.Get(id, cancellationToken);
 
             if (auction == null)
@@ -104,8 +103,18 @@ namespace AM._Application.Implementation
 
             auction.Activate();
 
+            var product = await _productRepository.Get(auction.ProductId, cancellationToken);
+
+            if (product == null)
+            {
+                _logger.LogWarning("product not found for ID: {ProductId}", id);
+                return result.Failed(ApplicationMessages.RecordNotFound);
+            }
+            product.DeActive();
+
             try
             {
+                await _productRepository.SaveChanges(cancellationToken);
                 await _auctionRepository.SaveChanges(cancellationToken);
                 _logger.LogWarning("Auction activated successfully for ID: {AuctionId}", id);
                 return result.Succeeded();
@@ -120,6 +129,7 @@ namespace AM._Application.Implementation
         public async Task<OperationResult> DeActive(long id,CancellationToken cancellationToken)
         {
             var result = new OperationResult();
+
             var auction = await _auctionRepository.Get(id, cancellationToken);
 
             if (auction == null)
@@ -130,8 +140,18 @@ namespace AM._Application.Implementation
 
             auction.DeActive();
 
+            var product = await _productRepository.Get(auction.ProductId, cancellationToken);
+
+            if (product == null)
+            {
+                _logger.LogWarning("product not found for ID: {ProductId}", id);
+                return result.Failed(ApplicationMessages.RecordNotFound);
+            }
+            product.Activate();
+
             try
             {
+                await _productRepository.SaveChanges(cancellationToken);
                 await _auctionRepository.SaveChanges(cancellationToken);
                 _logger.LogWarning("Auction deactivated successfully for ID: {AuctionId}", id);
                 return result.Succeeded();
@@ -196,6 +216,16 @@ namespace AM._Application.Implementation
             await _productRepository.SaveChanges(cancellationToken);
             await _auctionRepository.SaveChanges(cancellationToken);
 
+        }
+
+        public async Task SuspendAuction(AuctionProcessModel command, CancellationToken cancellationToken)
+        {
+            var product = await _productRepository.Get(command.ProductId, cancellationToken);
+            product?.Activate();
+            var auction = await _auctionRepository.Get(command.ProductId, cancellationToken);
+            auction!.SuspendAuction();
+            await _productRepository.SaveChanges(cancellationToken);
+            await _auctionRepository.SaveChanges(cancellationToken);
         }
     }
 }
